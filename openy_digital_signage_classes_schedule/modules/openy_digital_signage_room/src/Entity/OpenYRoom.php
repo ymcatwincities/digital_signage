@@ -127,6 +127,7 @@ class OpenYRoom extends ContentEntityBase implements OpenYRoomInterface {
       ->setDisplayConfigurable('view', FALSE)
       ->setDisplayConfigurable('form', FALSE);
 
+    // @todo move adding the field to groupex integration module.
     $fields['groupex_id'] = BaseFieldDefinition::create('string')
       ->setLabel(t('GroupEx Pro ID'))
       ->setDescription(t('The ID used in the GroupEx Pro.'))
@@ -146,6 +147,7 @@ class OpenYRoom extends ContentEntityBase implements OpenYRoomInterface {
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayConfigurable('form', TRUE);
 
+    // @todo move adding the field to personify integration module.
     $fields['personify_id'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Personify ID'))
       ->setDescription(t('The ID used in the Personify.'))
@@ -174,7 +176,7 @@ class OpenYRoom extends ContentEntityBase implements OpenYRoomInterface {
       ->setSetting('target_type', 'node')
       ->setSetting('handler_settings', [
         'target_bundles' => [
-          'location' => 'location',
+          'branch' => 'branch',
         ],
       ])
       ->setDisplayOptions('view', [
