@@ -1,4 +1,3 @@
-uuid: 6ed217cc-eacd-4aa5-9f0b-d5f88440f63e
 langcode: en
 status: true
 dependencies:
@@ -21,7 +20,6 @@ third_party_settings:
         blocks: {  }
         id: panels_variant
         label: Default
-        uuid: 6afdcad5-3797-423b-b3a0-99f32f622565
         weight: 0
         layout: openyds_onecol
         layout_settings: {  }

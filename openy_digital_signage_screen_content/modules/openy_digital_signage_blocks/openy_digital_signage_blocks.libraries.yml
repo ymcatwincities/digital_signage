@@ -28,7 +28,7 @@ momentjs:
     url: https://github.com/moment/moment/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/momentjs/min/moment.min.js: { minified: true }
+    /libraries/moment/min/moment.min.js: { minified: true }
 
 momentjs-timezone:
   remote: https://github.com/moment/moment-timezone
@@ -38,8 +38,8 @@ momentjs-timezone:
     url: https://github.com/moment/moment-timezone/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/momentjs-timezone/moment-timezone.min.js: { minified: true }
-    /libraries/momentjs-timezone/moment-timezone-with-data-2012-2022.min.js: { minified: true }
+    /libraries/moment-timezone/builds/moment-timezone.min.js: { minified: true }
+    /libraries/moment-timezone/builds/moment-timezone-with-data-2012-2022.min.js: { minified: true }
 
 block_html:
   version: VERSION

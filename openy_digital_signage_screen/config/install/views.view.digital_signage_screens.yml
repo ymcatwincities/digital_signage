@@ -1,11 +1,9 @@
-uuid: aff95cc2-67c5-4b21-8a56-ee58e59af162
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.openy_digital_signage_screen.field_screen_location
   module:
-    - entity_reference_exposed_filters
     - node
     - openy_digital_signage_screen
     - options
@@ -726,55 +724,6 @@ display:
           entity_type: openy_digital_signage_screen
           entity_field: orientation
           plugin_id: string
-        eref_node_titles:
-          id: eref_node_titles
-          table: node_field_data
-          field: eref_node_titles
-          relationship: field_screen_location
-          group_type: group
-          admin_label: ''
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: ''
-            label: Location
-            description: ''
-            use_operator: false
-            operator: ''
-            identifier: location
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              editor: '0'
-              location_editor: '0'
-              contributor: '0'
-              intern: '0'
-            reduce: 0
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: 0
-          entity_type: node
-          plugin_id: eref_node_titles
-          sort_order: '1'
-          sort_by: '1'
-          get_unpublished: '2'
-          get_filter_no_results: '1'
       sorts: {  }
       header: {  }
       footer: {  }

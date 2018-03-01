@@ -1,4 +1,3 @@
-uuid: e25a0e86-3f3a-4300-868c-b1020997ba74
 langcode: en
 status: true
 dependencies:
@@ -15,9 +14,10 @@ dependencies:
     - field.field.block_content.digital_signage_promotional.field_ds_message
     - field.field.block_content.digital_signage_promotional.field_ds_message_position
     - field.field.block_content.digital_signage_promotional.field_ds_subheading
+    - entity_browser.browser.images_library
   module:
     - field_group
-    - file_browser
+    - entity_browser
 third_party_settings:
   field_group:
     group_ds_layout:
@@ -77,15 +77,16 @@ content:
   field_ds_background_image:
     weight: 6
     settings:
-      entity_browser: browse_files_modal
-      field_widget_remove: '1'
-      open: '1'
-      view_mode: default
-      field_widget_display: ''
-      field_widget_edit: 0
-      field_widget_display_settings: {  }
+      entity_browser: images_library
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail_for_preview
+      open: false
     third_party_settings: {  }
-    type: file_browser
+    type: entity_browser_entity_reference
     region: content
   field_ds_background_position:
     weight: 7

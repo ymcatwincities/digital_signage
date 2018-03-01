@@ -1,13 +1,10 @@
-uuid: 86c5cdd8-b74d-4582-bd4e-2b2718223fa3
 langcode: en
 status: true
 dependencies:
   module:
     - editor
     - entity_embed
-    - rel_to_abs
     - token_filter
-    - ymca_entity_embed
 name: 'Digital Signage HTML'
 format: digital_signage_html
 weight: 0
@@ -76,21 +73,9 @@ filters:
     weight: -44
     settings:
       filter_url_length: 72
-  rel_to_abs:
-    id: rel_to_abs
-    provider: rel_to_abs
-    status: true
-    weight: -38
-    settings: {  }
   token_filter:
     id: token_filter
     provider: token_filter
     status: true
     weight: -43
-    settings: {  }
-  ymca_entity_embed:
-    id: ymca_entity_embed
-    provider: ymca_entity_embed
-    status: true
-    weight: -40
     settings: {  }

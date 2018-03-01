@@ -10,7 +10,7 @@ namespace Drupal\openy_digital_signage_classes_schedule;
 interface OpenYClassesScheduleManagerInterface {
 
   /**
-   * Retrieves the schedule for given time period and location.
+   * Retrieves the schedule for given time period and branch.
    *
    * @param array $period
    *   Associative array with from and to keys.
