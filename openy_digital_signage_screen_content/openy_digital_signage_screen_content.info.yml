@@ -7,3 +7,4 @@ dependencies:
   - panelizer
   - openy_digital_signage
   - ckeditor_font
+  - token_filter
