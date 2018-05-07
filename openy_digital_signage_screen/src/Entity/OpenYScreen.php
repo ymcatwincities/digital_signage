@@ -293,6 +293,7 @@ class OpenYScreen extends ContentEntityBase implements OpenYScreenInterface {
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayConfigurable('form', TRUE);
 
+    // @todo this should be moved away from this module.
     if (\Drupal::moduleHandler()->moduleExists('openy_digital_signage_room')) {
       $fields['room'] = BaseFieldDefinition::create('entity_reference')
         ->setLabel(t('Room'))
