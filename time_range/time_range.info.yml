@@ -1,7 +1,7 @@
-name: 'Time Range'
+name: 'Digital Signage Time Range'
 type: module
 description: 'Provides the ability to store start and end times.'
-package: Custom
+package: "OpenY: Digital Signage"
 core: 8.x
 project: 'drupal'
 dependencies:

@@ -101,4 +101,3 @@ function openy_digital_signage_blocks_install() {
   $config->set('target_id', $default_content->id());
   $config->save();
 }
-
