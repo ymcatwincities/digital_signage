@@ -18,7 +18,7 @@ function openy_digital_signage_screen_content_install() {
 /**
  * Implements hook_uninstall().
  */
-function openy_digital_signage_uninstall() {
+function openy_digital_signage_screen_content_uninstall() {
   // Remove other module configs.
   $config_factory = \Drupal::configFactory();
   $configs_to_delete = [

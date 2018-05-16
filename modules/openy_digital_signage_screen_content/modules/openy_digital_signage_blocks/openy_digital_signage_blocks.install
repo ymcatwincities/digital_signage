@@ -105,6 +105,6 @@ function openy_digital_signage_blocks_install() {
 /**
  * Implements hook_uninstall().
  */
-function openy_digital_signage_uninstall() {
+function openy_digital_signage_blocks_uninstall() {
   // @todo remove block configs and its content.
 }
