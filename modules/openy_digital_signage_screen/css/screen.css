@@ -405,9 +405,13 @@ table {
 .ds-icon-mail:before {
   content: "\e927"; }
 
-body.node--type-screen-content {
+body.node--type-screen-content,
+body.page-node-type-screen-content {
   padding-top: 0 !important; }
 
+body.node--type-screen-content .openy-page-tabs,
+body.page-node-type-screen-content .openy-page-tabs {
+  display: none; }
 .progress--small {
   background: #6d4e92;
   width: 100%;

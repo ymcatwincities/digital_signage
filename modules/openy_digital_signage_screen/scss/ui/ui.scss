@@ -1,5 +1,9 @@
-body.node--type-screen-content {
+body.node--type-screen-content,
+body.page-node-type-screen-content {
   padding-top: 0 !important;
+  .openy-page-tabs {
+    display: none;
+  }
 }
 
 .progress--small {
