@@ -126,7 +126,7 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
         $from_ts = strtotime($from);
         $to_ts = strtotime($to);
       }
-      $type = $schedule_item->get(show_date)->value ? 'regular' : 'override';
+      $type = $schedule_item->get('show_date')->value ? 'regular' : 'override';
       $schedule[$from . '-' . $type] = [
         'item' => $schedule_item,
         'from' => $from,
@@ -170,7 +170,7 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
     $date_last = new \DateTime($first_day_of_next_month);
     $date_last->sub($day_interval);
 
-    // Retrive all override schedule items that fit the given month.
+    // Retrieve all override schedule items that fit the given month.
     $query = $this->entityQuery->get('openy_digital_signage_sch_item');
     $query->condition('schedule', $schedule->id());
     $query->condition('show_date', 0);
