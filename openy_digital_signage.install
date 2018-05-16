@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Open Y Digital Signage
+ * module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function openy_digital_signage_uninstall() {
+  // Remove other module configs.
+  $config_factory = \Drupal::configFactory();
+  $configs_to_delete = [
+    'user.role.digital_signage_admin',
+    'user.role.digital_signage_editor',
+  ];
+  foreach ($configs_to_delete as $config) {
+    $config_factory->getEditable($config)->delete();
+  }
+}

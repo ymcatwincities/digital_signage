@@ -101,3 +101,10 @@ function openy_digital_signage_blocks_install() {
   $config->set('target_id', $default_content->id());
   $config->save();
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function openy_digital_signage_uninstall() {
+  // @todo remove block configs and its content.
+}

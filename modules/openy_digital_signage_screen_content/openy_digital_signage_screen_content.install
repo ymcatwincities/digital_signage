@@ -2,14 +2,32 @@
 
 /**
  * @file
- * Install, update, and uninstall functions for the penY Digital Signage Screen content module.
+ * Install, update, and uninstall functions for the Open Y Digital Signage
+ * Screen Content module.
  */
 
 /**
  * Implements hook_install().
  */
 function openy_digital_signage_screen_content_install() {
-  // Set the weight of the openy_digital_signage_screen_content.module to 100
+  // Set the weight of the openy_digital_signage_screen_content.module to 200
   // so it is loaded after the panelizer.module.
   module_set_weight('openy_digital_signage_screen_content', 200);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function openy_digital_signage_uninstall() {
+  // Remove other module configs.
+  $config_factory = \Drupal::configFactory();
+  $configs_to_delete = [
+    'image.style.digital_signage_screen_preview',
+    'filter.format.digital_signage_html',
+    'editor.editor.digital_signage_html'
+  ];
+  foreach ($configs_to_delete as $config) {
+    $config_factory->getEditable($config)->delete();
+  }
+  // @todo remove content type and all screen content nodes.
 }
