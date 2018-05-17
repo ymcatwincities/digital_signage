@@ -14,12 +14,11 @@
  *   - content.ticker: Content in the ticker row.
  */
 #}
-
 {% set classes = '' %}
-{% if content.classes %}
-  {% set classes = ' ' ~ content.classes|join(' ') %}
+{% if content['#classes'] %}
+  {% set classes = ' ' ~ content['#classes']|join(' ') %}
 {% endif %}
-<div class="openy-ds-layout openy-ds-layout-1col-ticker  {{ orientation }} {{ classes }}">
+<div class="openy-ds-layout openy-ds-layout-1col-ticker  {{ orientation }}{{ classes }}">
 
   <div class="openy-ds-layout-region openy-ds-layout-1col--main">
     {{ content.main }}
