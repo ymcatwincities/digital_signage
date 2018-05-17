@@ -456,8 +456,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_true: 'Yes'
-            format_custom_false: ''
+            format_custom_true: Regular
+            format_custom_false: Overidden
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -682,7 +682,7 @@ display:
           group_info:
             label: Type
             description: ''
-            identifier: type
+            identifier: show_date
             optional: true
             widget: select
             multiple: false
@@ -695,13 +695,9 @@ display:
                 operator: '='
                 value: '1'
               2:
-                title: Override
+                title: Overridden
                 operator: '='
                 value: '0'
-              3:
-                title: ''
-                operator: '='
-                value: ''
           entity_type: openy_digital_signage_sch_item
           entity_field: show_date
           plugin_id: boolean

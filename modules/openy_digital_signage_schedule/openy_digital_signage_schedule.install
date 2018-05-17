@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Open Y Digital Signage
+ * Schedule module.
+ */
+
+/**
+ * Update views config.
+ */
+function openy_digital_signage_schedule_update_8001() {
+  $config_dir = drupal_get_path('module', 'openy_digital_signage_schedule') . '/config/install';
+  $config_importer = \Drupal::service('openy_upgrade_tool.importer');
+  $config_importer->setDirectory($config_dir);
+  $config_importer->importConfigs([
+    'views.view.digital_signage_schedule_items',
+  ]);
+}
