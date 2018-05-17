@@ -24,10 +24,7 @@ class OpenYDSPanelsIPEPageController extends PanelsIPEPageController {
     $entity_manager = \Drupal::entityTypeManager();
     $entity = $entity_manager->getStorage('node')
       ->load($storage_keys[1]);
-    if ($entity) {
-      return $entity->bundle() == 'screen_content';
-    }
-    return $storage_keys[1] == 'screen_content';
+    return $entity->bundle() == 'screen_content';
   }
 
   /**
