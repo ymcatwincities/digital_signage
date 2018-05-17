@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Digital Signage Inline HTML'
+format: digital_signage_inline_html
+weight: 0
+filters:
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      filter_url_length: 72
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<a href hreflang> <em> <strong> <span>'
+      filter_html_help: true
+      filter_html_nofollow: false

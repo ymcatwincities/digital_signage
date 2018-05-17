@@ -49,6 +49,7 @@ permissions:
   - 'edit own screen_content content'
   - 'revert screen_content revisions'
   - 'use text format digital_signage_html'
+  - 'use text format digital_signage_inline_html'
   - 'view Digital Signage Classes Session entities'
   - 'view Digital Signage Room entities'
   - 'view OpenY Digital Signage Schedule Item entities'

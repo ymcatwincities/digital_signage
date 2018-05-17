@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.digital_signage_inline_html
+  module:
+    - ckeditor
+format: digital_signage_inline_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+  plugins:
+    stylescombo:
+      styles: ''
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

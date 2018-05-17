@@ -123,7 +123,7 @@ class OpenYDigitalSignageBlockSystemMessage extends BlockBase {
           'openy_digital_signage_blocks/system_message',
         ],
       ],
-      '#message' => check_markup($this->configuration['message'], 'inline_html'),
+      '#message' => check_markup($this->configuration['message'], 'digital_signage_inline_html'),
       '#icon' => $this->configuration['icon'],
       '#wrapper_attributes' => $attributes,
     ];
