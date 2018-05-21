@@ -188,6 +188,10 @@ class OpenYScreenSchedule extends ControllerBase {
    */
   public function viewScheduleItem(Request $request, OpenYScreenInterface $screen, OpenYScheduleItemInterface $schedule_item) {
     $screen_content = $schedule_item->content->entity;
+    if (empty($screen_content)) {
+      // Return empty response.
+      return new AjaxResponse();
+    }
 
     $from = $request->query->has('from') ? $request->query->get('from') : time();
     $to = $request->query->has('to') ? $request->query->get('to') : time() + 8 * 3600;

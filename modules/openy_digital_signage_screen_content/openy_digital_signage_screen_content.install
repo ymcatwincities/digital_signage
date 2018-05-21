@@ -34,7 +34,6 @@ function openy_digital_signage_screen_content_uninstall() {
   // @todo remove content type and all screen content nodes.
 }
 
-
 /**
  * Install missing text editor.
  */
