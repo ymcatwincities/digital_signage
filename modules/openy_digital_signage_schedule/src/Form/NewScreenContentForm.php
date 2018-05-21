@@ -4,8 +4,6 @@ namespace Drupal\openy_digital_signage_schedule\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
-
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Ajax\InvokeCommand;
@@ -85,6 +83,19 @@ class NewScreenContentForm extends FormBase {
         'type' => 'screen_content',
       ]);
     $this->node->save();
+
+    // Configure panelizer.
+    /** @var \Drupal\panelizer\Panelizer $panelizer */
+    $panelizer = \Drupal::service('panelizer');
+    $panels_display = $panelizer->getPanelsDisplay($this->node, 'full');
+    $configuration = $panels_display->getConfiguration();
+    // @todo set default layout correctly based on type of screen.
+//    $configuration['layout'] = 'openyres_onecol';
+//    $configuration['layout_settings']['color_scheme'] = 'orange';
+    $configuration['uuid'] = \Drupal::service('uuid')->generate();
+    $panels_display->setConfiguration($configuration);
+    $panels_display->setStorage('panelizer_field', 'node:' . $this->node->id() . ':full');
+    $panelizer->setPanelsDisplay($this->node, 'full', NULL, $panels_display);
   }
 
   /**
