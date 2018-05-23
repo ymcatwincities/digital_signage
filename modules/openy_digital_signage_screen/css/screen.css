@@ -528,6 +528,18 @@ body.page-node-type-screen-content .openy-page-tabs {
   .panels-ipe-tabs-open #panels-ipe-tray {
     bottom: 0; }
 
+.ipe-form input[type="submit"] {
+  margin: 10px 0;
+  display: inline-block;
+  text-align: center;
+  line-height: normal;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 4px 1.5em;
+  border: 1px solid #a6a6a6;
+  border-radius: 20em;
+  background-color: #f2f1eb; }
+
 .openy-ds-layout {
   background-size: cover;
   background-position: center center;
@@ -878,6 +890,9 @@ body.page-node-type-screen-content .openy-page-tabs {
 
 .ds-screen.ds-screen-full-size.user-logged-in .screen.screen-active {
   cursor: default; }
+
+.ds-screen.ds-screen-full-size #block-tabs, .ds-screen.ds-screen-full-size .openy-page-tabs {
+  display: none; }
 
 .screen {
   display: none; }
