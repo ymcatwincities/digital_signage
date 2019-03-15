@@ -6,6 +6,9 @@
  * Schedule module.
  */
 
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\openy_digital_signage_schedule\Entity\OpenYScheduleItem;
+
 /**
  * Update views config.
  */
@@ -16,4 +19,63 @@ function openy_digital_signage_schedule_update_8001() {
   $config_importer->importConfigs([
     'views.view.digital_signage_schedule_items',
   ]);
+}
+
+/**
+ * Enable dynamic_entity_reference module and migrate data to content_ref.
+ */
+function openy_digital_signage_schedule_update_8002() {
+  \Drupal::service('module_installer')->install([
+    'dynamic_entity_reference',
+  ], TRUE);
+
+  // Update Base Field Definitions for Schedule item entity.
+  // @see openy_digital_signage/modules/openy_digital_signage_schedule/src/Entity/OpenYScheduleItem.php
+  $old_content_definition = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Content old'))
+    ->setRevisionable(TRUE)
+    ->setRequired(FALSE)
+    ->setDefaultValue(NULL)
+    ->setSetting('target_type', 'node')
+    ->setSetting('handler_settings', [
+      'target_bundles' => [
+        'screen_content' => 'screen_content',
+      ],
+    ])
+    ->setTranslatable(FALSE)
+    ->setDisplayConfigurable('view', FALSE)
+    ->setDisplayConfigurable('form', FALSE);
+
+  $new_content_definition = BaseFieldDefinition::create('dynamic_entity_reference')
+    ->setLabel(t('Content'))
+    ->setDescription(t('The Screen Content that is rotated for this time slot. If not exist - it will be created automatically.'))
+    ->setRevisionable(TRUE)
+    ->setRequired(TRUE)
+    ->setSettings(OpenYScheduleItem::getContentRefSettings())
+    ->setTranslatable(FALSE)
+    ->setDisplayOptions('view', [
+      'label' => 'visible',
+      'type' => 'label',
+      'weight' => 3,
+    ])
+    ->setDisplayOptions('form', [
+      'type' => 'dynamic_entity_reference_default',
+      'weight' => 3,
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'size' => '60',
+        'placeholder' => '',
+      ],
+    ])
+    ->setDisplayConfigurable('view', TRUE)
+    ->setDisplayConfigurable('form', TRUE);
+
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $update_manager->installFieldStorageDefinition('content', 'openy_digital_signage_sch_item', 'openy_digital_signage_schedule', $old_content_definition);
+  $update_manager->installFieldStorageDefinition('content_ref', 'openy_digital_signage_sch_item', 'openy_digital_signage_schedule', $new_content_definition);
+
+  // Copy values from content to content_ref_target_id column.
+  $query = "UPDATE {openy_digital_signage_sch_item} SET content_ref__target_id=content, content_ref__target_type='node';";
+  \Drupal::database()->query($query, [], []);
+  // TODO: update views here.
 }

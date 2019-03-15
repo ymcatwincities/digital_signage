@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.openy_digital_signage_playlist.edit
+    - field.field.openy_digital_signage_playlist.openy_digital_signage_playlist.field_items
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.openy_digital_signage_playlist.edit
+targetEntityType: openy_digital_signage_playlist
+bundle: openy_digital_signage_playlist
+mode: edit
+content:
+  field_items:
+    type: entity_reference_playlist_items
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  name: true
+  status: true
+  uid: true

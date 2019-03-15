@@ -46,21 +46,6 @@ class OpenYScheduleItemForm extends ContentEntityForm {
 
     if (in_array($route_name, ['screen_schedule.edit_schedule_item', 'screen_schedule.add_schedule_item'])) {
       $form_state->addBuildInfo('screen', $this->getRequest()->get('screen'));
-      // Add new screen content link.
-      $form['content']['widget'][0]['new_content'] = [
-        '#type' => 'link',
-        '#title' => $this->t('New screen content'),
-        '#url' => Url::fromRoute('openy_digital_signage_schedule.new_screen_content_form_modal'),
-        '#attributes' => [
-          'class' => [
-            'use-ajax',
-            'new-screen-content-link',
-          ],
-        ],
-        '#attached' => [
-          'library' => ['core/drupal.dialog.ajax'],
-        ],
-      ];
 
       $form['actions']['submit']['#ajax'] = [
         'callback' => '::ajaxFormSubmitHandler',
@@ -100,14 +85,15 @@ class OpenYScheduleItemForm extends ContentEntityForm {
    */
   public function ajaxFormSubmitHandler(array &$form, FormStateInterface $form_state) {
     $schedule_item = $this->entity;
-    $screen_content = $schedule_item->content->entity;
+    $screen_content = $schedule_item->content_ref->entity;
     $screen = $form_state->getBuildInfo()['screen'];
+    $screen_content_entity_type = $screen_content->getEntityTypeId();
     // Build an edit Schedule item form.
     $build = [
       '#type' => 'container',
       '#tag' => 'div',
       '#attributes' => [
-        'data-src' => Url::fromRoute('entity.node.canonical', ['node' => $screen_content->id()])
+        'data-src' => Url::fromRoute("entity.$screen_content_entity_type.canonical", [$screen_content_entity_type => $screen_content->id()])
           ->toString(),
         'class' => ['frame-container'],
       ],

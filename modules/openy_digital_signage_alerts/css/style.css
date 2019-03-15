@@ -1,0 +1,13 @@
+.openy-digital-signage-block-static-ticker.ds-alert {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+.ds-alert-header {
+  top: 0;
+}
+
+.ds-alert-footer {
+  bottom: 0;
+}

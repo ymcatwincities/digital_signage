@@ -8,3 +8,4 @@ dependencies:
   - ds_datetime_range
   - openy_digital_signage
   - openy_digital_signage_screen_content
+  - dynamic_entity_reference

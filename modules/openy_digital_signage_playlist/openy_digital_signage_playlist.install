@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Update and install hooks.
+ */
+
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function openy_digital_signage_playlist_install() {
+  /** @var  Drupal\user\Entity\Role[] $roles */
+  $roles = Role::loadMultiple([
+    'digital_signage_editor',
+    'digital_signage_admin'
+  ]);
+
+  /** @var \Drupal\user\PermissionHandlerInterface $permission_handler */
+  $permission_handler = Drupal::service('user.permissions');
+  $permissions = $permission_handler->getPermissions();
+
+  $permissions_by_provider = [];
+  foreach ($permissions as $permission_name => $permission) {
+    $permissions_by_provider[$permission['provider']][$permission_name] = $permission;
+  }
+
+  // 'Digital signage admin' has full access to playlist pages.
+  // 'Digital signage editor' doesn't have access to playlist settings.
+  if (isset($permissions_by_provider['openy_digital_signage_playlist'])) {
+    foreach ($permissions_by_provider['openy_digital_signage_playlist'] as $permission => $data) {
+      $roles['digital_signage_admin']->grantPermission($permission);
+
+      if ($permission != 'administer digital signage playlist entities' && $permission != 'administer digital signage playlist item entities') {
+        $roles['digital_signage_editor']->grantPermission($permission);
+      }
+    }
+
+    $roles['digital_signage_admin']->save();
+    $roles['digital_signage_editor']->save();
+  }
+
+}
+
+/**
+ * Set default permissions for DS roles.
+ */
+function openy_digital_signage_playlist_update_8001(&$sandbox) {
+  openy_digital_signage_playlist_install();
+}

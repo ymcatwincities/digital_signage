@@ -20,11 +20,19 @@ class OpenYDSPanelsIPEPageController extends PanelsIPEPageController {
    *   Status.
    */
   public function isEntityScreenContent($panels_storage_id) {
+    if (strrpos($panels_storage_id, 'screen_content')) {
+      return TRUE;
+    }
+
     $storage_keys = explode(':', $panels_storage_id);
     $entity_manager = \Drupal::entityTypeManager();
     $entity = $entity_manager->getStorage('node')
       ->load($storage_keys[1]);
-    return $entity->bundle() == 'screen_content';
+    if ($entity) {
+      return $entity->bundle() == 'screen_content';
+    }
+
+    return FALSE;
   }
 
   /**
@@ -93,6 +101,11 @@ class OpenYDSPanelsIPEPageController extends PanelsIPEPageController {
       return parent::getBlockPluginsData($panels_storage_type, $panels_storage_id);
     }
     $panels_display = $this->loadPanelsDisplay($panels_storage_type, $panels_storage_id);
+
+    $contexts = $this->tempStore->get($panels_display->getStorageId() . '-context');
+    if ($contexts) {
+      $panels_display->setContexts($contexts);
+    }
 
     // Get block plugin definitions from the server.
     $definitions = $this->blockManager->getDefinitionsForContexts($panels_display->getContexts());

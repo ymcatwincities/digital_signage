@@ -1,0 +1,10 @@
+ds_alerts:
+  version: VERSION
+  css:
+    theme:
+      css/style.css: {}
+  js:
+    js/screen-alerts.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

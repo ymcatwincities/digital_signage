@@ -1,0 +1,18 @@
+uuid: decb2f67-584f-4985-a4c7-1b674d59679d
+langcode: en
+status: true
+dependencies:
+  module:
+    - openy_digital_signage_room
+id: openy_ds_room.field_room_origin
+field_name: field_room_origin
+entity_type: openy_ds_room
+type: openy_ds_room_origin
+settings: {  }
+module: openy_digital_signage_room
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

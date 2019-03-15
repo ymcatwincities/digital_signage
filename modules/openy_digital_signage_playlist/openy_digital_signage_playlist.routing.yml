@@ -1,0 +1,92 @@
+openy_digital_signage_playlist.settings:
+  path: '/admin/digital-signage/settings/playlist/settings'
+  defaults:
+    _form: 'Drupal\openy_digital_signage_playlist\Form\OpenYPlaylistSettingsForm'
+    _title: 'Playlist Settings'
+  requirements:
+    _permission: 'administer digital signage playlist entities'
+  options:
+    _admin_route: TRUE
+
+openy_digital_signage_playlist.details_edit:
+  path: '/playlist/editor/{openy_digital_signage_playlist}/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::edit'
+    _title: 'Edit Playlist'
+  requirements:
+    _permission: 'edit digital signage playlist entities'
+    openy_digital_signage_playlist: \d+
+    js: 'nojs|ajax'
+
+openy_ds_playlist_item.settings:
+  path: '/admin/digital-signage/settings/playlist-item/settings'
+  defaults:
+    _form: 'Drupal\openy_digital_signage_playlist\Form\OpenYPlaylistItemSettingsForm'
+    _title: 'Playlist Item Settings'
+  requirements:
+    _permission: 'administer digital signage playlist item entities'
+  options:
+    _admin_route: TRUE
+
+openy_digital_signage_playlist.schedule_edit_form:
+  path: '/admin/digital-signage/playlist/{openy_digital_signage_playlist}/edit-schedule'
+  defaults:
+    _entity_form: 'openy_digital_signage_playlist.edit'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::editTitle'
+  options:
+    parameters:
+      openy_digital_signage_playlist:
+        type: entity:openy_digital_signage_playlist
+  requirements:
+    _permission: 'edit digital signage playlist entities'
+    _entity_access: 'openy_digital_signage_playlist.update'
+
+openy_ds_playlist_item.modal_edit:
+  path: '/playlist/item/editor/{openy_ds_playlist_item}/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::editItem'
+    _title: 'Edit Playlist item'
+  requirements:
+    _permission: 'edit digital signage playlist item entities'
+    openy_ds_playlist_item: \d+
+    js: 'nojs|ajax'
+
+openy_ds_playlist_item.modal_add:
+  path: '/playlist/{openy_digital_signage_playlist}/item/add/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::addItem'
+    _title: 'Add Playlist item'
+  requirements:
+    _permission: 'add digital signage playlist item entities'
+    openy_digital_signage_playlist: \d+
+    js: 'nojs|ajax'
+
+openy_ds_playlist_item.modal_remove:
+  path: '/playlist/{openy_digital_signage_playlist}/item/{openy_ds_playlist_item}/remove/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::removeItem'
+    _title: 'Add Playlist item'
+  requirements:
+    _permission: 'edit digital signage playlist item entities'
+    openy_digital_signage_playlist: \d+
+    openy_ds_playlist_item: \d+
+    js: 'nojs|ajax'
+
+openy_ds_playlist_item.add_schedule_item:
+  path: '/ajax/playlist/add-schedule-item/{openy_digital_signage_playlist}/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::AddAssignScreen'
+    _title: 'Assign to Screen'
+  requirements:
+    _permission: 'add OpenY Digital Signage Schedule Item entities'
+    openy_digital_signage_playlist: \d+
+    js: 'nojs|ajax'
+
+openy_ds_playlist_item.edit_schedule_item:
+  path: '/ajax/playlist/edit-schedule-item/{openy_digital_signage_sch_item}/{js}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_playlist\Controller\PlaylistController::editScheduleItem'
+  requirements:
+    _permission: 'edit OpenY Digital Signage Schedule Item entities'
+    openy_digital_signage_sch_item: \d+
+    js: 'nojs|ajax'

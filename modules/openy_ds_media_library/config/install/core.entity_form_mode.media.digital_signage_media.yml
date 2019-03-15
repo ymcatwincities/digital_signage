@@ -1,0 +1,10 @@
+uuid: fbd16cc9-7326-42c0-82e6-8fdeaecf6d0d
+langcode: en
+status: true
+dependencies:
+  module:
+    - media_entity
+id: media.digital_signage_media
+label: 'Digital signage media'
+targetEntityType: media
+cache: true

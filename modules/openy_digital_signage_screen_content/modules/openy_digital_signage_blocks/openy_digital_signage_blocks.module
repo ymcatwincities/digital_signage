@@ -66,6 +66,14 @@ function openy_digital_signage_blocks_theme($existing, $type, $theme, $path) {
         'wrapper_attributes' => NULL,
       ],
     ],
+    'openy_digital_signage_blocks_complete_schedule' => [
+      'template' => 'openy-digital-signage-blocks-complete-schedule',
+      'variables' => [
+        'room' => '',
+        'classes' => NULL,
+        'wrapper_attributes' => NULL,
+      ],
+    ],
   ];
 }
 
@@ -114,8 +122,8 @@ function openy_digital_signage_blocks_preprocess_block(&$variables) {
       $attributes->addClass('block-promotional-message-position-' . $block->field_ds_message_position->value);
       $attributes->addClass('block-promotional-layout-' . $block->field_ds_layout->value);
       $background_styles = ['background-color: ' . $block->field_ds_background_color->value . ';'];
-      if ($background_image = $block->field_ds_background_image->entity) {
-        $background_styles[] = 'background-image:url(' . file_create_url($background_image->getFileUri()) . ');';
+      if ($url = openy_digital_signage_blocks_get_background_url($block)) {
+        $background_styles[] = 'background-image:url(' . $url . ');';
       }
       $attributes->setAttribute('style', $background_styles);
       $variables['wrapper_attributes'] = $attributes;
@@ -123,12 +131,10 @@ function openy_digital_signage_blocks_preprocess_block(&$variables) {
 
     case OPENY_DS_BLOCK_HTML_BUNDLE:
       // Do not display image.
-      $variables['content']['field_ds_background_image']['#access'] = FALSE;
+      $variables['content']['field_ds_background_image_media']['#access'] = FALSE;
       $variables['background_image'] = '';
-      if (!empty($variables['content']['field_ds_background_image'][0]['#file'])) {
-        /* @var \Drupal\file_entity\Entity\FileEntity $file */
-        $file = $variables['content']['field_ds_background_image'][0]['#file'];
-        $variables['background_image'] = file_create_url($file->getFileUri());
+      if ($url = openy_digital_signage_blocks_get_background_url($block)) {
+        $variables['background_image'] = $url;
       }
       break;
   }
@@ -158,10 +164,10 @@ function openy_digital_signage_blocks_form_alter(&$form, FormStateInterface $for
         '#type' => 'fieldset',
         '#title' => t('Background Image settings'),
         '#collapsible' => TRUE,
-        '#weight' => $form['field_ds_background_image']['#weight'],
+        '#weight' => $form['field_ds_background_image_media']['#weight'],
       ];
-      $form['background_image_settings']['field_ds_background_image'] = $form['field_ds_background_image'];
-      unset($form['field_ds_background_image']);
+      $form['background_image_settings']['field_ds_background_image_media'] = $form['field_ds_background_image_media'];
+      unset($form['field_ds_background_image_media']);
       $form['background_image_settings']['field_ds_background_position'] = $form['field_ds_background_position'];
       unset($form['field_ds_background_position']);
       $form['background_image_settings']['field_ds_background_size'] = $form['field_ds_background_size'];
@@ -266,4 +272,31 @@ function openy_digital_signage_blocks_hide_text_format_switcher($form_element, F
   $form_element[0]['format']['format']['#attributes']['disabled'] = TRUE;
 
   return $form_element;
+}
+
+/**
+ * Gets background file URL from media of content block.
+ *
+ * @param \Drupal\block_content\Entity\BlockContent $block
+ *   DS content block.
+ *
+ * @return string|null
+ *   URL or NULL.
+ */
+function openy_digital_signage_blocks_get_background_url(BlockContent $block) {
+  $ds_bundles = [
+    OPENY_DS_BLOCK_PROMOTIONAL,
+    OPENY_DS_BLOCK_HTML_BUNDLE,
+  ];
+
+  if (!in_array($block->bundle(), $ds_bundles)) {
+    return NULL;
+  }
+
+  if ($background_media = $block->field_ds_background_image_media->entity) {
+    $file = $background_media->field_media_image->entity;
+    return file_create_url($file->getFileUri());
+  }
+
+  return NULL;
 }

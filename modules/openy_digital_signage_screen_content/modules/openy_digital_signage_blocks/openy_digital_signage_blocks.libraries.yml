@@ -64,3 +64,11 @@ promotional_layout_preview:
   css:
     component:
       css/promo-block-form-preview.css: {}
+
+complete_schedule:
+  version: VERSION
+  js:
+    js/complete-schedule.js: {}
+  css:
+    component:
+      css/complete-schedule.css: {}

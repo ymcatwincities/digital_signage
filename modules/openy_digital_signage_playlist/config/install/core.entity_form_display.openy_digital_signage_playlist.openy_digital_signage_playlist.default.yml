@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.openy_digital_signage_playlist.openy_digital_signage_playlist.field_items
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.openy_digital_signage_playlist.default
+targetEntityType: openy_digital_signage_playlist
+bundle: openy_digital_signage_playlist
+mode: default
+content:
+  field_items:
+    type: entity_reference_playlist_items
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: -3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }

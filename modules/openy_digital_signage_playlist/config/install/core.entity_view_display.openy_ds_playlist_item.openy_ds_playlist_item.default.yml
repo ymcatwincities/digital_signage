@@ -1,0 +1,92 @@
+langcode: en
+status: true
+dependencies:
+  module:
+  - datetime
+  - duration_field
+  - openy_digital_signage_playlist
+  - options
+id: openy_ds_playlist_item.openy_ds_playlist_item.default
+targetEntityType: openy_ds_playlist_item
+bundle: openy_ds_playlist_item
+mode: default
+content:
+  date_end:
+    label: above
+    type: datetime_default
+    weight: 5
+    settings:
+      format_type: html_date
+      timezone_override: ''
+    region: content
+    third_party_settings: {  }
+  date_start:
+    label: above
+    type: datetime_default
+    weight: 4
+    settings:
+      format_type: html_date
+      timezone_override: ''
+    region: content
+    third_party_settings: {  }
+  duration:
+    label: above
+    type: duration_time_display
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  media:
+    label: above
+    type: entity_reference_entity_view
+    weight: 2
+    settings:
+      view_mode: full_without_blazy
+      link: false
+    region: content
+    third_party_settings: {  }
+  name:
+    label: above
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  playlist:
+    type: entity_reference_entity_view
+    weight: 8
+    region: content
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+  time_end:
+    label: above
+    type: datetime_default
+    weight: 7
+    settings:
+      format_type: html_time
+      timezone_override: ''
+    region: content
+    third_party_settings: {  }
+  time_start:
+    label: above
+    type: datetime_default
+    weight: 6
+    settings:
+      format_type: html_time
+      timezone_override: ''
+    region: content
+    third_party_settings: {  }
+  type:
+    label: above
+    type: list_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  uid: true

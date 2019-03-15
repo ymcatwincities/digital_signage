@@ -2,3 +2,6 @@ services:
   openy_digital_signage_schedule.manager:
     class: Drupal\openy_digital_signage_schedule\OpenYScheduleManager
     arguments: ['@entity.manager', '@entity.query', '@logger.factory']
+  plugin.manager.schedule_item_data_type:
+    class: Drupal\openy_digital_signage_schedule\ScheduleItemDataTypePluginManager
+    parent: default_plugin_manager

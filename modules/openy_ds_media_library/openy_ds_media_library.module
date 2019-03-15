@@ -1,0 +1,146 @@
+<?php
+
+/**
+ * @file
+ * Digital Signage Media Library hooks.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function openy_ds_media_library_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  /** @var Drupal\openy_ds_media_library\DigitalSignageMediaLibrary $media_library_helper */
+  $media_library_helper = \Drupal::service('openy_ds_media_library.helper');
+  $term = $media_library_helper->loadMarkerMediaTag();
+  $views_join_plugin_manager = Drupal::service('plugin.manager.views.join');
+
+  // digital signage media must be excluded from default media dashboard,
+  // and must be displayed on special digital signage media dashboard instead.
+  if ($term) {
+    switch ($view->id()) {
+      case 'media':
+        $definition = _openy_ds_media_library_get_media_tag_join_definition();
+        $definition['extra'][] = [
+          'field' => 'field_media_tags_target_id',
+          'value' => $term->id(),
+        ];
+
+        /** @var \Drupal\views\Plugin\views\join\Standard $join */
+        $join = $views_join_plugin_manager->createInstance('standard', $definition);
+        /** @var \Drupal\views\Plugin\views\query\Sql $query */
+        $query->addRelationship('media__field_media_tags', $join, 'node');
+        $query->addWhereExpression(1, 'media__field_media_tags.field_media_tags_target_id IS NULL');
+        break;
+
+      case 'digital_signage_media':
+      case 'digital_signage_images_library':
+        $definition = _openy_ds_media_library_get_media_tag_join_definition();
+        /** @var \Drupal\views\Plugin\views\join\Standard $join */
+        $join = $views_join_plugin_manager->createInstance('standard', $definition);
+        /** @var \Drupal\views\Plugin\views\query\Sql $query */
+        $query->addRelationship('media__field_media_tags', $join, 'node');
+        $query->addWhere(1, 'media__field_media_tags.field_media_tags_target_id', $term->id());
+        break;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openy_ds_media_library_form_entity_browser_digital_signage_images_library_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['#attached']['library'][] = 'openy_ds_media_library/browser';
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function openy_ds_media_library_preprocess_views_view_grid(array &$variables) {
+  if ($variables['view']->storage->id() == 'digital_signage_images_library') {
+    foreach ($variables['items'] as &$item) {
+      foreach ($item['content'] as &$column) {
+        $column['attributes']['data-selectable'] = 'true';
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openy_ds_media_library_form_media_image_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var Drupal\openy_ds_media_library\DigitalSignageMediaLibrary $media_library_helper */
+  $media_library_helper = \Drupal::service('openy_ds_media_library.helper');
+  $term = $media_library_helper->loadMarkerMediaTag();
+  /** @var \Drupal\media_entity\Entity\Media $media_entity */
+  $media_entity = $form_state->getFormObject()->getEntity();
+
+  // Digital signage media is already marked with special tag on edit.
+  if ($term && !$media_entity->get('field_media_tags')->isEmpty()) {
+    $media_tags = $media_entity->get('field_media_tags')->getValue();
+    if (in_array($term->id(), array_column($media_tags, 'target_id'))) {
+      _openy_ds_media_library_set_media_form_default_values($form);
+    }
+  }
+}
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ */
+function openy_ds_media_library_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  /** @var Drupal\openy_ds_media_library\DigitalSignageMediaLibrary $media_library_helper */
+  $media_library_helper = \Drupal::service('openy_ds_media_library.helper');
+  $term = $media_library_helper->loadMarkerMediaTag();
+
+  // Automatically mark media entity created in digital signage entity browser.
+  // So we can to distinguish common media and digital signage media entities.
+  $input = $form_state->getUserInput();
+  if ($term && isset($input['form_id']) && $input['form_id'] == 'entity_browser_digital_signage_images_library_form') {
+    $entity_form['field_media_tags']['widget']['target_id']['#default_value'] = $term;
+    _openy_ds_media_library_set_media_form_default_values($entity_form);
+  }
+}
+
+/**
+ * Gets views join plugin definition for relation to media tags taxonomy.
+ *
+ * @return array
+ *   The array of definition data.
+ */
+function _openy_ds_media_library_get_media_tag_join_definition() {
+  return [
+    'table' => 'media__field_media_tags',
+    'field' => 'entity_id',
+    'left_table' => 'media_field_data',
+    'left_field' => 'mid',
+  ];
+}
+
+/**
+ * Sets default values and hide unnecessary fields.
+ *
+ * @param $form
+ *   Nested array of form elements that comprise the form.
+ */
+function _openy_ds_media_library_set_media_form_default_values(&$form) {
+  // @TODO most of fields will be hidden after solving of entity_browser issue.
+  // @see https://www.drupal.org/project/entity_browser/issues/2821917
+  $form['field_media_tags']['#access'] = FALSE;
+
+  $image_widget = &$form['field_media_image']['widget'];
+  $image_widget[0]['#alt_field'] = FALSE;
+  $image_widget['#title_field_required'] = FALSE;
+
+  $form['field_media_caption']['#access'] = FALSE;
+
+  $form['field_media_in_library']['widget']['value']['#default_value'] = TRUE;
+  $form['field_media_in_library']['#access'] = FALSE;
+
+  $form['langcode']['#access'] = FALSE;
+  $form['path']['#access'] = FALSE;
+  $form['revision_information']['#access'] = FALSE;
+}

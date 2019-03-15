@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alert_ds_description
+    - node.type.alert
+  enforced:
+    module:
+      - openy_digital_signage_alerts
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    plain_text: plain_text
+    full_html: '0'
+    digital_signage_html: '0'
+    digital_signage_inline_html: '0'
+    code: '0'
+id: node.alert.field_alert_ds_description
+field_name: field_alert_ds_description
+entity_type: node
+bundle: alert
+label: 'DS description'
+description: 'Alternative alert description specially for DS screens.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

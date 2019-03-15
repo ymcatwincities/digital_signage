@@ -1,0 +1,55 @@
+uuid: 11bf921a-ef5c-459e-a48c-b62c66992692
+langcode: en
+status: true
+dependencies:
+  config:
+    - media_entity.bundle.image
+    - views.view.digital_signage_images_library
+  module:
+    - dropzonejs_eb_widget
+    - media_entity
+    - views
+_core:
+  default_config_hash: _MNAphXAG4qCL7nCsXV_1Gb2RCao0OiXgG-bPo76P0A
+name: digital_signage_images_library
+label: 'Digital Signage Images Library'
+display: modal
+display_configuration:
+  width: '1166'
+  height: '600'
+  link_text: 'Select images'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  066bf7d9-6d8d-46cd-ac5c-a0944058e8c4:
+    settings:
+      view: digital_signage_images_library
+      view_display: images_library
+      submit_text: 'Select images'
+      auto_select: false
+    uuid: 066bf7d9-6d8d-46cd-ac5c-a0944058e8c4
+    weight: -8
+    label: 'All Images'
+    id: view
+  89e6e16d-6b22-45f4-b91a-f37edaa85f64:
+    settings:
+      form_mode: digital_signage_media
+      media_entity_bundle: image
+      upload_location: 'public://digital_signage/[date:custom:Y]-[date:custom:m]'
+      dropzone_description: 'Drop files here to upload them'
+      max_filesize: 10M
+      extensions: 'png jpg jpeg gif svg'
+      clientside_resize: false
+      resize_width: 0
+      resize_height: 0
+      resize_quality: !!float 1
+      resize_method: contain
+      thumbnail_method: contain
+      submit_text: 'Select images'
+    uuid: 89e6e16d-6b22-45f4-b91a-f37edaa85f64
+    weight: -10
+    label: 'Upload images'
+    id: dropzonejs_media_entity_inline_entity_form

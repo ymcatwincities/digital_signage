@@ -1,0 +1,7 @@
+browser:
+  version: VERSION
+  css:
+    theme:
+      css/browser.css: {}
+  dependencies:
+    - openy_media/browser

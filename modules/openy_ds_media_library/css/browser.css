@@ -1,0 +1,7 @@
+/**
+ * @file browser.css
+ */
+
+.view.view-digital-signage-images-library .views-col.selected img {
+  box-shadow: 0 0 10px #0089d0;
+}

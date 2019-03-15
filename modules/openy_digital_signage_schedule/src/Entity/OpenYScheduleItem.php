@@ -25,6 +25,8 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
  *       "add" = "Drupal\openy_digital_signage_schedule\Form\OpenYScheduleItemForm",
  *       "edit" = "Drupal\openy_digital_signage_schedule\Form\OpenYScheduleItemForm",
  *       "delete" = "Drupal\openy_digital_signage_schedule\Form\OpenYScheduleItemDeleteForm",
+ *       "assign" = "Drupal\openy_digital_signage_playlist\Form\OpenYPlaylistAssignScreenForm",
+ *       "screen" = "Drupal\openy_digital_signage_playlist\Form\OpenYPlaylistEditScheduleItemForm",
  *     },
  *     "access" = "Drupal\openy_digital_signage_schedule\OpenYScheduleItemAccessControlHandler",
  *     "route_provider" = {
@@ -236,10 +238,10 @@ class OpenYScheduleItem extends ContentEntityBase implements OpenYScheduleItemIn
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['content'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Content'))
-      ->setDescription(t('The Screen Content that is rotated for this time slot.'))
+      ->setLabel(t('Content old'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
+      ->setDefaultValue(NULL)
       ->setSetting('target_type', 'node')
       ->setSetting('handler_settings', [
         'target_bundles' => [
@@ -247,14 +249,26 @@ class OpenYScheduleItem extends ContentEntityBase implements OpenYScheduleItemIn
         ],
       ])
       ->setTranslatable(FALSE)
+      ->setDisplayConfigurable('view', FALSE)
+      ->setDisplayConfigurable('form', FALSE);
+
+    $fields['content_ref'] = BaseFieldDefinition::create('dynamic_entity_reference')
+      ->setLabel(t('Content'))
+      ->setDescription(t('Choose the content name that you would like to assign to this time slot. If you want to create a new content, just enter a unique title and save the form.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings(self::getContentRefSettings())
+      ->setTranslatable(FALSE)
       ->setDisplayOptions('view', [
         'label' => 'visible',
-        'type' => 'node',
-        'weight' => 2,
+        'type' => 'label',
+        // TODO: add view mode setting for each entity type.
+        // (maybe store this info inside plugin).
+        'weight' => 1,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
-        'weight' => 2,
+        'type' => 'dynamic_entity_reference_si',
+        'weight' => 1,
         'settings' => [
           'match_operator' => 'CONTAINS',
           'size' => '60',
@@ -265,6 +279,34 @@ class OpenYScheduleItem extends ContentEntityBase implements OpenYScheduleItemIn
       ->setDisplayConfigurable('form', TRUE);
 
     return $fields;
+  }
+
+  /**
+   * Helper function for field content_ref settings.
+   */
+  public static function getContentRefSettings() {
+    $plugin_definitions = \Drupal::service('plugin.manager.schedule_item_data_type')->getDefinitions();
+    $settings = ['exclude_entity_types' => FALSE];
+    $entity_type_settings = [];
+
+    foreach ($plugin_definitions as $definition) {
+      $settings['entity_type_ids'][$definition['entity_type']] = $definition['entity_type'];
+      $entity_type_settings[$definition['entity_type']] = [
+        'handler' => 'default:' . $definition['entity_type'],
+        'handler_settings' => ['auto_create' => TRUE],
+      ];
+      if (isset($definition['entity_bundle'])) {
+        $entity_type_settings[$definition['entity_type']]['handler_settings'] += [
+          'target_bundles' => [
+            $definition['entity_bundle'] => $definition['entity_bundle'],
+          ],
+          'auto_create_bundle' => $definition['entity_bundle'],
+        ];
+      }
+    }
+
+    $settings += $entity_type_settings;
+    return $settings;
   }
 
 }

@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - openy_digital_signage_playlist
+id: openy_ds_playlist_item.teaser
+label: Teaser
+targetEntityType: openy_ds_playlist_item
+cache: true

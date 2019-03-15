@@ -1,0 +1,16 @@
+
+# Digital Signage Playlists menu items definition
+openy_digital_signage_playlist.admin.structure.settings:
+  title: 'Playlist settings'
+  description: 'Configure Digital Signage Playlist entities'
+  route_name: openy_digital_signage_playlist.settings
+  parent: system.admin_openy_digital_signage_settings
+  weight: -100
+
+# Digital Signage Playlist Item menu items definition
+openy_ds_playlist_item.admin.structure.settings:
+  title: 'Playlist Item settings'
+  description: 'Configure Digital Signage Playlist Item entities'
+  route_name: openy_ds_playlist_item.settings
+  parent: system.admin_openy_digital_signage_settings
+  weight: -99

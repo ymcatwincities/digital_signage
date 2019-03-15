@@ -1,7 +1,7 @@
 entity.openy_digital_signage_screen.collection:
   title: 'Screens'
   route_name: entity.openy_digital_signage_screen.collection
-  description: 'List Screen entities'
+  description: 'Link a schedule to a specific screen within the YMCA.'
   parent: system.admin_openy_digital_signage
   weight: 100
 

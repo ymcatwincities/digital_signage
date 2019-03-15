@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: playlist_item_thumbnail
+label: 'Playlist item thumbnail'
+effects:
+  4afb63bd-af41-488d-b557-c4d87c8db4b0:
+    uuid: 4afb63bd-af41-488d-b557-c4d87c8db4b0
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 150
+      height: 75

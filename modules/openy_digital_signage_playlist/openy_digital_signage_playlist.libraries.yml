@@ -1,0 +1,36 @@
+playlist_items_widget:
+  version: 1.x
+  css:
+    component:
+      css/playlist_items_widget.css: {}
+  js:
+    js/playlist-edit-form.js: {}
+
+playlist_item_form:
+  version: 1.x
+  js:
+    js/playlist-item-edit-form.js: {}
+
+openy_ds_playlist:
+  version: 1.x
+  css:
+    component:
+      css/playlist.css: {}
+  js:
+    js/playlist.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - openy_digital_signage_blocks/momentjs
+    - openy_digital_signage_blocks/momentjs-timezone
+
+openy_ds_playlist_control:
+  version: 1.x
+  css:
+    component:
+      css/playlist-control.css: {}
+  js:
+    js/playlist-control.js: {}
+  dependencies:
+  - core/drupal
+  - core/jquery

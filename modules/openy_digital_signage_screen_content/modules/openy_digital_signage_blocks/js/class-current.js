@@ -337,10 +337,13 @@
       var countdown_is_visible = parseFloat($('.class-time-countdown', activeClass).css('opacity'));
       var height_percent = countdown_is_visible === 0 ? 31 : 27;
       var size = parseInt($('.class-name', activeClass).css('font-size').slice(0, -2));
+      var original_size = size;
+      var transition = $('.class-name', activeClass).css('transition');
       var class_height = activeClass.height();
       var class_name_height = $('.class-name', activeClass).height();
       var percent = Math.round((class_name_height * 100) / class_height);
       var i = 0;
+      $('.class-name', activeClass).css('transition', 'none');
       do {
         size -=1;
         $('.class-name', activeClass).css('font-size', size);
@@ -349,6 +352,10 @@
         i++;
       }
       while (percent > height_percent && i < 30);
+      $('.class-name', activeClass)
+          .css('font-size', original_size)
+          .css('transition', transition)
+          .css('font-size', size);
     };
 
     return this;

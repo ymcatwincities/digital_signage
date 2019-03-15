@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Provides DS alerts functionality.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Mail\MailFormatHelper;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function openy_digital_signage_alerts_theme($existing, $type, $theme, $path) {
+  return [
+    'node__alert__ds_alert' => [
+      'template' => 'node--alert--ds-alert',
+      'base hook' => 'node'
+    ],
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function openy_digital_signage_alerts_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name == 'help.page.openy_digital_signage') {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The Open Y Digital Signage module allows you to display Open Y alerts on DS screens.') . '</p>';
+    return $output;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openy_digital_signage_alerts_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id != 'node_alert_edit_form' && $form_id != 'node_alert_form') {
+    return;
+  }
+
+  // Place DS settings to right side details block.
+  $form['openy_ds_settings'] = [
+    '#type' => 'details',
+    '#title' => t('Digital Signage'),
+    '#open' => FALSE,
+    '#group' => 'advanced',
+    '#weight' => 120,
+  ];
+
+  $form['field_alert_ds_description']['#group'] = 'openy_ds_settings';
+  $form['field_alert_ds_description']['widget'][0]['#format'] = 'plain_text';
+  $form['field_alert_display_on_ds']['#group'] = 'openy_ds_settings';
+  $form['field_alert_ds_screen']['#group'] = 'openy_ds_settings';
+}
+
+/**
+ * Implements hook_openy_digital_signage_screen_view_alter().
+ */
+function openy_digital_signage_alerts_openy_digital_signage_screen_view_alter(&$build, OpenYScreenInterface $entity) {
+  if ($entity->getEntityTypeId() != 'openy_digital_signage_screen') {
+    return;
+  }
+
+  /** @var Drupal\openy_digital_signage_alerts\DigitalSignatureAlertsManager $ds_alerts_manager */
+  $ds_alerts_manager = \Drupal::service('openy_digital_signage_alerts.manager');
+  $alerts = $ds_alerts_manager->getAlertsForScreen($entity);
+  if ($alerts) {
+    $build['alerts'] = $ds_alerts_manager->build($alerts);
+    $build['alerts']['#attached']['library'][] = 'openy_digital_signage_alerts/ds_alerts';
+    $build['alerts']['#attached']['drupalSettings']['ds']['screenId'] = $entity->id();
+  }
+}
+
+/**
+ * Implements template_preprocess_node().
+ */
+function openy_digital_signage_alerts_preprocess_node(&$variables) {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+  if ($node->bundle() != 'alert' || $variables['view_mode'] != 'ds_alert' ) {
+    return;
+  }
+
+  // Alert can have alternative description specially for DS screens.
+  if (!$node->get('field_alert_ds_description')->isEmpty()) {
+    $variables['content']['field_alert_description'] = $variables['content']['field_alert_ds_description'];
+  }
+  else {
+    // We should use plain text for DS screens, so let's convert alert description.
+    $description = $node->field_alert_description->getString();
+    $variables['content']['field_alert_description'] =  MailFormatHelper::htmlToText($description);
+  }
+
+  $variables['placement'] = $node->get('field_alert_place')->getString();
+}

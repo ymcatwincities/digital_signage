@@ -186,7 +186,6 @@ table {
   display: none !important; }
 
 .decor--flex, .header--inner, .block-table .row, .page-entry .page-content, .page-split .page-content, .content-coll, .section--small-banners, .block-banner, .block-event .content, .block-event .wrapper-info, .block-event .wrapper-time {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex; }
@@ -197,70 +196,56 @@ table {
           flex-wrap: wrap; }
 
 .decor--justify-start {
-  -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start; }
 
 .decor--justify-end, .block-event .content {
-  -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
       -ms-flex-pack: end;
           justify-content: flex-end; }
 
 .decor--justify-center, .block-event .wrapper-info, .block-event .wrapper-time {
-  -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center; }
 
 .decor--justify-between, .header--inner, .block-table .row, .content-coll--big, .block-banner--footer .block-event .content {
-  -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between; }
 
 .decor--align-start {
-  -webkit-box-align: start;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start; }
 
 .decor--align-end, .block-banner {
-  -webkit-box-align: end;
   -webkit-align-items: flex-end;
       -ms-flex-align: end;
           align-items: flex-end; }
 
 .decor--align-center {
-  -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center; }
 
 .decor--align-between {
-  -webkit-box-align: space-between;
   -webkit-align-items: space-between;
       -ms-flex-align: space-between;
           align-items: space-between; }
 
 .decor--direction-column, .page-entry .page-content, .content-coll--big, .block-event .wrapper-info, .block-event .wrapper-time {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column; }
 
 .decor--row-reverse, .block-event .content {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
   -webkit-flex-direction: row-reverse;
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse; }
 
 .decor--row-initial, .block-banner--footer .block-event .content {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row; }
@@ -406,12 +391,14 @@ table {
   content: "\e927"; }
 
 body.node--type-screen-content,
-body.page-node-type-screen-content {
+body.page-node-type-screen-content,
+body.ds-screen.ds-screen-full-size {
   padding-top: 0 !important; }
+  body.node--type-screen-content .openy-page-tabs,
+  body.page-node-type-screen-content .openy-page-tabs,
+  body.ds-screen.ds-screen-full-size .openy-page-tabs {
+    display: none; }
 
-body.node--type-screen-content .openy-page-tabs,
-body.page-node-type-screen-content .openy-page-tabs {
-  display: none; }
 .progress--small {
   background: #6d4e92;
   width: 100%;
@@ -456,7 +443,6 @@ body.page-node-type-screen-content .openy-page-tabs {
       max-height: 90vh; }
 
 .openy-ds-layout .ipe-actions {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -502,7 +488,6 @@ body.page-node-type-screen-content .openy-page-tabs {
 
 .openy-ds-layout .block-region-ticker > .ipe-actions {
   margin-top: 0;
-  -webkit-transition: margin-top 400ms;
   transition: margin-top 400ms; }
 
 .openy-ds-layout .block-region-ticker:hover > .ipe-actions {
@@ -521,7 +506,6 @@ body.page-node-type-screen-content .openy-page-tabs {
 
 #panels-ipe-tray {
   bottom: -30px;
-  -webkit-transition: bottom 0.4s;
   transition: bottom 0.4s; }
   #panels-ipe-tray:hover {
     bottom: 0; }
@@ -891,7 +875,8 @@ body.page-node-type-screen-content .openy-page-tabs {
 .ds-screen.ds-screen-full-size.user-logged-in .screen.screen-active {
   cursor: default; }
 
-.ds-screen.ds-screen-full-size #block-tabs, .ds-screen.ds-screen-full-size .openy-page-tabs {
+.ds-screen #block-tabs,
+.ds-screen .openy-page-tabs {
   display: none; }
 
 .screen {
@@ -1381,7 +1366,6 @@ body.page-node-type-screen-content .openy-page-tabs {
     height: 100%;
     width: 100%;
     position: absolute;
-    -webkit-transition: top 0.5s;
     transition: top 0.5s; }
   .block-class-ticker .class-active {
     top: 0; }
@@ -1490,7 +1474,6 @@ body.page-node-type-screen-content .openy-page-tabs {
       position: absolute;
       right: 0;
       top: 0;
-      -webkit-transition: width 0.5s, font-size 0.5s;
       transition: width 0.5s, font-size 0.5s;
       width: 45vw; }
       .class-active .block-class-ticker__content .class .class-time-frame .class-time-frame-from,
@@ -1505,7 +1488,6 @@ body.page-node-type-screen-content .openy-page-tabs {
             -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
         margin: 0;
-        -webkit-transition: font-size 0.5s, left 0.5s, right 0.5s;
         transition: font-size 0.5s, left 0.5s, right 0.5s; }
       .class-active .block-class-ticker__content .class .class-time-frame .class-time-frame-to,
       .class-next .block-class-ticker__content .class .class-time-frame .class-time-frame-to,
@@ -1701,3 +1683,125 @@ body.page-node-type-screen-content .openy-page-tabs {
   .openy-res-layout.scheme-purple .class-next .block-class-ticker__content .class.class-awaiting .class-time-frame,
   .openy-res-layout.scheme-purple .class-prev .block-class-ticker__content .class.class-awaiting .class-time-frame {
     background-color: #92278f; }
+
+.block-complete-schedule {
+  background-color: #636466;
+  font-family: "Cachet-Book";
+  font-size: 1.625vw;
+  line-height: 1.2; }
+
+.schedule-header {
+  background-color: #383838;
+  color: #fff; }
+
+.schedule-table {
+  color: #fff;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh; }
+
+.schedule-table-ongoing,
+.schedule-table-upcoming {
+  font-weight: 700;
+  font-size: 150%;
+  text-align: center;
+  text-transform: uppercase; }
+
+.schedule-table-ongoing {
+  -webkit-order: -2;
+      -ms-flex-order: -2;
+          order: -2; }
+
+.schedule-table-upcoming {
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1; }
+
+.schedule-row {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative; }
+
+.schedule-row-class {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.25);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.25);
+  -webkit-order: 2;
+      -ms-flex-order: 2;
+          order: 2;
+  transition: height 500ms; }
+
+.schedule-row-class-past {
+  height: 0;
+  border: none; }
+
+.schedule-row-class-ongoing {
+  -webkit-order: -1;
+      -ms-flex-order: -1;
+          order: -1; }
+
+.schedule-row-column {
+  display: block;
+  -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+          flex-basis: 0;
+  -webkit-flex-grow: 2;
+      -ms-flex-positive: 2;
+          flex-grow: 2;
+  overflow: hidden;
+  padding: 0.1vw 0.8vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 2; }
+
+.class-trainer {
+  text-align: center; }
+
+.class-name {
+  -webkit-flex-grow: 5;
+      -ms-flex-positive: 5;
+          flex-grow: 5; }
+
+.class-time-frame {
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding-right: 0;
+  text-align: right; }
+
+.class-duration {
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+span.class-duration:before {
+  content: "(";
+  padding-right: 0.2vw; }
+
+span.class-duration:after {
+  content: ")";
+  padding-left: 0.2vw; }
+
+.class-room {
+  -webkit-flex-grow: 3;
+      -ms-flex-positive: 3;
+          flex-grow: 3; }
+
+.class-progress {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%; }
+
+.class-progress-bar {
+  background-color: rgba(0, 96, 175, 0.5);
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 0%;
+  z-index: 1; }

@@ -1,0 +1,95 @@
+langcode: en
+status: true
+dependencies:
+  config:
+  - core.entity_view_mode.openy_ds_playlist_item.teaser
+  module:
+  - datetime
+  - duration_field
+  - openy_digital_signage_playlist
+  - options
+id: openy_ds_playlist_item.openy_ds_playlist_item.teaser
+targetEntityType: openy_ds_playlist_item
+bundle: openy_ds_playlist_item
+mode: teaser
+content:
+  date_end:
+    type: datetime_default
+    weight: 6
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+  date_start:
+    type: datetime_default
+    weight: 5
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+  duration:
+    type: duration_human_display
+    weight: 3
+    region: content
+    label: hidden
+    settings:
+      text_length: short
+      separator: space
+    third_party_settings: {  }
+  media:
+    label: hidden
+    type: entity_reference_entity_view
+    weight: 2
+    settings:
+      view_mode: playlist_item_teaser
+      link: false
+    region: content
+    third_party_settings: {  }
+  name:
+    label: hidden
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  playlist:
+    type: entity_reference_label
+    weight: 4
+    region: content
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+  time_end:
+    type: datetime_default
+    weight: 8
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: html_time
+    third_party_settings: {  }
+  time_start:
+    type: datetime_default
+    weight: 7
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: html_time
+    third_party_settings: {  }
+  type:
+    label: hidden
+    type: list_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  uid: true

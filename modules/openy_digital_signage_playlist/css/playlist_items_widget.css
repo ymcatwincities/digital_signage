@@ -1,0 +1,101 @@
+/**
+ * @file
+ * Styles customization for playlist items widget.
+ */
+.playlist-details {
+  margin-bottom: 40px;
+}
+.playlist-details .playlist-actions {
+  float: right;
+}
+.playlist-details .playlist-actions a{
+  margin-left: 25px;
+}
+.field--name-field-items .field-multiple-table td {
+  padding: 3px 12px;
+}
+.field--name-field-items .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+.field--name-field-items .openy_ds_playlist_item {
+  float: left;
+  width: 85%;
+}
+.field--name-field-items .openy_ds_playlist_item .item-row {
+  display: table;
+}
+.field--name-field-items .openy_ds_playlist_item .item-col {
+  display: table-cell;
+  text-align: center;
+  vertical-align:middle;
+  padding: 0 15px;
+}
+.field--name-field-items .openy_ds_playlist_item .item-col.text-value {
+  font-size: 16px;
+  width: 20%;
+}
+.field--name-field-items .openy_ds_playlist_item .teaser-image .empty-image-wrapper{
+  display: block;
+  height: 75px;
+  width: 150px;
+  background: #5c9bc1;
+  text-align: center;
+  line-height: 75px;
+  font-size: 24px;
+  color: #FFFFFF;
+}
+.field--name-field-items .openy_ds_playlist_item .teaser-image .field--name-media {
+  width: 150px;
+}
+.field--name-field-items .openy_ds_playlist_item .text-value .empty-date-time {
+  display: block;
+  text-align: center;
+}
+.field--name-field-items tr.item-expires_soon {
+  background: #EF9A9A;
+}
+.field--name-field-items tr.item-expired {
+  background: #E0E0E0
+}
+.field--name-field-items .item-actions {
+  float: right;
+  line-height: 75px;
+}
+.field--name-field-items .item-actions a.button {
+  display: block;
+  margin: 10px;
+}
+.field--name-field-items .item-actions .ajax-progress-throbber {
+  display: none;
+}
+.media.media-image.view-mode-playlist-item-teaser {
+  float: left;
+}
+.field--name-field-items .field-multiple-table .header-row {
+  width: 100%;
+  display: table;
+  float: right;
+  text-align: right;
+}
+.field--name-field-items .field-multiple-table .header-col {
+  display: table-cell;
+  text-align: center;
+  vertical-align:middle;
+  padding: 0 15px;
+  width: 15%;
+}
+.field--name-field-items .field-multiple-table .header-col:first-child {
+  width: 12%;
+}
+
+@media (max-width: 1540px) {
+  .field--name-field-items .openy_ds_playlist_item {
+    width: 85%;
+  }
+}
+
+@media (max-width: 840px) {
+  .field--name-field-items .openy_ds_playlist_item {
+    width: 100%;
+  }
+}

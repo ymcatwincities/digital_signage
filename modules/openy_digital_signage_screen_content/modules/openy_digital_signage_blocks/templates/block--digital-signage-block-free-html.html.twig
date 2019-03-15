@@ -27,7 +27,7 @@
  * @ingroup themeable
  */
 #}
-<div{{ attributes }}>
+<div{{ attributes.addClass('block') }}>
   <div class="openy-digital-signage-block-html">
     <div{% if background_image %} class="block-background-image" style="background-image: url({{ background_image }});"{% endif %}>
       {{ title_prefix }}

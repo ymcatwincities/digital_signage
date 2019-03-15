@@ -1,0 +1,22 @@
+{#
+/**
+ * @file openy_digital_signage_playlist.html.twig
+ * Default theme implementation to present Digital Signage Playlist data.
+ *
+ * This template is used when viewing Digital Signage Playlist pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_openy_digital_signage_playlist()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('openy_digital_signage_playlist') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

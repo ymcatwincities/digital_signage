@@ -1,0 +1,180 @@
+/* Define our icon font, which is generated from the SVGs in /images. */
+@font-face {
+    font-family: OpenYDSPlaylistFont;
+    src: url(../fonts/icons.woff);
+}
+
+#playlist-control-tray {
+    bottom: -30px;
+    left: 0;
+    position: fixed;
+    text-align: center;
+    transition: bottom 0.4s;
+    width: 100%;
+    z-index: 100;
+    -webkit-transition: bottom 0.4s;
+}
+
+#playlist-control-tray:hover {
+    bottom: 0;
+}
+
+.playlist-control-tab-wrapper {}
+
+.playlist-control-tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.playlist-control-tabs-content {}
+
+.playlist-control-tab {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: -1px;
+    background-color: white;
+    border-top: 1px solid darkgray;
+    box-shadow: 3px -1px 2px 0 rgba(0, 0, 0, 0.3333);
+}
+
+.playlist-control-tab:first-child {
+    border-left: 1px solid darkgray;
+    border-top-left-radius: 5px;
+    box-shadow: -2px -1px 2px rgba(0, 0, 0, 0.3333);
+    right: -5px;
+}
+
+.playlist-control-tab:last-child {
+    border-right: 1px solid darkgray;
+    border-top-right-radius: 5px;
+    box-shadow: 2px -1px 2px rgba(0, 0, 0, 0.3333);
+}
+
+.playlist-control-button {
+    font-size: 13px;
+    padding: 5px 10px 7px 10px;
+    text-transform: capitalize;
+    color: black;
+    display: block;
+    vertical-align: top;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+    transition-property: color, border-color;
+    border-bottom: 1px solid darkgray;
+    transition: border-bottom 0.4s, padding-bottom 0.4s;
+    -webkit-transition: border-bottom 0.4s, padding-bottom 0.4s;
+}
+
+.playlist-control-button:hover {
+    padding-bottom: 10px;
+    color: rgb(67, 125, 33);
+    border: none;
+    border-bottom: 3px solid rgb(67, 125, 33);
+}
+
+.playlist-control-button--disabled {
+    color: lightgrey !important;
+}
+
+.playlist-control-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: OpenYDSPlaylistFont;
+    font-size: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.playlist-control-icon--edit:before {
+    content: "\e904";
+}
+.playlist-control-icon--play2:before {
+    content: "\ea15";
+}
+.playlist-control-icon--pause:before {
+    content: "\ea16";
+}
+.playlist-control-icon--stop:before {
+    content: "\ea17";
+}
+.playlist-control-icon--previous:before {
+    content: "\ea18";
+}
+.playlist-control-icon--next:before {
+    content: "\ea19";
+}
+.playlist-control-icon--backward:before {
+    content: "\ea1a";
+}
+.playlist-control-icon--forward2:before {
+    content: "\ea1b";
+}
+.playlist-control-icon--play3:before {
+    content: "\ea1c";
+}
+.playlist-control-icon--pause2:before {
+    content: "\ea1d";
+}
+.playlist-control-icon--stop2:before {
+    content: "\ea1e";
+}
+.playlist-control-icon--backward2:before {
+    content: "\ea1f";
+}
+.playlist-control-icon--forward3:before {
+    content: "\ea20";
+}
+.playlist-control-icon--first:before {
+    content: "\ea21";
+}
+.playlist-control-icon--last:before {
+    content: "\ea22";
+}
+.playlist-control-icon--previous2:before {
+    content: "\ea23";
+}
+.playlist-control-icon--next2:before {
+    content: "\ea24";
+}
+.playlist-control-icon--eject:before {
+    content: "\ea25";
+}
+.playlist-control-icon--volume-high:before {
+    content: "\ea26";
+}
+.playlist-control-icon--volume-medium:before {
+    content: "\ea27";
+}
+.playlist-control-icon--volume-low:before {
+    content: "\ea28";
+}
+.playlist-control-icon--volume-mute:before {
+    content: "\ea29";
+}
+.playlist-control-icon--volume-mute2:before {
+    content: "\ea2a";
+}
+.playlist-control-icon--volume-increase:before {
+    content: "\ea2b";
+}
+.playlist-control-icon--volume-decrease:before {
+    content: "\ea2c";
+}
+.playlist-control-icon--loop:before {
+    content: "\ea2d";
+}
+.playlist-control-icon--loop2:before {
+    content: "\ea2e";
+}
+.playlist-control-icon--infinite:before {
+    content: "\ea2f";
+}
+.playlist-control-icon--shuffle:before {
+    content: "\ea30";
+}
+
+.playlist-control-tab-title {}

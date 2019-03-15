@@ -1,0 +1,9 @@
+name: Open Y Digital Signage Media Library
+type: module
+description: Provides separate Media library to Open Y Digital Signage.
+core: 8.x
+package: "OpenY: Digital Signage"
+dependencies:
+  - media_entity
+  - openy_media_image
+  - entity_browser

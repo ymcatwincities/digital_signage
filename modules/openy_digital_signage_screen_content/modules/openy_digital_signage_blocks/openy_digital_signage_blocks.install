@@ -103,6 +103,41 @@ function openy_digital_signage_blocks_install() {
 }
 
 /**
+ * Replace the 'field_ds_background_image' file field with Media.
+ */
+function openy_digital_signage_blocks_update_8001(&$sandbox) {
+  // @todo migrate files from the old field to the new field.
+  /* @var $entityFieldManager Drupal\Core\Entity\EntityFieldManager */
+  $entityFieldManager = Drupal::service('entity_field.manager');
+
+  $ds_bundles = [
+    OPENY_DS_BLOCK_PROMOTIONAL,
+    OPENY_DS_BLOCK_HTML_BUNDLE,
+  ];
+
+  foreach ($ds_bundles as $bundle) {
+    $fields = $entityFieldManager->getFieldDefinitions('block_content', $bundle);
+
+    if (isset($fields['field_ds_background_image'])) {
+      $fields['field_ds_background_image']->delete();
+    }
+  }
+
+  $config_dir = drupal_get_path('module', 'openy_digital_signage_blocks') . '/config/install';
+  $config_importer = \Drupal::service('openy_upgrade_tool.importer');
+  $config_importer->setDirectory($config_dir);
+  $config_importer->importConfigs([
+    'core.entity_form_display.block_content.digital_signage_block_free_html.default',
+    'core.entity_form_display.block_content.digital_signage_promotional.default',
+    'core.entity_view_display.block_content.digital_signage_block_free_html.default',
+    'core.entity_view_display.block_content.digital_signage_promotional.default',
+    'field.field.block_content.digital_signage_block_free_html.field_ds_background_image_media',
+    'field.field.block_content.digital_signage_promotional.field_ds_background_image_media',
+    'field.storage.block_content.field_ds_background_image_media',
+  ]);
+}
+
+/**
  * Implements hook_uninstall().
  */
 function openy_digital_signage_blocks_uninstall() {

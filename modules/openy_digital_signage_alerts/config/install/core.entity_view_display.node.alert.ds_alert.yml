@@ -1,0 +1,59 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.ds_alert
+    - field.field.node.alert.field_alert_belongs
+    - field.field.node.alert.field_alert_color
+    - field.field.node.alert.field_alert_description
+    - field.field.node.alert.field_alert_display_on_ds
+    - field.field.node.alert.field_alert_ds_description
+    - field.field.node.alert.field_alert_ds_screen
+    - field.field.node.alert.field_alert_icon_color
+    - field.field.node.alert.field_alert_link
+    - field.field.node.alert.field_alert_place
+    - field.field.node.alert.field_alert_text_color
+    - field.field.node.alert.field_alert_visibility_pages
+    - field.field.node.alert.field_alert_visibility_state
+    - field.field.node.alert.scheduled_status
+    - node.type.alert
+  module:
+    - link
+    - options
+    - text
+    - user
+id: node.alert.ds_alert
+targetEntityType: node
+bundle: alert
+mode: ds_alert
+content:
+  field_alert_description:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_alert_ds_description:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  addthis: true
+  content_moderation_control: true
+  field_alert_belongs: true
+  field_alert_color: true
+  field_alert_display_on_ds: true
+  field_alert_ds_screen: true
+  field_alert_icon_color: true
+  field_alert_link: true
+  field_alert_place: true
+  field_alert_text_color: true
+  field_alert_visibility_pages: true
+  field_alert_visibility_state: true
+  langcode: true
+  links: true
+  scheduled_status: true

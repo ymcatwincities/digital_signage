@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.ds_alert
+label: 'DS Alert'
+targetEntityType: node
+cache: true

@@ -7,6 +7,6 @@ openy_ds_room.admin.structure.settings:
 entity.openy_ds_room.collection:
   title: 'Rooms list'
   route_name: entity.openy_ds_room.collection
-  description: 'List Digital Signage Rooms'
+  description: 'A list of all rooms where activities are taking place, for use with room entry screens.'
   parent: system.admin_openy_digital_signage
   weight: 100

@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.openy_digital_signage_playlist.openy_digital_signage_playlist.field_items
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.openy_digital_signage_playlist.default
+targetEntityType: openy_digital_signage_playlist
+bundle: openy_digital_signage_playlist
+mode: default
+content:
+  field_items:
+    weight: 0
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden:
+  langcode: true
+  name: true
+  status: true
+  uid: true

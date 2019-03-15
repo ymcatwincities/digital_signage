@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Contains DS Rooms - PEF integration install, update, uninstall hooks.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function openy_ds_room_pef_install() {
+  $room_manager = \Drupal::service('openy_digital_signage_room.manager');
+
+  $room_data = \Drupal::database()->select('repeat_event', 'r')
+    ->fields('r', ['location', 'room'])
+    ->distinct(true)
+    ->execute();
+
+  foreach ($room_data as $data) {
+    $room_manager->getOrCreateRoomByExternalId($data->room, $data->location, 'pef');
+  }
+}

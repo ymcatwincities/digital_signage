@@ -1,0 +1,43 @@
+# Digital Signage Playlist routing definition
+openy_digital_signage_playlist.settings_tab:
+  route_name: openy_digital_signage_playlist.settings
+  title: 'Settings'
+  base_route: openy_digital_signage_playlist.settings
+
+entity.openy_digital_signage_playlist.canonical:
+  route_name: entity.openy_digital_signage_playlist.canonical
+  base_route: entity.openy_digital_signage_playlist.canonical
+  title: 'View'
+
+entity.openy_digital_signage_playlist.edit_form:
+  route_name: entity.openy_digital_signage_playlist.edit_form
+  base_route: entity.openy_digital_signage_playlist.canonical
+  title: 'Edit'
+
+entity.openy_digital_signage_playlist.delete_form:
+  route_name:  entity.openy_digital_signage_playlist.delete_form
+  base_route:  entity.openy_digital_signage_playlist.canonical
+  title: Delete
+  weight: 10
+# Digital Signage Playlist Item routing definition
+openy_ds_playlist_item.settings_tab:
+  route_name: openy_ds_playlist_item.settings
+  title: 'Settings'
+  base_route: openy_ds_playlist_item.settings
+
+entity.openy_ds_playlist_item.canonical:
+  route_name: entity.openy_ds_playlist_item.canonical
+  base_route: entity.openy_ds_playlist_item.canonical
+  title: 'View'
+
+entity.openy_ds_playlist_item.edit_form:
+  route_name: entity.openy_ds_playlist_item.edit_form
+  base_route: entity.openy_ds_playlist_item.canonical
+  title: 'Edit'
+
+entity.openy_ds_playlist_item.delete_form:
+  route_name:  entity.openy_ds_playlist_item.delete_form
+  base_route:  entity.openy_ds_playlist_item.canonical
+  title: Delete
+  weight: 10
+
