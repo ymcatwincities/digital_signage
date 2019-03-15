@@ -1,0 +1,10 @@
+screen.redraw_alert:
+  path: '/ajax/screen-alerts/redraw-alert/{screen}'
+  defaults:
+    _controller: '\Drupal\openy_digital_signage_alerts\Controller\AlertsController::checkAlerts'
+  options:
+    parameters:
+      screen:
+        type: entity:openy_digital_signage_screen
+  requirements:
+    _permission: 'access content'

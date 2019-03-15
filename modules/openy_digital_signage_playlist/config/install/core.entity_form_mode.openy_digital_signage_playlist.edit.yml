@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.edit
+label: Edit
+targetEntityType: openy_digital_signage_playlist
+cache: true

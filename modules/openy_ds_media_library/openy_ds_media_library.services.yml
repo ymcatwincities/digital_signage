@@ -1,0 +1,4 @@
+services:
+  openy_ds_media_library.helper:
+    class: Drupal\openy_ds_media_library\DigitalSignageMediaLibrary
+    arguments: ['@entity_type.manager']

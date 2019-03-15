@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Contains DS Rooms - PEF integration hooks.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function openy_ds_room_pef_entity_insert(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() != 'repeat') {
+    return;
+  }
+
+  $room_manager = \Drupal::service('openy_digital_signage_room.manager');
+  $room_manager->getOrCreateRoomByExternalId($entity->room->value, $entity->location->target_id, 'pef');
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function openy_ds_room_pef_entity_update(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() != 'repeat') {
+    return;
+  }
+
+  $room_manager = \Drupal::service('openy_digital_signage_room.manager');
+  $room_manager->getOrCreateRoomByExternalId($entity->room->value, $entity->location->target_id, 'pef');
+}

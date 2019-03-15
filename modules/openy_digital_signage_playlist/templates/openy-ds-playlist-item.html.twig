@@ -1,0 +1,97 @@
+{#
+/**
+ * @file openy_ds_playlist_item.html.twig
+ * Default theme implementation to present Digital Signage Playlist Item data.
+ *
+ * This template is used when viewing Digital Signage Playlist Item pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_openy_ds_playlist_item()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set type = entity.type.value %}
+
+<div{{ attributes.addClass('openy_ds_playlist_item') }}>
+  {% if teaser  %}
+    {# Teaser markup #}
+    <div class="item-row">
+      <div class="teaser-image item-col">
+        {% if type == 'media'  %}
+          {{- content.media -}}
+        {% else %}
+          <div class="empty-image-wrapper">
+            <span>Playlist</span>
+          </div>
+        {% endif %}
+      </div>
+      <div class="item-name text-value item-col">
+        {% if type == 'media' %}
+          {{- content.name -}}
+        {% else %}
+          <div class="field field--name-name field--type-string field--label-hidden field__item">
+            {{ entity.playlist.entity.name.value }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="item-type text-value item-col">
+        {{- content.type -}}
+
+        {% if type == 'playlist' %}
+          {% set count = entity.playlist.entity.field_items.getvalue|length %}
+          {% trans %}
+            ({{ count }} item)
+          {% plural count %}
+            ({{ count }} items)
+          {% endtrans %}
+        {% endif %}
+      </div>
+      <div class="item-duration text-value item-col">
+        {% if type == 'playlist' %}
+          <span>{{ 'auto'|t }}</span>
+        {% else %}
+          {{- content.duration -}}
+        {% endif %}
+      </div>
+      <div class="item-date text-value item-col">
+        {% if entity.date_start.value %}
+          {{- content.date_start -}}
+        {% else %}
+          <span class="empty-date-time">—</span>
+        {% endif %}
+        <br>
+        {% if entity.date_end.value %}
+          {{- content.date_end -}}
+        {% else %}
+          <span class="empty-date-time">—</span>
+        {% endif %}
+      </div>
+      <div class="item-time text-value item-col">
+        {% if entity.time_start.value %}
+          {{- content.time_start -}}
+        {% else %}
+          <span class="empty-date-time">—</span>
+        {% endif %}
+        <br>
+        {% if entity.time_end.value %}
+          {{- content.time_end -}}
+        {% else %}
+          <span class="empty-date-time">—</span>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+
+    {# Default markup #}
+    {% if content %}
+      {{- content -}}
+    {% endif %}
+
+  {% endif %}
+
+</div>

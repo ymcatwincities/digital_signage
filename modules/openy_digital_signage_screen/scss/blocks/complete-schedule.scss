@@ -1,0 +1,123 @@
+.block-complete-schedule {
+  background-color: $grey;
+  font-family: $fontBook;
+  font-size: 1.625vw;
+  line-height: 1.2;
+}
+
+.schedule-header {
+  background-color: $grey14;
+  color: $white;
+}
+
+.schedule-table {
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.schedule-table-ongoing,
+.schedule-table-upcoming {
+  font-weight: 700;
+  font-size: 150%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.schedule-table-ongoing {
+  order: -2;
+}
+
+.schedule-table-upcoming {
+  order: 1;
+}
+
+.schedule-row {
+  display: flex;
+  position: relative;
+}
+
+.schedule-row-class {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.25);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.25);
+  order: 2;
+  transition: height 500ms;
+}
+
+.schedule-row-class-past {
+  height: 0;
+  border: none;
+}
+
+.schedule-row-class-ongoing {
+  order: -1;
+}
+
+.schedule-row-column {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 2;
+  overflow: hidden;
+  padding: 0.1vw 0.8vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.trainer__substitute__icon {}
+
+.trainer__substituted {}
+
+.class-trainer {
+  text-align: center;
+}
+
+.class-name {
+  flex-grow: 5;
+}
+
+.class-time-frame {
+  flex-grow: 1;
+  padding-right: 0;
+  text-align: right;
+}
+
+.class-time-frame-from {}
+
+.class-duration {
+  flex-grow: 1;
+}
+
+span.class-duration {
+  &:before {
+    content: "(";
+    padding-right: 0.2vw;
+  }
+
+  &:after {
+    content: ")";
+    padding-left: 0.2vw;
+  }
+}
+
+.class-room {
+  flex-grow: 3;
+}
+
+.class-progress {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.class-progress-bar {
+  background-color: rgba(0, 96, 175, 0.5);
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 0%;
+  z-index: 1;
+}

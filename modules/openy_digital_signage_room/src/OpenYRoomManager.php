@@ -3,11 +3,8 @@
 namespace Drupal\openy_digital_signage_room;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -58,36 +55,20 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
 
   /**
    * Constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, ConfigFactoryInterface $config_factory) {
     $this->logger = $logger_factory->get(self::CHANNEL);
     $this->storage = $entity_type_manager->getStorage(self::STORAGE);
     $this->configFactory = $config_factory;
-  }
-
-  /**
-   * Returns field name of the id field of the external system.
-   *
-   * @param string $type
-   *   The type.
-   *
-   * @return bool|string
-   *   The field name of FALSE.
-   */
-  private function getFieldNameByType($type) {
-    $field_name = FALSE;
-    switch ($type) {
-      case 'groupex':
-        $field_name = 'groupex_id';
-        break;
-
-      case 'personify':
-        $field_name = 'personify_id';
-        break;
-
-    }
-
-    return $field_name;
   }
 
   /**
@@ -101,7 +82,7 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
    */
   private function getDefaultStatusByType($type) {
     if (!in_array($type, ['groupex', 'personify'])) {
-      return FALSE;
+      return TRUE;
     }
     $config = $this->configFactory->get(self::CONFIG);
     return $config->get($type == 'groupex' ? 'groupex_default_status' : 'personify_default_status');
@@ -111,17 +92,18 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
    * {@inheritdoc}
    */
   public function getRoomByExternalId($id, $location_id, $type) {
-    if (!$id || !$location_id) {
-      return FALSE;
-    }
-    if (!$field_name = $this->getFieldNameByType($type)) {
+    if (!$location_id) {
       return FALSE;
     }
 
-    $entities = $this->storage->loadByProperties([
-      $field_name => $id,
-      'location' => $location_id,
-    ]);
+    $ids = $this->storage->getQuery()
+      ->condition('field_room_origin.origin', $type)
+      ->condition('field_room_origin.id', $id)
+      ->condition('location', $location_id)
+      ->sort('id')
+      ->execute();
+
+    $entities = $this->storage->loadMultiple($ids);
 
     return reset($entities);
   }
@@ -130,6 +112,9 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
    * {@inheritdoc}
    */
   public function getOrCreateRoomByExternalId($id, $location_id, $type) {
+    if (!$id) {
+      $id = '';
+    }
     $cache = &drupal_static('room_by_external_id', []);
     $cache_id = implode(':', [$id, $location_id, $type]);
 
@@ -149,15 +134,10 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
    * {@inheritdoc}
    */
   public function createRoomByExternalId($name, $location_id, $type) {
-    if (!$field_name = $this->getFieldNameByType($type)) {
-      $this->logger->warning('OpenYRoomManager is asked to created room with incorrect type @type. The name is @name, location id is @locationid', [
-        '@type' => $type,
-        '@name' => $name,
-        '@locationid' => $location_id,
-      ]);
-      return FALSE;
+    $id = $name;
+    if (!$name) {
+      $name = $this->t('-- Not specified --');
     }
-
     $data = [
       'created' => REQUEST_TIME,
       'title' => $name,
@@ -168,7 +148,10 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
       'description' => $this->t('Automatically created during %type import', [
         '%type' => $type,
       ]),
-      $field_name => $name,
+      'field_room_origin' => [
+        'origin' => $type,
+        'id' => $id,
+      ],
     ];
 
     $room = $this->storage->create($data);

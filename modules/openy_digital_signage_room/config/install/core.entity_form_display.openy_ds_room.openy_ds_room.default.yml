@@ -1,0 +1,68 @@
+uuid: d843c479-5029-45b1-ad24-48c9869b8fbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.openy_ds_room.openy_ds_room.field_room_origin
+  module:
+    - openy_digital_signage_room
+    - text
+id: openy_ds_room.openy_ds_room.default
+targetEntityType: openy_ds_room
+bundle: openy_ds_room
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_room_origin:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: openy_ds_room_origin_default
+    region: content
+  groupex_id:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  location:
+    type: entity_reference_autocomplete
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  personify_id:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: options_buttons
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true

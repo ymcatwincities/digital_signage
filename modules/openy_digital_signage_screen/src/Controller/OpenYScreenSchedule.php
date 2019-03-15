@@ -176,7 +176,7 @@ class OpenYScreenSchedule extends ControllerBase {
   }
 
   /**
-   * Gets a markup for showing the schedule item conten.
+   * Gets a markup for showing the schedule item content.
    *
    * @param OpenYScreenInterface $screen
    *   The Screen entity.
@@ -187,18 +187,19 @@ class OpenYScreenSchedule extends ControllerBase {
    *   Ajax response object.
    */
   public function viewScheduleItem(Request $request, OpenYScreenInterface $screen, OpenYScheduleItemInterface $schedule_item) {
-    $screen_content = $schedule_item->content->entity;
-    if (empty($screen_content)) {
+    $screen_content = $schedule_item->content_ref->entity;
+    if (!$screen_content || empty($screen_content)) {
       // Return empty response.
       return new AjaxResponse();
     }
+    $screen_content_entity_type = $screen_content->getEntityTypeId();
 
     $from = $request->query->has('from') ? $request->query->get('from') : time();
     $to = $request->query->has('to') ? $request->query->get('to') : time() + 8 * 3600;
 
     // Build an edit Schedule item form.
-    $src = Url::fromRoute('entity.node.canonical', [
-      'node' => $screen_content->id(),
+    $src = Url::fromRoute("entity.$screen_content_entity_type.canonical", [
+      $screen_content_entity_type => $screen_content->id(),
       'from' => $from,
       'to' => $to,
       'screen' => $screen->id(),
@@ -239,6 +240,7 @@ class OpenYScreenSchedule extends ControllerBase {
       '#type' => 'container',
       '#tag' => 'div',
       '#attributes' => [
+        // TODO: double check this, maybe we need support here not only node.
         'data-src' => Url::fromRoute('entity.node.canonical', ['node' => $screen_content->id()])
           ->toString(),
         'class' => ['frame-container'],

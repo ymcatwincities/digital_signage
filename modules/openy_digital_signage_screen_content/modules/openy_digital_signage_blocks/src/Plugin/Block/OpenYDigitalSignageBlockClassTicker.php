@@ -6,7 +6,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Template\Attribute;
-use Drupal\openy_digital_signage_classes_schedule\OpenYClassesScheduleManagerInterface;
 use Drupal\openy_digital_signage_room\OpenYRoomManagerInterface;
 use Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface;
 use Drupal\openy_digital_signage_screen\OpenYScreenManagerInterface;
@@ -27,8 +26,6 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
 
   /**
    * The Classes Schedule Manager.
-   *
-   * @var OpenYClassesScheduleManagerInterface
    */
   protected $scheduleManager;
 
@@ -47,6 +44,13 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
   protected $roomManager;
 
   /**
+   * The container.
+   *
+   * @var \Symfony\Component\DependencyInjection\ContainerInterface
+   */
+  protected $container;
+
+  /**
    * OpenYDigitalSignageBlockClassTicker constructor.
    *
    * @param array $configuration
@@ -55,17 +59,19 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
    *   The plugin id.
    * @param mixed $plugin_definition
    *   The plugin definition.
-   * @param \Drupal\openy_digital_signage_classes_schedule\OpenYClassesScheduleManagerInterface $schedule_manager
-   *   The Open Y DS Classes Schedule Manager.
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The container.
    * @param \Drupal\openy_digital_signage_screen\OpenYScreenManagerInterface $screen_manager
    *   The Open Y DS Screen Manager.
+   * @param \Drupal\openy_digital_signage_room\OpenYRoomManagerInterface $room_manager
+   *   The Open Y DS Room Manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, OpenYClassesScheduleManagerInterface $schedule_manager, OpenYScreenManagerInterface $screen_manager, OpenYRoomManagerInterface $room_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContainerInterface $container, OpenYScreenManagerInterface $screen_manager, OpenYRoomManagerInterface $room_manager) {
     // Call parent construct method.
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->scheduleManager = $schedule_manager;
     $this->screenManager = $screen_manager;
     $this->roomManager = $room_manager;
+    $this->container = $container;
   }
 
   /**
@@ -76,7 +82,7 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('openy_digital_signage_classes_schedule.manager'),
+      $container,
       $container->get('openy_digital_signage_screen.manager'),
       $container->get('openy_digital_signage_room.manager')
     );
@@ -88,6 +94,8 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
   public function defaultConfiguration() {
     return [
       'room' => 0,
+      'source' => 'pef',
+      'category' => [],
     ];
   }
 
@@ -95,6 +103,13 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $form['source'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Data source'),
+      '#description' => $this->t('Specify where the class schedule comes from'),
+      '#default_value' => $this->getDataSource(),
+      '#options' => $this->getSourceOptions(),
+    ];
     $form['room'] = [
       '#type' => 'select',
       '#title' => $this->t('Room'),
@@ -102,6 +117,27 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
       '#default_value' => $this->configuration['room'],
       '#options' => $this->roomManager->getAllRoomOptions(),
     ];
+    $form['category'] = [
+      '#type' => 'select',
+      '#multiple' => TRUE,
+      '#chosen' => TRUE,
+      '#title' => $this->t('Category'),
+      '#description' => $this->t('Additionally filter schedule by activity category'),
+      '#default_value' => $this->getCategories(),
+      '#options' => $this->getAllCategoryOptions(),
+      '#states' => [
+        'visible' => [
+          '[name="settings[source]"' => ['value' => 'pef'],
+        ],
+      ],
+    ];
+
+    // Prevents the chosen dropdown from being cut off.
+    $form['styles'] = [
+      '#type' => 'inline_template',
+      '#template' => "<style>.ipe-block-form .front { overflow: visible; }</style>",
+    ];
+
     return $form;
   }
 
@@ -109,7 +145,12 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['source'] = $form_state->getValue('source');
     $this->configuration['room'] = $form_state->getValue('room');
+    $this->configuration['category'] = [];
+    if ($this->configuration['source'] == 'pef') {
+      $this->configuration['category'] = array_filter($form_state->getValue('category'));
+    }
   }
 
   /**
@@ -121,8 +162,21 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
     $attributes->addClass('block-class-ticker');
 
     $period = $this->getSchedulePeriod();
+
+    $classes = [];
     if ($room = $this->getRoom()) {
-      $classes = $this->scheduleManager->getClassesSchedule($period, $room);
+      if ($this->getDataSource() == 'pef') {
+        if ($this->container->has('openy_ds_pef_schedule.manager')) {
+          $this->scheduleManager = $this->container->get('openy_ds_pef_schedule.manager');
+          $classes = $this->scheduleManager->getClassesSchedule($period, $this->scheduleManager->getNextDayAlways(), null, [$room], $this->getCategories());
+        }
+      }
+      else {
+        if ($this->container->has('openy_digital_signage_classes_schedule.manager')) {
+          $this->scheduleManager = $this->container->get('openy_digital_signage_classes_schedule.manager');
+          $classes = $this->scheduleManager->getClassesSchedule($period, $room, $this->getCategories());
+        }
+      }
     }
     else {
       $classes = $this->getDummyClassesSchedule($period);
@@ -153,11 +207,72 @@ class OpenYDigitalSignageBlockClassTicker extends BlockBase implements Container
    *   The room id context.
    */
   private function getRoom() {
-    $screen = $this->screenManager->getScreenContext();
-    if ($screen && $screen->room->entity) {
-      return $screen->room->entity->id();
+    if (!$screen = $this->screenManager->getScreenContext()) {
+      return $this->configuration['room'];
     }
-    return $this->configuration['room'];
+    $screen_room = $screen->room->entity;
+    return $screen_room ? $screen_room->id() : $this->configuration['room'];
+  }
+
+  /**
+   * Retrieves data source.
+   *
+   * @return int|null
+   *   The room id context.
+   */
+  private function getDataSource() {
+    $data_source = $this->defaultConfiguration()['source'];
+    if (!empty($this->configuration['source'])) {
+      $data_source = $this->configuration['source'];
+    }
+
+    return $data_source;
+  }
+
+  /**
+   * Retrieves category configuration.
+   *
+   * @return array
+   */
+  private function getCategories() {
+    $category = $this->defaultConfiguration()['category'];
+    if (!empty($this->configuration['category'])) {
+      $category = $this->configuration['category'];
+    }
+
+    return $category;
+  }
+
+  /**
+   * Returns available datasource options.
+   *
+   * @return array
+   */
+  public function getSourceOptions() {
+    $options = [];
+    if ($this->container->has('openy_ds_pef_schedule.manager')) {
+      $options['pef'] = $this->t('Program Event Framework');
+    }
+    if ($this->container->has('openy_digital_signage_classes_schedule.manager')) {
+      $options['ds'] = $this->t('Open Y Digital Signage classes and session');
+    }
+
+    return $options;
+  }
+
+  /**
+   * Retrieves all available category options.
+   *
+   * @return array
+   */
+  public function getAllCategoryOptions() {
+    $categories = [];
+    if ($this->container->has('openy_ds_pef_schedule.manager')) {
+      $this->scheduleManager = $this->container->get('openy_ds_pef_schedule.manager');
+      $categories = $this->scheduleManager->getAllCategories();
+    }
+
+    return $categories;
   }
 
   /**

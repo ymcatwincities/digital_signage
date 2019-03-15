@@ -28,7 +28,7 @@
  */
 #}
 
-<div {{ attributes }}>
+<div {{ attributes.addClass('block') }}>
   <div{{ wrapper_attributes }}>
     {% block content %}
       <div class="openy-digital-signage-block-promotional__text-content">
@@ -45,7 +45,7 @@
         {% if content.field_ds_message[0]['#context'].value %}
         <div class="openy-digital-signage-block-promotional__message">
           <div class="openy-digital-signage-block-promotional__message__inner">
-            {{ content|without('field_ds_background_image', 'field_ds_headline', 'field_ds_subheading') }}
+            {{ content|without('field_ds_background_image_media', 'field_ds_headline', 'field_ds_subheading') }}
           </div>
         </div>
         {% endif %}

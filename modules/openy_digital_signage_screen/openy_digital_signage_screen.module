@@ -72,6 +72,7 @@ function openy_digital_signage_screen_preprocess_block(&$variables) {
   if (!isset($variables['attributes']['class'])) {
     $variables['attributes']['class'] = array();
   }
+  $variables['attributes']['class'][] = 'block';
   $variables['attributes']['class'][] = 'block-wrapper';
   $variables['attributes']['class'][] = 'block-provider--' . $definition['provider'];
   $variables['attributes']['class'][] = 'block-plugin-id--' . $variables['plugin_id'];

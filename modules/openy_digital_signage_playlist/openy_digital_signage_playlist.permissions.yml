@@ -1,0 +1,42 @@
+add digital signage playlist entities:
+  title: 'Create new Digital Signage Playlist entity'
+
+administer digital signage playlist entities:
+  title: 'Administer Digital Signage Playlist entities'
+  description: 'Allow to access the administration form to configure Digital Signage Playlist entities.'
+  restrict access: true
+
+delete digital signage playlist entities:
+  title: 'Delete Digital Signage Playlist entity'
+
+edit digital signage playlist entities:
+  title: 'Edit Digital Signage Playlist entity'
+
+access digital signage playlist overview:
+  title: 'Access the Digital Signage Playlist overview page'
+
+view published digital signage playlist entities:
+  title: 'View published Digital Signage Playlist entity'
+
+view unpublished digital signage playlist entities:
+  title: 'View unpublished Digital Signage Playlist entity'
+
+add digital signage playlist item entities:
+  title: 'Create new Digital Signage Playlist Item entity'
+
+administer digital signage playlist item entities:
+  title: 'Administer Digital Signage Playlist Item entities'
+  description: 'Allow to access the administration form to configure Digital Signage Playlist Item entities.'
+  restrict access: true
+
+delete digital signage playlist item entities:
+  title: 'Delete Digital Signage Playlist Item entity'
+
+edit digital signage playlist item entities:
+  title: 'Edit Digital Signage Playlist Item entity'
+
+view published digital signage playlist item entities:
+  title: 'View published Digital Signage Playlist Item entity'
+
+view unpublished digital signage playlist item entities:
+  title: 'View unpublished Digital Signage Playlist Item entity'

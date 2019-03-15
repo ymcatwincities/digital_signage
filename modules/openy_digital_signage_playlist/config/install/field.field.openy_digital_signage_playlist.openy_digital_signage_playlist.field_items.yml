@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.openy_digital_signage_playlist.field_items
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.openy_digital_signage_playlist.field_items
+field_name: field_items
+entity_type: openy_digital_signage_playlist
+bundle: openy_digital_signage_playlist
+label: Items
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:openy_ds_playlist_item'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

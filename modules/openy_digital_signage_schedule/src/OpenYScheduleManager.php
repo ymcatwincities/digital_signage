@@ -217,7 +217,7 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
 
     $schedule = $this->getUpcomingScreenContents($screen->screen_schedule->entity, $timespan, $now);
     foreach ($schedule as &$item) {
-      $item['screen_content'] = $item['item']->content->entity;
+      $item['screen_content'] = $item['item']->content_ref->entity;
       $item['id'] = $item['item']->id();
       $item['type'] = 'schedule_item';
     }
@@ -249,6 +249,9 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
 
     foreach ($schedule as $item) {
       $item_type = $item['override'] ? 'override' : 'regular';
+      if ($item['screen_content']->status->value == 0) {
+        continue;
+      }
 
       // Search for the intersections with existing slots.
       $intersections = [];

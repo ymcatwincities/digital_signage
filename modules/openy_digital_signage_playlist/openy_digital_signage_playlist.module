@@ -1,0 +1,207 @@
+<?php
+
+/**
+ * @file
+ * Contains openy_digital_signage_playlist.module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+use Drupal\openy_digital_signage_playlist\Entity\EntityTypeInfo;
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function openy_digital_signage_playlist_field_widget_form_alter(&$element, FormStateInterface &$form_state, $context) {
+  $info = $form_state->getBuildInfo();
+  $allowed_forms = [
+    'openy_digital_signage_playlist_edit_form',
+    'openy_ds_playlist_item_edit_form',
+  ];
+  if (!in_array($info['form_id'], $allowed_forms)) {
+    return;
+  }
+
+  if (get_class($context['widget']) === 'Drupal\entity_browser\Plugin\Field\FieldWidget\EntityReferenceBrowserWidget') {
+    $class = ($info['form_id'] == 'openy_digital_signage_playlist_edit_form') ? 'playlist-eb' : 'playlist-items-eb';
+    $element['#attributes']['class'][] = $class;
+    $element['#attached']['library'][] = 'openy_digital_signage_playlist/entity_browser';
+    return;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function openy_digital_signage_playlist_theme($existing, $type, $theme, $path) {
+  return [
+    'page__playlist' => [
+      'template' => 'page--playlist',
+    ],
+    'openy_ds_playlist_item' => [
+      'render element' => 'elements',
+    ],
+    'page__playlist__schedule_edit_form' => [
+      'template' => 'page--playlist--schedule-edit-form',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function openy_digital_signage_playlist_theme_suggestions_openy_ds_playlist_item(array $variables) {
+  $suggestions = [];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+  $suggestions[] = 'openy_ds_playlist_item__' . $sanitized_view_mode;
+  return $suggestions;
+}
+
+/**
+ * Prepares variables for openy_ds_playlist_item templates.
+ *
+ * Default template: openy-ds-playlist-item.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ *   - entity: The openy_ds_playlist_item object.
+ *   - view_mode: View mode; e.g., 'full', 'teaser', etc.
+ */
+function template_preprocess_openy_ds_playlist_item(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  // Provide a distinct $teaser boolean.
+  $variables['teaser'] = $variables['view_mode'] == 'teaser';
+  $entity = $variables['elements']['#openy_ds_playlist_item'];
+  $variables['entity'] = $entity;
+  // Helpful $content variable for templates.
+  $variables += ['content' => []];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+
+  $variables['attributes']['data-item-type'] = $entity->getItemType();
+  $variables['attributes']['data-item-status'] = $entity->getExpireStatus();
+}
+
+/**
+ * Implements hook_theme_HOOK_alter().
+ */
+function openy_digital_signage_playlist_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'entity.openy_digital_signage_playlist.canonical') {
+    array_push($suggestions, 'page__playlist');
+  }
+  if ($route_name == 'openy_digital_signage_playlist.schedule_edit_form') {
+    array_push($suggestions, 'page__playlist__schedule_edit_form');
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function openy_digital_signage_playlist_preprocess_html(&$variables) {
+  $classes = ['page-schedule'];
+  $route_name = \Drupal::service('current_route_match')->getRouteName();
+
+  if (empty($variables['attributes'])) {
+    $variables['attributes'] = new Attribute();
+  }
+
+  if ($route_name == 'entity.openy_digital_signage_playlist.canonical') {
+    $variables['attributes']->addClass($classes);
+    $variables['page_top']['toolbar']['#access'] = FALSE;
+    $variables['page']['content']['tabs']['#access'] = FALSE;
+  }
+
+  if ($route_name == 'openy_digital_signage_playlist.schedule_edit_form') {
+    $variables['page_top']['#access'] = FALSE;
+    $variables['page_bottom']['#access'] = FALSE;
+    $variables['page']['content']['tabs']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function openy_digital_signage_playlist_entity_operation(EntityInterface $entity) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(EntityTypeInfo::class)
+    ->entityOperation($entity);
+}
+
+/**
+ * Implements template_preprocess_field_multiple_value_form().
+ */
+function openy_digital_signage_playlist_preprocess_field_multiple_value_form(&$variables) {
+  if ($variables['element']['#field_name'] !== 'field_items') {
+    return;
+  }
+  // Add additional header pseudo columns.
+  $variables['table']['#header'][0]['data'] = [
+    ['#markup' => t('Preview')],
+    ['#markup' => t('Title')],
+    ['#markup' => t('Type')],
+    ['#markup' => t('Duration')],
+    ['#markup' => t('Rotating date (start-end)')],
+    ['#markup' => t('Display time (start-end)')],
+    ['#markup' => t('Actions')],
+  ];
+
+  foreach (Element::children($variables['table']['#header'][0]['data']) as $key) {
+    // Add wrapper for columns.
+    $child = &$variables['table']['#header'][0]['data'][$key];
+    $child['#prefix'] = '<span class="header-col">';
+    $child['#suffix'] = '</span>';
+  }
+
+  // Add wrapper for row.
+  $variables['table']['#header'][0]['data']['#prefix'] = '<div class="header-row">';
+  $variables['table']['#header'][0]['data']['#suffix'] = '</div>';
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function openy_digital_signage_playlist_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  // Empty message is different for case when result is empty after filtering.
+  if ($view->id() == 'playlists' && !empty(array_filter($view->getExposedInput()))) {
+    $variables['empty'] = t('No Playlists available for display');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openy_digital_signage_playlist_form_entity_clone_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['#submit'][] = '_openy_digital_signage_playlist_form_entity_clone_form_submit';
+}
+
+/**
+ * Custom submit callback for 'entity_clone_form'.
+ *
+ * Overrides entity clone form redirect.
+ *
+ * @param $form
+ *   Nested array of form elements.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ *
+ * @see \Drupal\entity_clone\Form\EntityCloneForm::formSetRedirect().
+ */
+function _openy_digital_signage_playlist_form_entity_clone_form_submit($form, FormStateInterface $form_state) {
+  // By default entity clone redirects user to 'view' page of cloned entity.
+  // But for playlist we should redirect user to 'edit' page instead.
+  $default_redirect = $form_state->getRedirect();
+
+  if ($default_redirect->getRouteName() == 'entity.openy_digital_signage_playlist.canonical') {
+    $route_params = $default_redirect->getRouteParameters();
+
+    if (!empty($route_params['openy_digital_signage_playlist'])) {
+      $form_state->setRedirect('entity.openy_digital_signage_playlist.edit_form', $route_params);
+    }
+  }
+}

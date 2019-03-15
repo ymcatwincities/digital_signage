@@ -159,7 +159,6 @@ function TimeManager() {
     this.element.data('screen', self);
 
     this.init = function() {
-      self.loopCallback();
       self.loop = setInterval(self.loopCallback, self.options.screenUpdatePeriod);
       self.element
         .css({opacity: 0, display: 'block'})
@@ -167,6 +166,7 @@ function TimeManager() {
           self.afterInit();
         });
       $("body > .loader").fadeOut(self.options.animation);
+      setTimeout(function () { self.loopCallback(); }, 0);
     };
 
     this.afterInit = function() {
@@ -192,7 +192,14 @@ function TimeManager() {
         var screenContent = ObjectsManager.getObject(this);
         var workingHours = screenContent.getWorkingHours();
         if (time >= workingHours.from && time < workingHours.to) {
-          screenContent.activate();
+          if (screenContent.isEmpty()) {
+            screenContent.hibernate();
+            self.activateFallbackContent();
+          }
+          else {
+            screenContent.activate();
+            self.deactivateFallbackContent();
+          }
         }
         else {
           screenContent.deactivate();
@@ -274,7 +281,7 @@ function TimeManager() {
           });
         }
         Drupal.attachBehaviors(self.element);
-        self.updateScreenContents();
+        setTimeout(function () { self.updateScreenContents(); }, 1);
       });
     };
 
@@ -286,15 +293,32 @@ function TimeManager() {
       return self.element.data('app-version');
     };
 
+    this.activateFallbackContent = function () {
+      var screenContents = self.getScreenContents();
+      if (screenContents.filter('.screen-content-active-fallback').length > 0) {
+        return;
+      }
+      let fallback = screenContents.filter('.screen-content--fallback').first();
+      fallback = ObjectsManager.getObject(fallback);
+      fallback.activateAsFallbackContent();
+    };
+
+    this.deactivateFallbackContent = function () {
+      var screenContents = self.getScreenContents();
+      let fallback = screenContents.filter('.screen-content-active-fallback').first();
+      if (fallback.length > 0) {
+        fallback = ObjectsManager.getObject(fallback);
+        fallback.deactivate(true);
+      }
+    };
+
     return this;
   }
 
   function OpenYScreenContent(el) {
     var self = this;
     this.options = { animation: 1000 };
-    // Store element.
     this.element = $(el);
-    // Store object.
     this.element.data('screenContent', this);
 
     this.getBlocks = function() {
@@ -305,8 +329,23 @@ function TimeManager() {
       return self.element.data('screen-content-id');
     };
 
+    this.isEmpty = function () {
+      let isEmpty = true;
+      self.getBlocks().each(function (i) {
+        var block = ObjectsManager.getObject(this);
+        if (block.hasOwnProperty('isEmpty')) {
+          isEmpty = isEmpty && block.isEmpty();
+        }
+        else {
+          isEmpty = false;
+        }
+      });
+
+      return isEmpty;
+    };
+
     this.activate = function() {
-      if (self.isActive()) {
+      if (self.isActive() && !self.isHibernated()) {
         return;
       }
       self.element
@@ -317,7 +356,30 @@ function TimeManager() {
             .css({position: 'static'})
             .removeClass('screen-content-inactive')
             .removeClass('screen-content-activating')
+            .removeClass('screen-content-hibernate')
             .addClass('screen-content-active');
+        });
+      self.getBlocks().each(function () {
+        var block = ObjectsManager.getObject(this);
+        block.activate();
+      });
+    };
+
+    this.activateAsFallbackContent = function() {
+      if (self.isActive() || self.isActiveFallback()) {
+        return;
+      }
+      self.element
+        .css({position: 'absolute', top: '100vh'})
+        .addClass('screen-content-activating')
+        .animate({top: 0}, self.options.animation, function () {
+          $(this)
+            .css({position: 'static'})
+            .removeClass('screen-content-inactive')
+            .removeClass('screen-content-activating')
+            .removeClass('screen-content-hibernate')
+            .addClass('screen-content-active')
+            .addClass('screen-content-active-fallback');
         });
       self.getBlocks().each(function () {
         var block = ObjectsManager.getObject(this);
@@ -336,6 +398,7 @@ function TimeManager() {
       self.element
         .removeClass('screen-content-inactive')
         .removeClass('screen-content-activating')
+        .removeClass('screen-content-hibernate')
         .addClass('screen-content-active');
     };
 
@@ -347,11 +410,35 @@ function TimeManager() {
         var block = ObjectsManager.getObject(this);
         block.deactivate();
       });
-      self.element.remove();
+      if (!self.isActiveFallback()) {
+        self.element.remove();
+      }
+      else {
+        self.element
+          .removeClass('screen-content-active')
+          .removeClass('screen-content-active-fallback');
+      }
     };
 
-    this.deactivate = function() {
-      if (!self.isActive()) {
+    /**
+     * Temprary disable the screen content.
+     */
+    this.hibernate = function() {
+      if (!self.isActive() || self.isHibernated()) {
+        return;
+      }
+
+      self.element
+        .css({position: 'absolute', top: 0})
+        .animate({ top: '-100vh' }, self.options.animation, function() {
+          $(this)
+            // .removeClass('screen-content-active')
+            .addClass('screen-content-hibernate');
+        });
+    };
+
+    this.deactivate = function(deactivateFallback = false) {
+      if (!self.isActive() || (self.isActiveFallback() && !deactivateFallback)) {
         return;
       }
 
@@ -360,8 +447,13 @@ function TimeManager() {
         .animate({ top: '-100vh' }, self.options.animation, function() {
           $(this)
             .removeClass('screen-content-active')
-            .addClass('screen-content-inactive')
-            .remove();
+            .addClass('screen-content-inactive');
+          if (self.isActiveFallback()) {
+            $(this).removeClass('screen-content-active-fallback');
+          }
+          else {
+            $(this).remove();
+          }
         });
       self.getBlocks().each(function() {
         var block = ObjectsManager.getObject(this);
@@ -371,6 +463,14 @@ function TimeManager() {
 
     this.isActive = function() {
       return self.element.hasClass('screen-content-active');
+    };
+
+    this.isActiveFallback = function() {
+      return self.element.hasClass('screen-content-active-fallback');
+    };
+
+    this.isHibernated = function() {
+      return self.element.hasClass('screen-content-hibernate');
     };
 
     this.getWorkingHours = function() {
@@ -385,9 +485,7 @@ function TimeManager() {
 
   function OpenYScreenContentBlock(el) {
     var self = this;
-    // Store element.
     this.element = $(el);
-    // Store object.
     this.element.data('screenContentBlock', this);
 
     this.getBlocks = function() {
@@ -438,6 +536,7 @@ function TimeManager() {
    */
   Drupal.behaviors.screen_handler = {
     attach: function (context, settings) {
+      $('body.screen').removeClass('screen');
       $('.screen', context).once().each(function () {
         var screen = new OpenYScreen(this);
         screen.init();

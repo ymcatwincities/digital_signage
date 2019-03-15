@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks.
+ */
+
+use Drupal\openy_ds_media_library\DigitalSignageMediaLibrary;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function openy_ds_media_library_install() {
+  // Create special 'digital-signage' media tag.
+  Term::create([
+    'name' => DigitalSignageMediaLibrary::DS_MARKER_TAG_NAME,
+    'vid' => 'media_tags',
+  ])->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function openy_ds_media_library_uninstall() {
+  /** @var Drupal\openy_ds_media_library\DigitalSignageMediaLibrary $media_library_helper */
+  $media_library_helper = \Drupal::service('openy_ds_media_library.helper');
+  $term = $media_library_helper->loadMarkerMediaTag();
+  if ($term) {
+    $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $storage->delete([$term]);
+  }
+}

@@ -3,8 +3,9 @@ status: true
 dependencies:
   config:
     - block_content.type.digital_signage_promotional
+    - entity_browser.browser.digital_signage_images_library
     - field.field.block_content.digital_signage_promotional.field_ds_background_color
-    - field.field.block_content.digital_signage_promotional.field_ds_background_image
+    - field.field.block_content.digital_signage_promotional.field_ds_background_image_media
     - field.field.block_content.digital_signage_promotional.field_ds_background_position
     - field.field.block_content.digital_signage_promotional.field_ds_background_scheme
     - field.field.block_content.digital_signage_promotional.field_ds_background_size
@@ -14,10 +15,9 @@ dependencies:
     - field.field.block_content.digital_signage_promotional.field_ds_message
     - field.field.block_content.digital_signage_promotional.field_ds_message_position
     - field.field.block_content.digital_signage_promotional.field_ds_subheading
-    - entity_browser.browser.images_library
   module:
-    - field_group
     - entity_browser
+    - field_group
 third_party_settings:
   field_group:
     group_ds_layout:
@@ -36,7 +36,7 @@ third_party_settings:
     group_ds_background:
       children:
         - field_ds_background_color
-        - field_ds_background_image
+        - field_ds_background_image_media
         - field_ds_background_position
         - field_ds_background_size
       parent_name: ''
@@ -74,22 +74,22 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_ds_background_image:
-    weight: 6
+  field_ds_background_image_media:
+    weight: 7
     settings:
-      entity_browser: images_library
+      entity_browser: digital_signage_images_library
       field_widget_display: rendered_entity
       field_widget_edit: true
       field_widget_remove: true
+      open: true
       selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail_for_preview
-      open: false
     third_party_settings: {  }
     type: entity_browser_entity_reference
     region: content
   field_ds_background_position:
-    weight: 7
+    weight: 8
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -101,7 +101,7 @@ content:
     type: options_buttons
     region: content
   field_ds_background_size:
-    weight: 8
+    weight: 9
     settings: {  }
     third_party_settings: {  }
     type: options_buttons

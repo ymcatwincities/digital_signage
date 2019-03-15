@@ -1,0 +1,62 @@
+uuid: ec0a1b2d-26a8-480f-8a9c-33051d5bc358
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.media.digital_signage_media
+    - field.field.media.image.field_media_caption
+    - field.field.media.image.field_media_image
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.field_media_tags
+    - image.style.thumbnail_focal_point
+    - media_entity.bundle.image
+  module:
+    - focal_point
+_core:
+  default_config_hash: rRJJPqkvU7b4dP6du23LZDutvvFh28WOAdHCbbf0xhI
+id: media.image.digital_signage_media
+targetEntityType: media
+bundle: image
+mode: digital_signage_media
+content:
+  field_media_image:
+    weight: 3
+    settings:
+      preview_image_style: thumbnail_focal_point
+      progress_indicator: throbber
+      preview_link: true
+      offsets: '50,50'
+    third_party_settings: {  }
+    type: image_focal_point
+    region: content
+  field_media_tags:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete_tags
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  field_media_caption: true
+  field_media_in_library: true
+  moderation_state: true
+  path: true
+  uid: true

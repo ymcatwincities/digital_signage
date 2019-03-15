@@ -6,3 +6,4 @@ package: "OpenY: Digital Signage"
 dependencies:
   - openy_digital_signage_screen_content
   - openy_digital_signage_room
+

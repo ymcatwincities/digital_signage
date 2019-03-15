@@ -1,0 +1,22 @@
+.playlist-item {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    font-size: 100px;
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 1;
+}
+
+.playlist-item--active {
+    display: block;
+}
+
+.playlist-item--activating {
+    display: block;
+    z-index: 10;
+}

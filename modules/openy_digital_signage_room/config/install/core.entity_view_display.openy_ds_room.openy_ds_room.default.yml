@@ -1,0 +1,68 @@
+uuid: cc125ca6-8899-499c-8d78-a76334adb9d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.openy_ds_room.openy_ds_room.field_room_origin
+  module:
+    - openy_digital_signage_room
+    - views_field_formatter
+id: openy_ds_room.openy_ds_room.default
+targetEntityType: openy_ds_room
+bundle: openy_ds_room
+mode: default
+content:
+  field_room_origin:
+    type: openy_ds_room_origin_default
+    weight: 2
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+  groupex_id:
+    label: above
+    type: string
+    weight: 3
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  location:
+    label: above
+    type: views_field_formatter
+    weight: 1
+    region: content
+    settings:
+      view: ''
+      arguments:
+        field_value:
+          checked: true
+        entity_id:
+          checked: true
+        delta:
+          checked: true
+      hide_empty: false
+      multiple: false
+      implode_character: ''
+    third_party_settings: {  }
+  personify_id:
+    label: above
+    type: string
+    weight: 4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  status:
+    label: above
+    type: boolean
+    weight: 0
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    region: content
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true

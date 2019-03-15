@@ -40,7 +40,6 @@
   text-align: center;
   text-transform: uppercase;
   top: 36.2vw;
-  -webkit-transition: opacity 0.5s;
   transition: opacity 0.5s;
   width: 100%; }
 
@@ -63,7 +62,6 @@
   top: 10.4vw;
   left: 50%;
   margin-left: -42.5vw;
-  -webkit-transition: top 2s, width 2s, height 2s, margin-left 2s, opacity 2s, background-color 1s;
   transition: top 2s, width 2s, height 2s, margin-left 2s, opacity 2s, background-color 1s;
   z-index: 10; }
   .class .trainer {
@@ -72,7 +70,6 @@
     text-align: center;
     font-size: 2.45vw;
     padding-top: 3.9vw;
-    -webkit-transition: font-size 2s, padding-top 2s;
     transition: font-size 2s, padding-top 2s;
     position: relative; }
     .class .trainer .trainer__substitute {
@@ -95,7 +92,6 @@
     margin: auto;
     padding: 0 1.5vw 0;
     text-align: center;
-    -webkit-transition: font-size 2s, padding-top 2s;
     transition: font-size 2s, padding-top 2s; }
     .class .class-name sup {
       font-size: 2vw;
@@ -106,7 +102,6 @@
     text-transform: none;
     margin-top: 2.5vw;
     opacity: 1;
-    -webkit-transition: opacity 0.5s;
     transition: opacity 0.5s; }
   .class .class-time-frame-from {
     color: #00aeef;
@@ -121,7 +116,6 @@
     left: 72%;
     margin-top: -1.5vw;
     opacity: 1;
-    -webkit-transition: opacity 1s;
     transition: opacity 1s; }
   .class .class-time-frame-progress {
     width: 41%;
@@ -132,7 +126,6 @@
     margin: auto;
     overflow: hidden;
     opacity: 1;
-    -webkit-transition: opacity 1s;
     transition: opacity 1s; }
   .class .class-time-frame-progress-bar {
     background-color: #00aeef;
@@ -143,7 +136,6 @@
     height: 100%; }
   .class .class-time-countdown {
     opacity: 0;
-    -webkit-transition: opacity 0.5s;
     transition: opacity 0.5s; }
     .class .class-time-countdown .class-time-countdown-background {
       background-color: white;
@@ -216,7 +208,6 @@
         display: inline-block;
         opacity: 1;
         text-align: center;
-        -webkit-transition: opacity 0.5s;
         transition: opacity 0.5s;
         width: 1.04167vw; }
         .class .class-time-countdown .class-time-countdown-time--value .separator.odd {
@@ -234,7 +225,6 @@
 .class-next,
 .class-prev {
   opacity: 1;
-  -webkit-transition: opacity 0.5s;
   transition: opacity 0.5s; }
   .class-next .class,
   .class-prev .class {

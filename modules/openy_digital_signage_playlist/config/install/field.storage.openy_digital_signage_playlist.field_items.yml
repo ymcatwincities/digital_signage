@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - openy_digital_signage_playlist
+id: openy_digital_signage_playlist.field_items
+field_name: field_items
+entity_type: openy_digital_signage_playlist
+type: entity_reference
+settings:
+  target_type: openy_ds_playlist_item
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

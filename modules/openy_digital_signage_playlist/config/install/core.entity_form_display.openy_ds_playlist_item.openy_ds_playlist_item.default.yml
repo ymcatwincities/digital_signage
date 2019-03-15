@@ -1,0 +1,145 @@
+uuid: 1f973e34-5cad-4a26-8d6a-b100b34bbee6
+langcode: en
+status: true
+dependencies:
+  config:
+    - entity_browser.browser.digital_signage_images_library
+  module:
+    - datetime
+    - duration_field
+    - entity_browser
+    - field_group
+    - openy_digital_signage_playlist
+third_party_settings:
+  field_group:
+    group_duration:
+      children:
+        - duration
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        label: Duration
+        description: ''
+        required_fields: true
+        id: ''
+        classes: container-inline
+      label: Duration
+    group_rotating_date:
+      children:
+        - date_start
+        - date_end
+      parent_name: ''
+      weight: 6
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: container-inline
+        description: ''
+        required_fields: true
+      label: 'Rotating Date'
+    group_display_time:
+      children:
+        - time_start
+        - time_end
+      parent_name: ''
+      weight: 7
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: container-inline
+        description: ''
+        required_fields: true
+      label: 'Display time'
+    group_playlist:
+      children:
+        - media
+        - playlist
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        label: Media
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: Media
+_core:
+  default_config_hash: uvh5xmP28p7HcbKXHlXVV9TxZ7nlPk4wcQSOMtcdf_w
+id: openy_ds_playlist_item.openy_ds_playlist_item.default
+targetEntityType: openy_ds_playlist_item
+bundle: openy_ds_playlist_item
+mode: default
+content:
+  date_end:
+    type: datetime_default
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  date_start:
+    type: datetime_default
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  duration:
+    type: duration_widget
+    weight: 3
+    region: content
+    settings:
+      duration: ''
+    third_party_settings: {  }
+  media:
+    type: entity_browser_entity_reference
+    weight: 2
+    settings:
+      entity_browser: digital_signage_images_library
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: playlist_item_teaser
+    region: content
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  playlist:
+    type: entity_reference_autocomplete
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  time_end:
+    type: datetime_time_only
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  time_start:
+    type: datetime_time_only
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  uid: true

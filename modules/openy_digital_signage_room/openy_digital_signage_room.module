@@ -26,6 +26,13 @@ function openy_digital_signage_room_help($route_name, RouteMatchInterface $route
 }
 
 /**
+ * Implements hook_ds_version().
+ */
+function openy_digital_signage_room_ds_version() {
+  return '0.0.1';
+}
+
+/**
  * Implements hook_entity_create().
  */
 function openy_digital_signage_room_entity_create(EntityInterface $entity) {
