@@ -69,6 +69,7 @@ function openy_digital_signage_blocks_theme($existing, $type, $theme, $path) {
     'openy_digital_signage_blocks_complete_schedule' => [
       'template' => 'openy-digital-signage-blocks-complete-schedule',
       'variables' => [
+        'message' => '',
         'room' => '',
         'classes' => NULL,
         'wrapper_attributes' => NULL,

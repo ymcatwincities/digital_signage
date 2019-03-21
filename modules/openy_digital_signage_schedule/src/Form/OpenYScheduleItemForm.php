@@ -93,7 +93,13 @@ class OpenYScheduleItemForm extends ContentEntityForm {
       '#type' => 'container',
       '#tag' => 'div',
       '#attributes' => [
-        'data-src' => Url::fromRoute("entity.$screen_content_entity_type.canonical", [$screen_content_entity_type => $screen_content->id()])
+        'data-src' => Url::fromRoute("entity.$screen_content_entity_type.canonical", [
+            $screen_content_entity_type => $screen_content->id(),
+          ], [
+            'query' => [
+              'screen' => $screen ? $screen->id() : '',
+            ],
+        ])
           ->toString(),
         'class' => ['frame-container'],
       ],

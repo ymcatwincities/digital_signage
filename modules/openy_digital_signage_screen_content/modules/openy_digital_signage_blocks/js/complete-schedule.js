@@ -53,32 +53,41 @@
     // Fast loop - basically updates the awaiting class.
     this.fastloop = function () {
       self.updateProgressBars();
+      self.updateTime()
+    };
+
+    // Updates time.
+    this.updateTime = function () {
+      var timestamp = self.getTimeOffset();
+      var time = moment(timestamp * 1000).tz('America/New_York');
+      var hours = time.format('h');
+      var minutes = time.format('mma');
+      $('.schedule-time .hours', self.context).html(hours);
+      $('.schedule-time .minutes', self.context).html(minutes);
+      $('.schedule-time .separator', self.context).css({
+        opacity: Math.floor(timestamp) % 2 ? 1 : 0.5,
+      });
     };
 
     // Formats time.
     this.formatTime = function (seconds) {
-      var fHours, fMinutes, fSeconds, separator;
-      separator = Math.floor(seconds) % 2 ? '<span class="separator">:</span>' : '<span class="separator odd">:</span>';
-      if (seconds < 3600) {
-        fMinutes = Math.floor(seconds / 60);
-        fSeconds = Math.floor(seconds - fMinutes * 60);
-        if (fSeconds < 10) fSeconds = '0' + fSeconds;
-        if (fMinutes < 10) fMinutes = '0' + fMinutes;
+      var hours, minutes;
 
-        return {
-          suffix: seconds > 59 ? 'minutes' : 'seconds',
-          string: fMinutes + separator + fSeconds
-        };
+      hours = Math.floor(seconds / 3600);
+      minutes = Math.ceil((seconds - hours * 3600) / 60);
+
+      var formatted = [];
+      if (hours) {
+        formatted.push(hours + 'h');
+      }
+      if (minutes) {
+        formatted.push(minutes + 'm');
+      }
+      if (!formatted.length) {
+        formatted.push('a moment');
       }
 
-      fHours = Math.floor(seconds / 3600);
-      fMinutes = Math.floor((seconds - fHours * 3600) / 60);
-      if (fMinutes < 10) fMinutes = '0' + fMinutes;
-
-      return {
-        suffix: 'hours',
-        string: fHours + separator + fMinutes
-      };
+      return formatted.join(' ');
     };
 
     // Updates progress bar of the current class.
@@ -91,16 +100,30 @@
         let to = $class.data('to');
         let duration = to - from;
         let progress = 100 * (offset - from) / duration;
-        let past = offset > (to + 5);
         progress = Math.max(0, Math.min(progress, 100));
+        let past = offset > (to + 15);
         $(this)
             .find('.class-progress-bar')
-            .css('width', progress + '%')
-        if (offset >= from && offset <= to) {
-          $(this).addClass('schedule-row-class-ongoing');
+            .css('width', progress + '%');
+        if (offset < from) {
+          let startsIn = from - offset;
+          $(this)
+              .find('.class-time-frame-in')
+              .text('Starts in ' + self.formatTime(startsIn));
         }
-        if (past) {
+        else if (past) {
           $(this).addClass('schedule-row-class-past');
+        }
+        else {
+          let remaining = to - offset;
+          let text = 'Just finished';
+          if (remaining > 0) {
+            text = self.formatTime(remaining) + ' remaining';
+          }
+          $(this)
+              .addClass('schedule-row-class-ongoing')
+              .find('.class-time-frame-in')
+              .text(text);
         }
       });
     };

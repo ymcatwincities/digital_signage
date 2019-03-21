@@ -17,35 +17,68 @@
 <div class="block block-complete-schedule" {{ wrapper_attributes }}>
   <div class="schedule-header">
     <div class="schedule-row">
-      <div class="schedule-row-column class-time-frame">
-        <span>{{ 'Time'|t }}</span>
-      </div>
-      <div class="schedule-row-column class-duration">
-        <span>{{ 'Duration'|t }}</span>
-      </div>
-      <div class="schedule-row-column class-name">
-        <span>{{ 'Class name'|t }}</span>
-      </div>
-      <div class="schedule-row-column class-trainer">
-        <span>{{ 'Trainer'|t }}</span>
-      </div>
-      <div class="schedule-row-column class-room">
-        <span>{{ 'Room'|t }}</span>
+      <div class="schedule-row-column schedule-message">{{ message }}</div>
+      <div class="schedule-row-column schedule-time">
+        <i class="ds-icon ds-icon-time"></i>
+        <span class="hours">2</span><span class="separator">:</span><span class="minutes">15pm</span>
       </div>
     </div>
   </div>
   <div class="schedule-table">
-    <div class="schedule-table-ongoing">Ongoing</div>
-    <div class="schedule-table-upcoming">Upcoming</div>
+    <div class="schedule-table-ongoing">In progress</div>
+    <div class="schedule-row schedule-table-ongoing-header">
+      <div class="schedule-row-column class-time-frame">
+        <span>{{ 'Time'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-icons">
+        <span></span>
+      </div>
+      <div class="schedule-row-column class-name">
+        <span>{{ 'Class Name'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-room">
+        <span>{{ 'Location'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-trainer">
+        <span>{{ 'Instructor'|t }}</span>
+      </div>
+    </div>
+    <div class="schedule-table-upcoming">Up next</div>
+    <div class="schedule-row schedule-table-upcoming-header">
+      <div class="schedule-row-column class-time-frame">
+        <span>{{ 'Time'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-icons">
+        <span></span>
+      </div>
+      <div class="schedule-row-column class-name">
+        <span>{{ 'Class Name'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-room">
+        <span>{{ 'Location'|t }}</span>
+      </div>
+      <div class="schedule-row-column class-trainer">
+        <span>{{ 'Instructor'|t }}</span>
+      </div>
+    </div>
     {% for class in classes %}
       <div class="schedule-row schedule-row-class" data-from="{{ class.from }}" data-to="{{ class.to }}">
         <div class="schedule-row-column class-time-frame">
-          <span class="class-time-frame-from">{{ class.from_formatted }}</span>
+          <span class="class-time-frame-from">{{ class.from_formatted }} - {{ class.to_formatted }}</span>
+          <div class="class-time-frame-in">starts in 38m</div>
         </div>
-        <div class="schedule-row-column class-duration">
-          <span class="class-duration">{{ class.duration }}</span>
+        <div class="schedule-row-column class-icons">
+          {% if class.in_membership == 0 %}
+            <i class="ds-icon ds-icon-icon-paid"></i>
+          {% endif %}
         </div>
-        <div class="schedule-row-column class-name">{{ class.name|raw }}</div>
+        <div class="schedule-row-column class-name">
+          <span>{{ class.name|raw }}</span>
+          <div class="class-progress">
+            <div class="class-progress-bar"></div>
+          </div>
+        </div>
+        <div class="schedule-row-column class-room">{{ class.room|raw }}</div>
         <div class="schedule-row-column class-trainer">
           {% if class.substitute_trainer %}
             <span class="glyphicon glyphicon-refresh trainer__substitute__icon"></span>
@@ -54,10 +87,7 @@
             <span>{{ class.trainer }}</span>
           {% endif %}
         </div>
-        <div class="schedule-row-column class-room">{{ class.room|raw }}</div>
-        <div class="class-progress">
-          <div class="class-progress-bar"></div>
-        </div>
+
       </div>
     {% endfor %}
   </div>
