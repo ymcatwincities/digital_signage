@@ -70,12 +70,12 @@
    * @prop {Drupal~behaviorAttach} attach
    *   Adds proper orientation classes to all the output layouts.
    */
-  Drupal.behaviors.screen_schedule_frame = {
+  Drupal.behaviors.screenScheduleFrame = {
     attach: function (context, settings) {
-      $('.frame-container', context).once().each(function () {
+      $('.frame-container').once().each(function () {
         var $self = $(this);
         var src = $self.data('src');
-        $(this).append($('<iframe src="' + src + '">'));
+        $(this).append($('<if' + 'rame src="' + src + '"/>'));
       });
     }
   };

@@ -4,6 +4,6 @@ description: Provides separate Media library to Open Y Digital Signage.
 core: 8.x
 package: "OpenY: Digital Signage"
 dependencies:
-  - media_entity
+  - drupal:media (>= 8.4)
   - openy_media_image
   - entity_browser

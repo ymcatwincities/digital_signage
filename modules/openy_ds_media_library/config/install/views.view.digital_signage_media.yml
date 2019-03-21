@@ -7,7 +7,7 @@ dependencies:
     - system.menu.admin
   module:
     - image
-    - media_entity
+    - drupal:media (>= 8.4)
     - user
 _core:
   default_config_hash: i7kD7PlSfZhwyTiOigjWRiiTzuVJjp5dsvjRbSDvP5c
