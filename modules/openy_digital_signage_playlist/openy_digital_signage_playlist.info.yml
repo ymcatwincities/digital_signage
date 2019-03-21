@@ -7,7 +7,7 @@ dependencies:
   - openy_digital_signage_schedule
   - datetime
   - duration_field
-  - media_entity
+  - drupal:media (>= 8.4)
   - openy_media_image
   - entity_browser
   - openy_digital_signage_schedule
