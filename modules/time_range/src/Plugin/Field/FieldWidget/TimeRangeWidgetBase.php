@@ -138,30 +138,4 @@ class TimeRangeWidgetBase extends DateTimeWidgetBase {
     }
   }
 
-  /**
-   * Creates a date object for use as a default value.
-   *
-   * This will take a default value, apply the proper timezone for display in
-   * a widget, and set the default time for date-only fields.
-   *
-   * @param \Drupal\Core\Datetime\DrupalDateTime $date
-   *   The UTC default date.
-   * @param string $timezone
-   *   The timezone to apply.
-   *
-   * @return \Drupal\Core\Datetime\DrupalDateTime
-   *   A date object for use as a default value in a field widget.
-   */
-  protected function createDefaultValue(DrupalDateTime $date, $timezone) {
-    // The date was created and verified during field_load(), so it is safe to
-    // use without further inspection.
-    if ($this->getFieldSetting('datetime_type') == DateTimeItem::DATETIME_TYPE_DATE) {
-      // A date without time will pick up the current time, use the default
-      // time.
-      datetime_date_default_time($date);
-    }
-    $date->setTimezone(new \DateTimeZone($timezone));
-    return $date;
-  }
-
 }

@@ -247,7 +247,7 @@ class OpenYScreen extends ContentEntityBase implements OpenYScreenInterface {
     $fields['screen_schedule'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Schedule'))
       ->setDescription(t('A reference to the assigned schedule.'))
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'openy_digital_signage_schedule')
       ->setTranslatable(FALSE)
