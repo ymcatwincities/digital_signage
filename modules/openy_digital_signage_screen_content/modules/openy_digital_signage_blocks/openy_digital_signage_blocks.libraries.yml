@@ -69,6 +69,6 @@ complete_schedule:
   version: VERSION
   js:
     js/complete-schedule.js: {}
-  css:
-    component:
-      css/complete-schedule.css: {}
+  dependencies:
+    - openy_digital_signage_blocks/momentjs
+    - openy_digital_signage_blocks/momentjs-timezone

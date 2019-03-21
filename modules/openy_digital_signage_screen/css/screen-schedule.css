@@ -26,6 +26,8 @@
   .screen-schedule-ui .screen-schedule-ui--right > div {
     height: 100%;
     position: relative; }
+    .screen-schedule-ui .screen-schedule-ui--right > div.frame-container--portrait {
+      height: 0; }
 
 .screen-schedule-timeline {
   display: -webkit-flex;

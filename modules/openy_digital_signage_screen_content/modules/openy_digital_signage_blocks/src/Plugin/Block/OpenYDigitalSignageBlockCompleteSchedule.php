@@ -92,6 +92,7 @@ class OpenYDigitalSignageBlockCompleteSchedule extends BlockBase implements Cont
    */
   public function defaultConfiguration() {
     return [
+      'message' => 'Welcome to the West Chester Area YMCA',
       'room' => 0,
       'source' => 'pef',
       'category' => [],
@@ -102,6 +103,13 @@ class OpenYDigitalSignageBlockCompleteSchedule extends BlockBase implements Cont
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $form['message'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Header message'),
+      '#description' => $this->t('Specify header message'),
+      '#default_value' => $this->configuration['message'],
+      '#placeholder' => $this->t('Welcome to the West Chester Area YMCA'),
+    ];
     $form['source'] = [
       '#type' => 'select',
       '#title' => $this->t('Data source'),
@@ -145,6 +153,7 @@ class OpenYDigitalSignageBlockCompleteSchedule extends BlockBase implements Cont
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['message'] = $form_state->getValue('message');
     $this->configuration['source'] = $form_state->getValue('source');
     $this->configuration['room'] = $form_state->getValue('room');
     $this->configuration['category'] = [];
@@ -187,6 +196,7 @@ class OpenYDigitalSignageBlockCompleteSchedule extends BlockBase implements Cont
         'max-age' => 0,
       ],
       '#room' => $this->configuration['room'],
+      '#message' => $this->configuration['message'],
       '#classes' => $classes,
       '#wrapper_attributes' => $attributes,
     ];

@@ -82,16 +82,19 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
           ->getStorage('openy_ds_room')
           ->load($rid);
 
-        foreach ($room->field_room_origin as $value) {
-          if ($value->origin != 'pef') {
-            continue;
+        if ($room) {
+          foreach ($room->field_room_origin as $value) {
+            if ($value->origin != 'pef') {
+              continue;
+            }
+            $rooms[] = $value->id;
           }
-          $rooms[] = $value->id;
         }
       }
     }
 
-    if (!$location && $room) {
+    if (!$location && $rooms) {
+      $room = reset($rooms);
       $location  = $room->location->target_id;
     }
 
@@ -152,7 +155,8 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
               re.register_text as register_text,
               re.start as start_timestamp,
               re.end as end_timestamp,
-              re.duration as duration
+              re.duration as duration,
+              re.in_membership as in_membership
             FROM {node} n
             RIGHT JOIN {repeat_event} re ON re.session = n.nid
             INNER JOIN node_field_data nd ON re.location = nd.nid
@@ -224,6 +228,7 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
         'name' => $this->prepareClassName($result->name),
         'from_formatted' => date('g:ia', $from),
         'to_formatted' => date('g:ia', $to),
+        'in_membership' => $result->in_membership,
       ];
     }
 
