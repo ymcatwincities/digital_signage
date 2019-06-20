@@ -1,0 +1,20 @@
+{
+    "name": "drupal/openy_digital_signage",
+    "type": "drupal-module",
+    "description": "Provides functionality for organizing Digital Signage with Open Y websites.",
+    "homepage": "https://github.com/ymcatwincities/digital_signage",
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/panelizer": "4.1",
+        "drupal/ckeditor_font": "^1.0",
+        "drupal/dynamic_entity_reference": "^1.7",
+        "drupal/duration_field": "^1.6"
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ]
+}
