@@ -4,7 +4,7 @@ dependencies:
   config:
     - block_content.type.digital_signage_promotional
     - field.storage.block_content.field_ds_background_image_media
-    - media_entity.bundle.image
+    - media.type.image
 id: block_content.digital_signage_promotional.field_ds_background_image_media
 field_name: field_ds_background_image_media
 entity_type: block_content

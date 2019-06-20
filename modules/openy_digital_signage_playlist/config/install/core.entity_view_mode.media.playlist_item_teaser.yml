@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - drupal:media (>= 8.4)
+    - media
 id: media.playlist_item_teaser
 label: 'Playlist item teaser'
 targetEntityType: media
