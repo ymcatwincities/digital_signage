@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - drupal:media (>= 8.4)
+    - media
 id: media.digital_signage_media
 label: 'Digital signage media'
 targetEntityType: media

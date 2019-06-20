@@ -8,7 +8,7 @@ dependencies:
   module:
     - entity_browser
     - image
-    - drupal:media (>= 8.4)
+    - media
     - user
 _core:
   default_config_hash: L82HYSEP88PlPW6rB_VIk8v2kK8RZ6tw4XYfQ8ujPxM

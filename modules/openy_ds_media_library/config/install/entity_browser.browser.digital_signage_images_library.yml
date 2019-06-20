@@ -7,7 +7,7 @@ dependencies:
     - views.view.digital_signage_images_library
   module:
     - dropzonejs_eb_widget
-    - drupal:media (>= 8.4)
+    - media
     - views
 _core:
   default_config_hash: _MNAphXAG4qCL7nCsXV_1Gb2RCao0OiXgG-bPo76P0A
