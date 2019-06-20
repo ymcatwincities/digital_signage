@@ -5,6 +5,7 @@
     "homepage": "https://github.com/ymcatwincities/digital_signage",
     "license": "GPL-2.0+",
     "require": {
+        "cweagans/composer-patches": "~1.0",
         "drupal/panelizer": "4.1",
         "drupal/ckeditor_font": "^1.0",
         "drupal/dynamic_entity_reference": "^1.7",
@@ -16,5 +17,15 @@
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
-    ]
+    ],
+    "extra": {
+        "patches": {
+            "drupal/simple_menu_icons": {
+                "2978206 - Undefined index: #states in drupal_process_states()": "https://www.drupal.org/files/issues/2018-06-08/2978206-2.patch"
+            },
+            "drupal/panels": {
+                "2895962 - Add \"methods\" to Panels IPE routes to support Drupal 8.4.0 / Symfony 3.x": "https://www.drupal.org/files/issues/panels-deprecate-method.patch"
+            }
+        }
+    }
 }
