@@ -99,6 +99,7 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
       ->load($screen_id);
     $schedule_id = $screen->screen_schedule->entity->id();
     $form_state->setValue('screen_name', $screen->label());
+    $form_state->setValue(['schedule', 0, 'target_id'], $schedule_id);
     $query = $this->database->select('openy_digital_signage_sch_item', 'sch');
     $query->fields('sch', [
       'id',
@@ -184,22 +185,22 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
       $messages = $this->renderer->render($message);
       $response->addCommand(new HtmlCommand('.validate--message', $messages));
       return $response;
-    } else {
-      $entity = $this->entity;
-      $redirect_url = Url::fromRoute('entity.openy_digital_signage_playlist.edit_form', [
-        'openy_digital_signage_playlist' => $entity->content_ref->entity->id(),
-      ])->toString();
-      drupal_set_message(
-        $this->t('Playlist @playlist has been assigned to the screen @screen', [
-          '@playlist' => $entity->content_ref->entity->label(),
-          '@screen' => $form_state->getValue('screen_name'),
-        ]),
-        'status'
-      );
-
-      $command = new RedirectCommand($redirect_url);
-      return $response->addCommand($command);
     }
+
+    $entity = $this->entity;
+    $redirect_url = Url::fromRoute('entity.openy_digital_signage_playlist.edit_form', [
+      'openy_digital_signage_playlist' => $entity->content_ref->entity->id(),
+    ])->toString();
+    drupal_set_message(
+      $this->t('Playlist @playlist has been assigned to the screen @screen', [
+        '@playlist' => $entity->content_ref->entity->label(),
+        '@screen' => $form_state->getValue('screen_name'),
+      ]),
+      'status'
+    );
+
+    $command = new RedirectCommand($redirect_url);
+    return $response->addCommand($command);
   }
 
   /**
