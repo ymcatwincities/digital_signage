@@ -20,7 +20,7 @@
     ],
     "extra": {
         "patches": {
-            "drupal/simple_menu_icons": {
+            "drupal/duration_field": {
                 "2978206 - Undefined index: #states in drupal_process_states()": "https://www.drupal.org/files/issues/2018-06-08/2978206-2.patch"
             },
             "drupal/panels": {
