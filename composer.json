@@ -1,5 +1,5 @@
 {
-    "name": "drupal/openy_digital_signage",
+    "name": "ymcatwincities/openy_digital_signage",
     "type": "drupal-module",
     "description": "Provides functionality for organizing Digital Signage with Open Y websites.",
     "homepage": "https://github.com/ymcatwincities/digital_signage",
