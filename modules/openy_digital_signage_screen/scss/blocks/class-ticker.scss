@@ -84,6 +84,18 @@
       top: 0;
       width: 100%;
 
+      .class-room {
+        color: $blue-light;
+        font-size: 40 / 1920 * 100vw;
+        font-weight: normal;
+        margin: 0;
+        display: inline;
+        sup {
+          font-size: 18 / 1920 * 100vw;
+          vertical-align: super;
+        }
+      }
+
       .class-name {
         color: $white;
         font-size: 40 / 1920 * 100vw;
@@ -224,6 +236,10 @@
       .class {
         background-color: $red-dark;
 
+        .class-room {
+          color: $orange-light;
+        }
+
         .class-name {
           color: $white;
         }
@@ -274,6 +290,10 @@
 
       .class {
         background-color: $blue-dark;
+
+        .class-room {
+          color: $green-light;
+        }
 
         .class-name {
           color: $white;
@@ -328,6 +348,10 @@
 
       .class {
         background-color: $purple-dark;
+
+        .class-room {
+          color: $green-light;
+        }
 
         .class-name {
           color: $white;
