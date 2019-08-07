@@ -155,8 +155,7 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
               re.register_text as register_text,
               re.start as start_timestamp,
               re.end as end_timestamp,
-              re.duration as duration,
-              re.in_membership as in_membership
+              re.duration as duration
             FROM {node} n
             RIGHT JOIN {repeat_event} re ON re.session = n.nid
             INNER JOIN node_field_data nd ON re.location = nd.nid
@@ -218,6 +217,7 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
       $from = strtotime($from_str);
       $to = strtotime($to_str);
       $classes[] = [
+        'id' => $result->id,
         'from' => $from,
         'to' => $to,
         'duration_raw' => $result->duration,
@@ -228,7 +228,6 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
         'name' => $this->prepareClassName($result->name),
         'from_formatted' => date('g:ia', $from),
         'to_formatted' => date('g:ia', $to),
-        'in_membership' => $result->in_membership,
       ];
     }
 
@@ -276,6 +275,9 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
     $array = explode(' ', trim($name));
     $array = array_values(array_filter($array, 'trim'));
     // Add first name to the new name.
+    if (!$array) {
+      return $new_name;
+    }
     $new_name .= $array[0];
     if (empty($array[1])) {
       return $new_name;

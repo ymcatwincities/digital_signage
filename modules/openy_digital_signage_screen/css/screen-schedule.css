@@ -24,7 +24,6 @@
             flex: 0 1 33%;
     padding-right: 10px; }
   .screen-schedule-ui .screen-schedule-ui--right > div {
-    /*height: 100%;*/
     position: relative; }
     .screen-schedule-ui .screen-schedule-ui--right > div.frame-container--portrait {
       height: 0; }
