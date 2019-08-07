@@ -32,5 +32,16 @@ openy_ds_playlist_control:
   js:
     js/playlist-control.js: {}
   dependencies:
-  - core/drupal
-  - core/jquery
+    - core/drupal
+    - core/jquery
+
+block_playlist:
+  version: 1.x
+  css:
+    component:
+      css/block-playlist.css: {}
+  js:
+    js/block-playlist.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

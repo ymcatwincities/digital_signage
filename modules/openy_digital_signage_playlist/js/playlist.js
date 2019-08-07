@@ -125,6 +125,14 @@
                         $item.removeClass('playlist-item--activating');
                     }
                     self.current = $item;
+
+                    var $items = self.getPlaylistItems();
+                    $items.splice(self.index, 1);
+                    $($items).each(function() {
+                      this
+                        .removeClass('playlist-item--active')
+                        .removeClass('playlist-item--activating');
+                    });
                 });
 
             return false;
