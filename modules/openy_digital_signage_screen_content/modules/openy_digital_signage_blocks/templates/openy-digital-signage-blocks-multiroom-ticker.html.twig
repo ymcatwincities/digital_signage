@@ -14,7 +14,7 @@
  */
 #}
 
-<div class="block block-class-ticker ds-block-class-ticker" {{ wrapper_attributes }}>
+<div class="block block-class-ticker ds-block-class-multiroom-ticker" {{ wrapper_attributes }}>
   <div class="active-classes">
     <div class="class-prev">
       <div class="block-class-ticker__status">
@@ -42,7 +42,8 @@
 
   <div class="all-classes">
     {% for class in classes %}
-      <div class="class" data-from="{{ class.from }}" data-to="{{ class.to }}">
+      <div class="class" data-class-id="{{ class.id }}" data-from="{{ class.from }}" data-to="{{ class.to }}">
+        <div class="class-room">{{ class.room|raw }}</div>
         <div class="class-name">{{ class.name|raw }}</div>
         <div class="trainer">
           {% if class.substitute_trainer %}

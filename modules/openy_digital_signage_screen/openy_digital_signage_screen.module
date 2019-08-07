@@ -195,6 +195,7 @@ function openy_digital_signage_screen_preprocess_html__screen(&$variables) {
  */
 function openy_digital_signage_screen_preprocess_page__screen_content(&$variables) {
   openy_digital_signage_screen_preprocess_page__screen($variables);
+  \Drupal::service('page_cache_kill_switch')->trigger();
 }
 
 /**

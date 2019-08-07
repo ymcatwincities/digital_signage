@@ -1,0 +1,77 @@
+.ds-block-class-multiroom-ticker {
+
+  .block-class-ticker__status {
+
+    span {
+      opacity: 1;
+      font-weight: normal;
+    }
+  }
+
+  .block-class-ticker__content {
+
+    .class {
+      position: relative;
+      margin-top: 0;
+      transition: margin-top 0.5s, opacity 1s;
+
+      &.class--hiding {
+        margin-top: -5.625vw;
+      }
+
+      .class-room {
+        display: inline-block;
+      }
+
+      .class-room,
+      .trainer {
+        font-weight: normal;
+        letter-spacing: -2 / 1920 * 100vw;
+        // Half progress bar height.
+        //margin-top: 0.25vw;
+      }
+
+      .trainer {
+        padding-left: 0;
+      }
+
+      .class-time-frame {
+        width: 20vw;
+        text-align: right;
+        padding-right: 5vw;
+
+        .class-time-frame-from,
+        .class-time-frame-to {
+          position: relative;
+          width: auto;
+          display: inline-block;
+          left: auto;
+          right: auto;
+          // Half progress bar height.
+          //margin-top: 0.25vw;
+        }
+        .class-time-frame-to {
+          text-align: right;
+
+          &:before {
+            content: " - ";
+          }
+        }
+
+        .class-time-frame-progress {
+          width: (1920 - 108) / 1920 * 100vw;
+          height: 0.5vw;
+          position: absolute;
+          bottom: auto;
+          right: 0;
+          border-radius: 0;
+          transform: none;
+          margin: 0;
+          top: 0;
+          background: none;
+        }
+
+      }
+    }
+  }
+}

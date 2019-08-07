@@ -46,6 +46,13 @@ function openy_digital_signage_playlist_theme($existing, $type, $theme, $path) {
     'page__playlist__schedule_edit_form' => [
       'template' => 'page--playlist--schedule-edit-form',
     ],
+    'openy_ds_playlist_block_playlist' => [
+      'template' => 'openy-ds-playlist-block-playlist',
+      'variables' => [
+        'playlist' => null,
+        'wrapper_attributes' => NULL,
+      ],
+    ]
   ];
 }
 

@@ -1427,6 +1427,19 @@ body.ds-screen.ds-screen-full-size {
     padding-left: 3.2vw;
     top: 0;
     width: 100%; }
+    .class-active .block-class-ticker__content .class .class-room,
+    .class-next .block-class-ticker__content .class .class-room,
+    .class-prev .block-class-ticker__content .class .class-room {
+      color: #00aeef;
+      font-size: 2.08333vw;
+      font-weight: normal;
+      margin: 0;
+      display: inline; }
+      .class-active .block-class-ticker__content .class .class-room sup,
+      .class-next .block-class-ticker__content .class .class-room sup,
+      .class-prev .block-class-ticker__content .class .class-room sup {
+        font-size: 0.9375vw;
+        vertical-align: super; }
     .class-active .block-class-ticker__content .class .class-name,
     .class-next .block-class-ticker__content .class .class-name,
     .class-prev .block-class-ticker__content .class .class-name {
@@ -1563,6 +1576,10 @@ body.ds-screen.ds-screen-full-size {
 .openy-res-layout.scheme-orange .class-next .block-class-ticker__content .class,
 .openy-res-layout.scheme-orange .class-prev .block-class-ticker__content .class {
   background-color: #a92b31; }
+  .openy-res-layout.scheme-orange .class-active .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-orange .class-next .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-orange .class-prev .block-class-ticker__content .class .class-room {
+    color: #fcaf17; }
   .openy-res-layout.scheme-orange .class-active .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-orange .class-next .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-orange .class-prev .block-class-ticker__content .class .class-name {
@@ -1604,6 +1621,10 @@ body.ds-screen.ds-screen-full-size {
 .openy-res-layout.scheme-blue .class-next .block-class-ticker__content .class,
 .openy-res-layout.scheme-blue .class-prev .block-class-ticker__content .class {
   background-color: #0060af; }
+  .openy-res-layout.scheme-blue .class-active .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-blue .class-next .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-blue .class-prev .block-class-ticker__content .class .class-room {
+    color: #20bdbe; }
   .openy-res-layout.scheme-blue .class-active .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-blue .class-next .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-blue .class-prev .block-class-ticker__content .class .class-name {
@@ -1650,6 +1671,10 @@ body.ds-screen.ds-screen-full-size {
 .openy-res-layout.scheme-purple .class-next .block-class-ticker__content .class,
 .openy-res-layout.scheme-purple .class-prev .block-class-ticker__content .class {
   background-color: #5c2e91; }
+  .openy-res-layout.scheme-purple .class-active .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-purple .class-next .block-class-ticker__content .class .class-room,
+  .openy-res-layout.scheme-purple .class-prev .block-class-ticker__content .class .class-room {
+    color: #20bdbe; }
   .openy-res-layout.scheme-purple .class-active .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-purple .class-next .block-class-ticker__content .class .class-name,
   .openy-res-layout.scheme-purple .class-prev .block-class-ticker__content .class .class-name {
@@ -1692,6 +1717,53 @@ body.ds-screen.ds-screen-full-size {
   .openy-res-layout.scheme-purple .class-next .block-class-ticker__content .class.class-awaiting .class-time-frame,
   .openy-res-layout.scheme-purple .class-prev .block-class-ticker__content .class.class-awaiting .class-time-frame {
     background-color: #92278f; }
+
+.ds-block-class-multiroom-ticker .block-class-ticker__status span {
+  opacity: 1;
+  font-weight: normal; }
+
+.ds-block-class-multiroom-ticker .block-class-ticker__content .class {
+  position: relative;
+  margin-top: 0;
+  transition: margin-top 0.5s, opacity 1s; }
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class.class--hiding {
+    margin-top: -5.625vw; }
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-room {
+    display: inline-block; }
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-room,
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class .trainer {
+    font-weight: normal;
+    letter-spacing: -0.10417vw; }
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class .trainer {
+    padding-left: 0; }
+  .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame {
+    width: 20vw;
+    text-align: right;
+    padding-right: 5vw; }
+    .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame .class-time-frame-from,
+    .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame .class-time-frame-to {
+      position: relative;
+      width: auto;
+      display: inline-block;
+      left: auto;
+      right: auto; }
+    .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame .class-time-frame-to {
+      text-align: right; }
+      .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame .class-time-frame-to:before {
+        content: " - "; }
+    .ds-block-class-multiroom-ticker .block-class-ticker__content .class .class-time-frame .class-time-frame-progress {
+      width: 94.375vw;
+      height: 0.5vw;
+      position: absolute;
+      bottom: auto;
+      right: 0;
+      border-radius: 0;
+      -webkit-transform: none;
+          -ms-transform: none;
+              transform: none;
+      margin: 0;
+      top: 0;
+      background: none; }
 
 .block-plugin-id--openy_digital_signage_complete_schedule {
   height: 100vh;

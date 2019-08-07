@@ -66,6 +66,14 @@ function openy_digital_signage_blocks_theme($existing, $type, $theme, $path) {
         'wrapper_attributes' => NULL,
       ],
     ],
+    'openy_digital_signage_blocks_multiroom_ticker' => [
+      'template' => 'openy-digital-signage-blocks-multiroom-ticker',
+      'variables' => [
+        'rooms' => [],
+        'classes' => NULL,
+        'wrapper_attributes' => NULL,
+      ],
+    ],
     'openy_digital_signage_blocks_complete_schedule' => [
       'template' => 'openy-digital-signage-blocks-complete-schedule',
       'variables' => [
@@ -76,6 +84,13 @@ function openy_digital_signage_blocks_theme($existing, $type, $theme, $path) {
       ],
     ],
   ];
+}
+
+/**
+ * Implements hook_ds_version().
+ */
+function openy_digital_signage_blocks_ds_version() {
+  return '0.0.1';
 }
 
 /**

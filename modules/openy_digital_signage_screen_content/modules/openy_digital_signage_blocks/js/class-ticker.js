@@ -16,7 +16,7 @@
    */
   Drupal.behaviors.openyDigitalSignageBlockClassTicker = {
     attach: function (context, settings) {
-      $('.block-class-ticker', context).once().each(function () {
+      $('.ds-block-class-ticker', context).once().each(function () {
         var blockProto = new OpenYDigitalSignageBlockClassTicker(this);
       });
     }

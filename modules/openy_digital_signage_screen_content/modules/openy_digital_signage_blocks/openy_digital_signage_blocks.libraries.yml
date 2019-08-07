@@ -57,6 +57,11 @@ class_ticker:
   js:
     js/class-ticker.js: {}
 
+multiroom_ticker:
+  version: VERSION
+  js:
+    js/multiroom-ticker.js: {}
+
 promotional_layout_preview:
   version: VERSION
   js:

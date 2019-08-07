@@ -280,7 +280,7 @@ function TimeManager() {
             $(this).appendTo(self.element);
           });
         }
-        Drupal.attachBehaviors(self.element);
+        Drupal.attachBehaviors(self.element.get(0));
         setTimeout(function () { self.updateScreenContents(); }, 1);
       });
     };

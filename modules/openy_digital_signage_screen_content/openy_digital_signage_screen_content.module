@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\node\NodeInterface;
 use Drupal\panels\Plugin\DisplayVariant\PanelsDisplayVariant;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -37,7 +38,7 @@ function openy_digital_signage_screen_content_panels_build_alter(&$build, Panels
 }
 
 /**
- * Implements hook_prerocess_page().
+ * Implements hook_preprocess_page().
  */
 function openy_digital_signage_screen_content_preprocess_page(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
@@ -45,6 +46,7 @@ function openy_digital_signage_screen_content_preprocess_page(&$variables) {
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node->bundle() == 'screen_content') {
       unset($variables['page']['content']['tabs']);
+      \Drupal::service('page_cache_kill_switch')->trigger();
     }
   }
 }
@@ -94,5 +96,22 @@ function openy_digital_signage_screen_content_preprocess_layout(&$variables) {
   $variables['orientation'] = 'landscape';
   if ($screen = \Drupal::service('openy_digital_signage_screen.manager')->getScreenContext()) {
     $variables['orientation'] = $screen->orientation->value;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_ID_insert().
+ */
+function openy_digital_signage_screen_content_node_insert(NodeInterface $node) {
+  if ($node->bundle() != 'screen_content') {
+    return;
+  }
+
+  // Configure panelizer.
+  $panelizer = \Drupal::service('panelizer');
+  $panels_display = $panelizer->getPanelsDisplay($node, 'full');
+  if ($panels_display->getStorageId() == 'node:screen_content:full:default') {
+    $panels_display->setStorage('panelizer_field', 'node:' . $node->id() . ':full');
+    $panelizer->setPanelsDisplay($node, 'full', NULL, $panels_display);
   }
 }

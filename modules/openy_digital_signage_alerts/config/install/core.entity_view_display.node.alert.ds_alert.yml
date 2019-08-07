@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.alert.field_alert_text_color
     - field.field.node.alert.field_alert_visibility_pages
     - field.field.node.alert.field_alert_visibility_state
-    - field.field.node.alert.scheduled_status
     - node.type.alert
   module:
     - link
@@ -54,4 +53,3 @@ hidden:
   field_alert_visibility_state: true
   langcode: true
   links: true
-  scheduled_status: true
