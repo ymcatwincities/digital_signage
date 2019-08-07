@@ -96,3 +96,20 @@ function openy_digital_signage_screen_content_preprocess_layout(&$variables) {
     $variables['orientation'] = $screen->orientation->value;
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_ID_insert().
+ */
+function openy_digital_signage_screen_content_node_insert(NodeInterface $node) {
+  if ($node->bundle() != 'screen_content') {
+    return;
+  }
+
+  // Configure panelizer.
+  $panelizer = \Drupal::service('panelizer');
+  $panels_display = $panelizer->getPanelsDisplay($node, 'full');
+  if ($panels_display->getStorageId() == 'node:screen_content:full:default') {
+    $panels_display->setStorage('panelizer_field', 'node:' . $node->id() . ':full');
+    $panelizer->setPanelsDisplay($node, 'full', NULL, $panels_display);
+  }
+}
