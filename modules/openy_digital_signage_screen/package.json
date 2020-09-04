@@ -31,7 +31,7 @@
     "gulp-uncss": "^1.0.4",
     "gulp-util": "^3.0.7",
     "imagemin-pngquant": "^4.2.0",
-    "node-sass": "^3.7.0",
+    "node-sass": "^4.13.1",
     "postcss-assets": "^2.1.4",
     "rimraf": "^2.4.1"
   },
