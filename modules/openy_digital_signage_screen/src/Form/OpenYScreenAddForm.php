@@ -5,11 +5,11 @@ namespace Drupal\openy_digital_signage_screen\Form;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\user\PrivateTempStoreFactory;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Datetime\TimeInterface;
 
@@ -21,24 +21,26 @@ use Drupal\Component\Datetime\TimeInterface;
 class OpenYScreenAddForm extends ContentEntityForm {
 
   /**
-   * The private temp store.
+   * TempStore service.
    *
-   * @var \Drupal\user\PrivateTempStore
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
    */
   protected $store;
 
   /**
    * Constructs a ContentEntityForm object.
    *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
+   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
+   *   TempStore service.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
    *   The entity type bundle service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
    */
-  public function __construct(EntityManagerInterface $entity_manager, PrivateTempStoreFactory $temp_store_factory, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
-    parent::__construct($entity_manager, $entity_type_bundle_info, $time);
+  public function __construct(EntityRepositoryInterface $entity_repository, PrivateTempStoreFactory $temp_store_factory, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time) {
+    parent::__construct($entity_repository, $entity_type_bundle_info, $time);
     $this->store = $temp_store_factory->get('multistep_data');
   }
 
@@ -47,8 +49,8 @@ class OpenYScreenAddForm extends ContentEntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager'),
-      $container->get('user.private_tempstore'),
+      $container->get('entity.repository'),
+      $container->get('tempstore.private'),
       $container->get('entity_type.bundle.info'),
       $container->get('datetime.time')
     );
@@ -333,7 +335,7 @@ class OpenYScreenAddForm extends ContentEntityForm {
         break;
 
       default:
-        drupal_set_message($this->t('Digital Signage Screen %label has been saved.', [
+        $this->messenger()->addMessage($this->t('Digital Signage Screen %label has been saved.', [
           '%label' => $entity->label(),
         ]));
     }

@@ -4,6 +4,7 @@ namespace Drupal\openy_digital_signage_personify_schedule;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\openy_digital_signage_personify_schedule\Entity\OpenYClassesPersonifySession;
 use Drupal\ymca_mappings\LocationMappingRepository;
 use Drupal\ymca_personify\PersonifyApi;
@@ -156,7 +157,7 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
 
     $date = new \DateTime();
     $date->setTimestamp(REQUEST_TIME);
-    $formatted = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+    $formatted = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     $locations = $this->getLocations();
     if (empty($locations)) {

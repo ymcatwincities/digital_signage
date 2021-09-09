@@ -2,6 +2,7 @@ name: Digital Signage Datetime Range
 type: module
 description: Datetime Range cusomizations.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: "OpenY: Digital Signage"
 dependencies:
-  - datetime_range
+  - drupal:datetime_range

@@ -4,6 +4,7 @@ namespace Drupal\openy_digital_signage_groupex_schedule\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\openy_digital_signage_groupex_schedule\OpenYSessionsGroupExFetcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -47,7 +48,7 @@ class GroupExImportController extends ControllerBase {
   public function importSessions() {
     $locations = $this->groupExFetcher->getLocations();
     if (empty($locations)) {
-      drupal_set_message($this->t('Locations are not set in GroupEx Pro settings. Please specify locations you want to use and try again.'), 'error');
+      $this->messenger()->addError($this->t('Locations are not set in GroupEx Pro settings. Please specify locations you want to use and try again.'));
       $url = new Url('entity.openy_ds_classes_session.collection');
       return new RedirectResponse($url->toString());
     }
@@ -113,7 +114,7 @@ class GroupExImportController extends ControllerBase {
       $context['results']['to_be_deleted'] = [];
       $date = new \DateTime();
       $date->setTime(0, 0, 0);
-      $context['sandbox']['datetime'] = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+      $context['sandbox']['datetime'] = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
       $query = \Drupal::entityQuery('openy_ds_classes_groupex_session')
         ->condition('date_time.value', $context['sandbox']['datetime'], '>')
@@ -268,7 +269,7 @@ class GroupExImportController extends ControllerBase {
     else {
       $message = t('Finished with an error.');
     }
-    drupal_set_message($message);
+    \Drupal::messenger()->addMessage($message);
   }
 
 }

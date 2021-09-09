@@ -68,17 +68,17 @@ class OpenYDigitalSignageBlockPlaylist extends BlockBase implements ContainerFac
    *   The plugin definition.
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity manager service.
    * @param \Drupal\openy_digital_signage_screen\OpenYScreenManagerInterface $screen_manager
    *   The Open Y DS Screen Manager.
    * @param \Drupal\openy_digital_signage_room\OpenYRoomManagerInterface $room_manager
    *   The Open Y DS Room Manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContainerInterface $container, EntityTypeManagerInterface $entity_manager, OpenYScreenManagerInterface $screen_manager, OpenYRoomManagerInterface $room_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContainerInterface $container, EntityTypeManagerInterface $entity_type_manager, OpenYScreenManagerInterface $screen_manager, OpenYRoomManagerInterface $room_manager) {
     // Call parent construct method.
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityTypeManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->screenManager = $screen_manager;
     $this->roomManager = $room_manager;
     $this->container = $container;
@@ -93,7 +93,7 @@ class OpenYDigitalSignageBlockPlaylist extends BlockBase implements ContainerFac
       $plugin_id,
       $plugin_definition,
       $container,
-      $container->get('entity.manager'),
+      $container->get('entity_type.manager'),
       $container->get('openy_digital_signage_screen.manager'),
       $container->get('openy_digital_signage_room.manager')
     );

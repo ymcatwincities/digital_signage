@@ -2,9 +2,10 @@ name: OpenY Digital Signage GroupEx Pro Classes Schedule
 type: module
 description: OpenY Digital Signage GroupEx Pro Classes Schedule.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: "OpenY: Digital Signage"
 dependencies:
   - openy_digital_signage_classes_schedule
-  - openy_digital_signage_room
-  - ymca_mappings
-  - ymca_groupex
+  - openy_digital_signage_room:openy_digital_signage_room
+  - ymca_mappings:ymca_mappings
+  - ymca_groupex:ymca_groupex

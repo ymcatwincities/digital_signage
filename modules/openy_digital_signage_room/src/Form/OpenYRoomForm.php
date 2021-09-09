@@ -21,13 +21,13 @@ class OpenYRoomForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Digital Signage Room %label has been created.', [
+        $this->messenger()->addMessage($this->t('Digital Signage Room %label has been created.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Digital Signage Room %label has been saved.', [
+        $this->messenger()->addMessage($this->t('Digital Signage Room %label has been saved.', [
           '%label' => $entity->label(),
         ]));
     }

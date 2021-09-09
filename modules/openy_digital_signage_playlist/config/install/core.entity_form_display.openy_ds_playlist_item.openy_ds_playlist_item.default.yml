@@ -88,8 +88,7 @@ content:
     type: duration_widget
     weight: 3
     region: content
-    settings:
-      duration: ''
+    settings: {  }
     third_party_settings: {  }
   media:
     type: entity_browser_entity_reference

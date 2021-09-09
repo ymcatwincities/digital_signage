@@ -5,6 +5,7 @@
  * Update and install hooks.
  */
 
+use Drupal\openy_digital_signage_playlist\Entity\OpenYPlaylistItem;
 use Drupal\user\Entity\Role;
 
 /**
@@ -48,4 +49,55 @@ function openy_digital_signage_playlist_install() {
  */
 function openy_digital_signage_playlist_update_8001(&$sandbox) {
   openy_digital_signage_playlist_install();
+}
+
+/**
+ * Update duration field definition.
+ */
+function openy_digital_signage_playlist_update_8002(&$sandbox) {
+  $definition_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_name = 'duration';
+  $entity_type_id = 'openy_ds_playlist_item';
+
+  // Ignore entity manager caches.
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_type_manager->useCaches(FALSE);
+
+  $database = \Drupal::database();
+  $duration_service = \Drupal::service('duration_field.service');
+
+  // Get the existing database value from the field table.
+  $values = $database->select($entity_type_id, 'fieldtable')
+    ->fields('fieldtable', [
+      'id',
+      $field_name,
+    ])
+    ->execute()
+    ->fetchAllKeyed();
+
+  // Clear out the values.
+  $database->update($entity_type_id)
+    ->fields([$field_name => NULL])
+    ->execute();
+
+  // Uninstall the field.
+  $field_storage_definition = $definition_manager->getFieldStorageDefinition($field_name, $entity_type_id);
+  $definition_manager->uninstallFieldStorageDefinition($field_storage_definition);
+
+  $entity_type = $entity_type_manager->getDefinition($entity_type_id);
+  $fields = OpenYPlaylistItem::baseFieldDefinitions($entity_type);
+
+  // Install the new definition.
+  $definition_manager->installFieldStorageDefinition($field_name, $entity_type_id, 'openy_digital_signage_playlist', $fields[$field_name]);
+
+  // Restore the values.
+  foreach ($values as $id => $value) {
+    $database->update($entity_type_id)
+      ->fields([
+        $field_name . '__duration' => $value,
+        $field_name . '__seconds' => $duration_service->getSecondsFromDurationString($value),
+      ])
+      ->condition('id', $id)
+      ->execute();
+  }
 }

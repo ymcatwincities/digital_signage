@@ -2,6 +2,7 @@
 
 namespace Drupal\openy_digital_signage_groupex_schedule;
 
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\ymca_groupex\GroupexRequestTrait;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -147,7 +148,7 @@ class OpenYSessionsGroupExFetcher implements OpenYSessionsGroupExFetcherInterfac
 
     $date = new \DateTime();
     $date->setTime(0, 0, 0);
-    $formatted = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+    $formatted = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     /* @var \Drupal\ymca_mappings\Entity\Mapping $location */
     $location = $this->locationRepository->load($location_id);

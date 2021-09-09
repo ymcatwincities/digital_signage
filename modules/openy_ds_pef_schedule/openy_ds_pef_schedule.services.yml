@@ -1,4 +1,4 @@
 services:
   openy_ds_pef_schedule.manager:
     class: Drupal\openy_ds_pef_schedule\OpenYPEFScheduleManager
-    arguments: ['@entity.manager', '@entity.query', '@logger.factory', '@database']
+    arguments: ['@entity_type.manager', '@logger.factory', '@database']

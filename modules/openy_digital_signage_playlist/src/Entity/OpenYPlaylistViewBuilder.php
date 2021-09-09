@@ -8,6 +8,7 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Url;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Provides a view builder for OpenY Digital Signage Playlist entities.
@@ -25,7 +26,7 @@ class OpenYPlaylistViewBuilder implements EntityViewBuilderInterface {
 
     $settings = [
       'digital_signage_playlist' => [
-        'timezone' => drupal_get_user_timezone(),
+        'timezone' => date_default_timezone_get(),
       ],
     ];
 
@@ -102,7 +103,9 @@ class OpenYPlaylistViewBuilder implements EntityViewBuilderInterface {
           }
         }
 
-        $duration = new \DateInterval($playlist_item->duration->value);
+        /** @var \Drupal\duration_field\Service\DurationServiceInterface $duration_service */
+        $duration_service = \Drupal::service('duration_field.service');
+        $duration = $duration_service->getDateIntervalFromDurationString($playlist_item->duration->duration);
         $duration_seconds = $duration->s + $duration->i * 60 + $duration->h * 3600;
 
         $date_start = $playlist_item->date_start->isEmpty() ? '' : $playlist_item->date_start->value;
@@ -110,16 +113,16 @@ class OpenYPlaylistViewBuilder implements EntityViewBuilderInterface {
 
         $time_start = '';
         if (!$playlist_item->time_start->isEmpty()) {
-          $date_time = DrupalDateTime::createFromFormat(DATETIME_DATETIME_STORAGE_FORMAT, $playlist_item->time_start->value, 'UTC');
-          $date_time->setTimezone(timezone_open(drupal_get_user_timezone()));
+          $date_time = DrupalDateTime::createFromFormat(DateTimeItemInterface::DATETIME_STORAGE_FORMAT, $playlist_item->time_start->value, 'UTC');
+          $date_time->setTimezone(timezone_open(date_default_timezone_get()));
           $time_start = $date_time->format('H:i:s');
         }
 
         $time_end = '';
         $playlist_item->time_end->value;
         if (!$playlist_item->time_end->isEmpty()) {
-          $date_time = DrupalDateTime::createFromFormat(DATETIME_DATETIME_STORAGE_FORMAT, $playlist_item->time_end->value, 'UTC');
-          $date_time->setTimezone(timezone_open(drupal_get_user_timezone()));
+          $date_time = DrupalDateTime::createFromFormat(DateTimeItemInterface::DATETIME_STORAGE_FORMAT, $playlist_item->time_end->value, 'UTC');
+          $date_time->setTimezone(timezone_open(date_default_timezone_get()));
           $time_end = $date_time->format('H:i:s');
         }
 

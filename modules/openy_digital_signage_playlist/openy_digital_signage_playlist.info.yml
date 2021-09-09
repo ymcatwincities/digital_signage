@@ -2,14 +2,14 @@ name: Open Y Digital Signage Playlists
 type: module
 description: Add Playlists to Open Y Digital Signage.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: "OpenY: Digital Signage"
 dependencies:
-  - openy_digital_signage_schedule
-  - datetime
-  - duration_field
+  - drupal:datetime
+  - drupal:duration_field
   - drupal:media (>= 8.4)
-  - openy_media_image
-  - entity_browser
-  - openy_digital_signage_schedule
-  - openy_digital_signage_screen
-  - openy_ds_media_library
+  - openy_media_image:openy_media_image
+  - entity_browser:entity_browser
+  - openy_digital_signage_schedule:openy_digital_signage_schedule
+  - openy_digital_signage_screen:openy_digital_signage_screen
+  - openy_ds_media_library:openy_ds_media_library
