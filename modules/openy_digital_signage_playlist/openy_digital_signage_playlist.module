@@ -116,6 +116,9 @@ function openy_digital_signage_playlist_preprocess_html(&$variables) {
   if (empty($variables['attributes'])) {
     $variables['attributes'] = new Attribute();
   }
+  elseif (!($variables['attributes'] instanceof Attribute)) {
+    $variables['attributes'] = new Attribute($variables['attributes']);
+  }
 
   if ($route_name == 'entity.openy_digital_signage_playlist.canonical') {
     $variables['attributes']->addClass($classes);
