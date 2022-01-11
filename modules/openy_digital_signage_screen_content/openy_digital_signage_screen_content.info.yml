@@ -2,10 +2,11 @@ name: OpenY Digital Signage Screen content
 type: module
 description: OpenY Digital Signage Screen content module.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: "OpenY: Digital Signage"
 dependencies:
-  - panelizer
-  - openy_digital_signage
-  - openy_digital_signage_room
-  - ckeditor_font
-  - token_filter
+  - panelizer:panelizer
+  - openy_digital_signage:openy_digital_signage
+  - openy_digital_signage_room:openy_digital_signage_room
+  - ckeditor_font:ckeditor_font
+  - token_filter:token_filter

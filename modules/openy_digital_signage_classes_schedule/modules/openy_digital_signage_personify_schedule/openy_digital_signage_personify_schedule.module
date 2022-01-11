@@ -9,6 +9,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\openy_digital_signage_classes_schedule\Entity\OpenYClassesSession;
 use Drupal\openy_digital_signage_personify_schedule\Entity\OpenYClassesPersonifySession;
 use Drupal\openy_digital_signage_room\Entity\OpenYRoom;
@@ -178,8 +179,8 @@ function openy_digital_signage_personify_build_session_datetime(OpenYClassesPers
   $end_date->setTimezone(new \DateTimeZone('UTC'));
 
   return [
-    'start' => $start_date->format(DATETIME_DATETIME_STORAGE_FORMAT),
-    'end' => $end_date->format(DATETIME_DATETIME_STORAGE_FORMAT),
+    'start' => $start_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+    'end' => $end_date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
   ];
 }
 

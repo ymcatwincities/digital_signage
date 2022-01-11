@@ -6,7 +6,7 @@ use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\RendererInterface;
@@ -22,10 +22,17 @@ class OpenYPlaylistForm extends ContentEntityForm {
   /**
    * OpenYPlaylistForm constructor.
    *
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
+   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
+   *   The entity type bundle info.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time service.
    * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
    */
-  public function __construct(EntityManagerInterface $entity_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL, RendererInterface $renderer) {
-    parent::__construct($entity_manager, $entity_type_bundle_info, $time);
+  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, RendererInterface $renderer) {
+    parent::__construct($entity_repository, $entity_type_bundle_info, $time);
 
     $this->renderer = $renderer;
   }
@@ -35,7 +42,7 @@ class OpenYPlaylistForm extends ContentEntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager'),
+      $container->get('entity.repository'),
       $container->get('entity_type.bundle.info'),
       $container->get('datetime.time'),
       $container->get('renderer')
@@ -78,13 +85,12 @@ class OpenYPlaylistForm extends ContentEntityForm {
         ->execute();
 
       if ($query != 0) {
-        drupal_set_message(
-          $this->t('The playlist is currently in use and will stop being displayed after unpublishing. Are you sure you want to unpublish this playlist?'),
-          'warning'
+        $this->messenger()->addWarning(
+          $this->t('The playlist is currently in use and will stop being displayed after unpublishing. Are you sure you want to unpublish this playlist?')
         );
         $message = [
           '#theme' => 'status_messages',
-          '#message_list' => drupal_get_messages(),
+          '#message_list' => $this->messenger()->deleteAll(),
           '#status_headings' => [
             'status' => $this->t('Status message'),
             'error' => $this->t('Error message'),

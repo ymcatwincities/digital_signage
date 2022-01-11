@@ -5,7 +5,6 @@ namespace Drupal\openy_digital_signage_classes_schedule;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 /**
@@ -24,13 +23,6 @@ class OpenYClassesScheduleManager implements OpenYClassesScheduleManagerInterfac
    * Collection name.
    */
   const STORAGE = 'openy_ds_classes_session';
-
-  /**
-   * The query factory.
-   *
-   * @var QueryFactory
-   */
-  protected $entityQuery;
 
   /**
    * The entity type manager.
@@ -56,8 +48,7 @@ class OpenYClassesScheduleManager implements OpenYClassesScheduleManagerInterfac
   /**
    * Constructor.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueryFactory $entity_query, LoggerChannelFactoryInterface $logger_factory) {
-    $this->entityQuery = $entity_query;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get(self::CHANNEL);
     $this->storage = $this->entityTypeManager->getStorage(self::STORAGE);

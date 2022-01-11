@@ -7,7 +7,7 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\RendererInterface;
@@ -25,8 +25,8 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
   /**
    * Constructors a OpenYPlaylistAssignScreenForm object.
    *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager service.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
    *   The entity type bundle info.
    * @param \Drupal\Component\Datetime\TimeInterface $time
@@ -36,8 +36,8 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer service.
    */
-  public function __construct(EntityManagerInterface $entity_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, Connection $database, RendererInterface $renderer) {
-    parent::__construct($entity_manager, $entity_type_bundle_info, $time);
+  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, Connection $database, RendererInterface $renderer) {
+    parent::__construct($entity_repository, $entity_type_bundle_info, $time);
 
     $this->database = $database;
     $this->renderer = $renderer;
@@ -45,7 +45,7 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager'),
+      $container->get('entity.repository'),
       $container->get('entity_type.bundle.info'),
       $container->get('datetime.time'),
       $container->get('database'),
@@ -123,10 +123,10 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
       // In the first step, we check the intersection of the selected time
       // interval with the interval of the current Schedule item, and then
       // conversely for determine all intersections of time intervals.
-      if ($wd_start_time >= $wd_start_time_slot && $wd_start_time <= $wd_end_time_slot ||
-        $wd_end_time >= $wd_start_time_slot && $wd_end_time <= $wd_end_time_slot ||
-        $wd_start_time_slot >= $wd_start_time && $wd_start_time_slot <= $wd_end_time ||
-        $wd_end_time_slot >= $wd_start_time && $wd_end_time_slot <= $wd_end_time) {
+      if (($wd_start_time >= $wd_start_time_slot && $wd_start_time <= $wd_end_time_slot) ||
+        ($wd_end_time >= $wd_start_time_slot && $wd_end_time <= $wd_end_time_slot) ||
+        ($wd_start_time_slot >= $wd_start_time && $wd_start_time_slot <= $wd_end_time) ||
+        ($wd_end_time_slot >= $wd_start_time && $wd_end_time_slot <= $wd_end_time)) {
 
         // If dates are specified in the selected and current Schedule item,
         // they should also be checked for intersection.
@@ -134,10 +134,10 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
           $start_date_slot = $time_slot->date__value;
           $end_date_slot = $time_slot->date__end_value;
 
-          if ($start_date >= $start_date_slot && $start_date <= $end_date_slot ||
-            $end_date >= $start_date_slot && $end_date <= $end_date_slot ||
-            $start_date_slot >= $start_date && $start_date_slot <= $end_date ||
-            $end_date_slot >= $start_date && $end_date_slot <= $end_date) {
+          if (($start_date >= $start_date_slot && $start_date <= $end_date_slot) ||
+            ($end_date >= $start_date_slot && $end_date <= $end_date_slot) ||
+            ($start_date_slot >= $start_date && $start_date_slot <= $end_date) ||
+            ($end_date_slot >= $start_date && $end_date_slot <= $end_date)) {
 
             $isUsed = TRUE;
             break;
@@ -150,10 +150,7 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
     }
 
     if ($isUsed) {
-      drupal_set_message(
-        $this->t('Time was already booked'),
-        'error'
-      );
+      $this->messenger()->addError($this->t('Time was already booked'));
       $form_state->setErrorByName('time_slot');
     }
 
@@ -175,7 +172,7 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
     if ($form_state->getErrors()) {
       $message = [
         '#theme' => 'status_messages',
-        '#message_list' => drupal_get_messages(),
+        '#message_list' => \Drupal::messenger()->deleteAll(),
         '#status_headings' => [
           'status' => $this->t('Status message'),
           'error' => $this->t('Error message'),
@@ -191,12 +188,11 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
     $redirect_url = Url::fromRoute('entity.openy_digital_signage_playlist.edit_form', [
       'openy_digital_signage_playlist' => $entity->content_ref->entity->id(),
     ])->toString();
-    drupal_set_message(
+    $this->messenger()->addStatus(
       $this->t('Playlist @playlist has been assigned to the screen @screen', [
         '@playlist' => $entity->content_ref->entity->label(),
         '@screen' => $form_state->getValue('screen_name'),
-      ]),
-      'status'
+      ])
     );
 
     $command = new RedirectCommand($redirect_url);

@@ -70,7 +70,7 @@ class OpenYClassesSessionOverrideForm extends ContentEntityForm {
     switch ($status) {
       default:
       case SAVED_NEW:
-        drupal_set_message($this->t('Digital Signage Classes Session %label has been overridden.', [
+      $this->messenger()->addMessage($this->t('Digital Signage Classes Session %label has been overridden.', [
           '%label' => $this->entity->label(),
         ]));
         break;

@@ -30,15 +30,15 @@ class OpenYPlaylistEditScheduleItemForm extends OpenYScheduleItemForm {
 
     // Since we inherit the form for assign to screen it would be better to
     // rewrite the text of the message
-    $messages = drupal_get_messages('status');
-    foreach ($messages['status'] as $key => $value) {
+    $messages = $this->messenger()->deleteByType('status');
+    foreach ($messages as $key => $value) {
       if(strpos($value, 'Digital Signage Schedule Item') !== FALSE) {
-        $messages['status'][$key] = $this->t('Playlist @playlist has been assigned to the screen @screen', [
+        $messages[$key] = $this->t('Playlist @playlist has been assigned to the screen @screen', [
           '@playlist' => $entity->content_ref->entity->label(),
           '@screen' => $screen->label(),
         ]);
       };
-      drupal_set_message($messages['status'][$key]);
+      $this->messenger()->addMessage($messages[$key]);
     }
     $redirect_url = Url::fromRoute('entity.openy_digital_signage_playlist.edit_form', [
       'openy_digital_signage_playlist' => $entity->content_ref->entity->id(),

@@ -158,7 +158,7 @@ class OpenYPlaylistItem extends ContentEntityBase implements OpenYPlaylistItemIn
   public function getExpireStatus() {
     $date_end = $this->get('date_end')->date;
     $time_end = $this->get('time_end')->date;
-    $default_timezone = drupal_get_user_timezone();
+    $default_timezone = date_default_timezone_get();
     $current_date = new DrupalDateTime('now', $default_timezone);
 
     if (!$date_end) {
@@ -305,14 +305,7 @@ class OpenYPlaylistItem extends ContentEntityBase implements OpenYPlaylistItemIn
     $fields['duration'] = BaseFieldDefinition::create('duration')
       ->setLabel(t('Duration'))
       ->setSettings([
-        'granularity' => [
-          'year' => FALSE,
-          'month' => FALSE,
-          'day' => FALSE,
-          'hour' => TRUE,
-          'minute' => TRUE,
-          'second' => TRUE,
-        ],
+        'granularity' => 'h:i:s',
       ])
       ->setDisplayOptions('view', [
         'label' => 'visible',

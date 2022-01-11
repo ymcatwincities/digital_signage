@@ -3,9 +3,7 @@
 namespace Drupal\openy_ds_pef_schedule;
 
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\node\NodeInterface;
 
@@ -26,23 +24,16 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
   const NEXT_DAY_IF_EMPTY = 2;
 
   /**
-   * The query factory.
-   *
-   * @var QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * The entity type manager.
    *
-   * @var EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * LoggerChannelFactoryInterface definition.
    *
-   * @var LoggerChannelFactoryInterface
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $logger;
 
@@ -55,9 +46,15 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
 
   /**
    * Constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger channel factory.
+   * @param \Drupal\Core\Database\Connection $database
+   *   Database connection.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueryFactory $entity_query, LoggerChannelFactoryInterface $logger_factory, Connection $database) {
-    $this->entityQuery = $entity_query;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, Connection $database) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get(self::CHANNEL);
     $this->database = $database;

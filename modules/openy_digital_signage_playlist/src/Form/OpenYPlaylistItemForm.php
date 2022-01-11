@@ -129,7 +129,7 @@ class OpenYPlaylistItemForm extends ContentEntityForm {
     $type = $form_state->getValue(['type', 0, 'value']);
     $playlist = $form_state->getValue(['playlist', 0, 'target_id']);
     $media = $form_state->getValue(['media', 'target_id']);
-    $duration = $form_state->getValue(['duration', 0, 'value']);
+    $duration = $form_state->getValue(['duration', 0, 'seconds']);
 
     if ($type == 'playlist' && !$playlist) {
       $form_state->setErrorByName('playlist', $this->t('Playlist field is required for selected type.'));

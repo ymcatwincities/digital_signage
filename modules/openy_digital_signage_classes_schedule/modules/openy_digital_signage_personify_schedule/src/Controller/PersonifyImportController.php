@@ -4,6 +4,7 @@ namespace Drupal\openy_digital_signage_personify_schedule\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\openy_digital_signage_personify_schedule\Entity\OpenYClassesPersonifySession;
 use Drupal\openy_digital_signage_personify_schedule\OpenYSessionsPersonifyFetcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,7 +49,7 @@ class PersonifyImportController extends ControllerBase {
   public function importSessions() {
     $locations = $this->personifyFetcher->getLocations();
     if (empty($locations)) {
-      drupal_set_message($this->t('Locations are not set in Personify settings. Please specify locations you want to use and try again.'), 'error');
+      $this->messenger()->addError($this->t('Locations are not set in Personify settings. Please specify locations you want to use and try again.'));
       $url = new Url('entity.openy_ds_classes_session.collection');
       return new RedirectResponse($url->toString());
     }
@@ -112,7 +113,7 @@ class PersonifyImportController extends ControllerBase {
       $context['results']['to_be_deleted'] = [];
       $date = new \DateTime();
       $date->setTimestamp(REQUEST_TIME);
-      $context['sandbox']['datetime'] = $date->format(DATETIME_DATETIME_STORAGE_FORMAT);
+      $context['sandbox']['datetime'] = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
       $query = \Drupal::entityQuery('openy_ds_class_personify_session')
         ->condition('date.value', $context['sandbox']['datetime'], '<')
@@ -262,7 +263,7 @@ class PersonifyImportController extends ControllerBase {
     else {
       $message = t('Finished with an error.');
     }
-    drupal_set_message($message);
+    \Drupal::messenger()->addMessage($message);
   }
 
 }

@@ -2,10 +2,7 @@
 
 namespace Drupal\openy_digital_signage_screen;
 
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -28,30 +25,23 @@ class OpenYScreenManager implements OpenYScreenManagerInterface {
   const STORAGE = 'openy_digital_signage_screen';
 
   /**
-   * The query factory.
-   *
-   * @var QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * The entity type manager.
    *
-   * @var EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * The entity storage.
    *
-   * @var EntityStorageInterface
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $storage;
 
   /**
    * LoggerChannelFactoryInterface definition.
    *
-   * @var LoggerChannelFactoryInterface
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $logger;
 
@@ -72,8 +62,7 @@ class OpenYScreenManager implements OpenYScreenManagerInterface {
   /**
    * Constructor.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueryFactory $entity_query, LoggerChannelFactoryInterface $logger_factory, RouteMatchInterface $route_match, RequestStack $request_stack) {
-    $this->entityQuery = $entity_query;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, RouteMatchInterface $route_match, RequestStack $request_stack) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get(self::CHANNEL);
     $this->storage = $this->entityTypeManager->getStorage(self::STORAGE);
@@ -93,11 +82,8 @@ class OpenYScreenManager implements OpenYScreenManagerInterface {
     }
     // Try to find Screen ID in a URL.
     $screen = NULL;
-    $request = \Drupal::request();
     if ($request->query->has('screen')) {
-      $storage = \Drupal::entityTypeManager()
-        ->getStorage('openy_digital_signage_screen');
-      $screen = $storage->load($request->query->get('screen'));
+      $screen = $this->storage->load($request->query->get('screen'));
     }
 
     return $screen;
