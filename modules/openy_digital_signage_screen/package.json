@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "gulp-browserify": "^0.5.1",
-    "gulp-livereload": "^3.8.1",
+    "gulp-livereload": "^4.0.2",
     "tiny-lr": "^0.2.1"
   }
 }
