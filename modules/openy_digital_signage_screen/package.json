@@ -4,7 +4,9 @@
   "description": "Client UI for YGTC",
   "author": "Alexey Strekalov",
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "devDependencies": {
     "backstopjs": "^1.2.1",
@@ -38,6 +40,8 @@
   "dependencies": {
     "gulp-browserify": "^0.5.1",
     "gulp-livereload": "^3.8.1",
-    "tiny-lr": "^0.2.1"
-  }
+    "tiny-lr": "^1.0.5",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
