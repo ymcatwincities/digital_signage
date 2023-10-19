@@ -2,7 +2,7 @@
  * @file
  * Block behaviors.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -30,8 +30,9 @@
         setTimeout(updateTime, 1000);
       }
 
-      $(context).find(time_block).once('block-time').each(updateTime);
+
+      $(once('block-time', time_block)).each(updateTime);
     }
   };
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

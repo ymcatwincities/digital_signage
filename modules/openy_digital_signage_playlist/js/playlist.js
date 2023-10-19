@@ -3,7 +3,7 @@
  * Provides OpenY Digital Signage playlist related behavior.
  */
 
-(function ($, window, Drupal, drupalSettings) {
+(function ($, window, Drupal, drupalSettings, once) {
 
     'use strict';
 
@@ -17,7 +17,7 @@
      */
     Drupal.behaviors.openyDigitalSignageBlockPlaylist = {
         attach: function (context, settings) {
-            $('.block-playlist', context).once().each(function () {
+             $(once('block-playlist', '.block-playlist')).each(function () {
                 var handler = new OpenYDigitalSignagePlaylist(this);
                 handler.deactivate();
                 handler.updateContext(this);
@@ -541,4 +541,4 @@
         return this;
     }
 
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, window, Drupal, drupalSettings, once);

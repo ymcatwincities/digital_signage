@@ -234,6 +234,7 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
       ->getStorage('openy_digital_signage_screen')
       ->getQuery()
       ->sort('title', 'ASC')
+      ->accessCheck()
       ->execute();
 
     $screens = $this->entityTypeManager

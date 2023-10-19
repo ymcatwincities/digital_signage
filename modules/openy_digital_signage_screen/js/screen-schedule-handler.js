@@ -2,7 +2,7 @@
  * @file
  * Provides OpenY Digital Signage layouts related behavior.
  */
-(function ($, window, Drupal, drupalSettings) {
+(function ($, window, Drupal, drupalSettings, once) {
 
   'use strict';
 
@@ -16,8 +16,7 @@
    */
   Drupal.behaviors.screen_schedule_timeline = {
     attach: function (context, settings) {
-      $('.screen-schedule-timeline .screen-schedule-item', context)
-      .once()
+      $(once('screen-schedule-timeline', '.screen-schedule-timeline .screen-schedule-item', context))
       .each(function () {
         var $self = $(this);
 
@@ -50,8 +49,7 @@
    */
   Drupal.behaviors.screen_schedule_timeline_current_time = {
     attach: function (context, settings) {
-      $('.screen-schedule-timeline__current-time', context)
-      .once()
+      $(once('screen-schedule-timeline-current-time', '.screen-schedule-timeline__current-time', context))
       .each(function () {
         var $self = $(this);
         var current = $self.data('current-time');
@@ -72,7 +70,7 @@
    */
   Drupal.behaviors.screenScheduleFrame = {
     attach: function (context, settings) {
-      $('.frame-container').once().each(function () {
+      $(once('screenScheduleFrame', '.frame-container', context)).each(function () {
         var $self = $(this);
         var src = $self.data('src');
         $(this).append($('<if' + 'rame src="' + src + '"/>'));
@@ -81,4 +79,4 @@
   };
 
 
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, window, Drupal, drupalSettings, once);

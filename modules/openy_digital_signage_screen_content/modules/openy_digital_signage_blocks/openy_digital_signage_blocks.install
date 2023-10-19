@@ -12,10 +12,8 @@ function openy_digital_signage_blocks_requirements($phase) {
 
   $requirements = [];
 
-  $path = DRUPAL_ROOT . '/libraries/moment/min/moment.min.js';
-  if (\Drupal::moduleHandler()->moduleExists('libraries')) {
-    $path = libraries_get_path('moment') . '/min/moment.min.js';
-  }
+  $path = Drupal::service('library.libraries_directory_file_finder')
+    ->find('moment/min/moment.min.js');
 
   if (!file_exists($path)) {
     $requirements['momentjs_library'] = [
@@ -27,10 +25,8 @@ function openy_digital_signage_blocks_requirements($phase) {
     ];
   }
 
-  $path = DRUPAL_ROOT . '/libraries/moment-timezone/builds/moment-timezone.min.js';
-  if (\Drupal::moduleHandler()->moduleExists('libraries')) {
-    $path = libraries_get_path('moment-timezone') . '/builds/moment-timezone.min.js';
-  }
+  $path = Drupal::service('library.libraries_directory_file_finder')
+    ->find('moment-timezone/builds/moment-timezone.min.js');
 
   if (!file_exists($path)) {
     $requirements['momentjs_timezone_library'] = [
@@ -50,7 +46,7 @@ function openy_digital_signage_blocks_requirements($phase) {
  */
 function openy_digital_signage_blocks_install() {
   // Create a new block for default content.
-  $block_content = \Drupal::entityTypeManager()
+  $block_content = Drupal::entityTypeManager()
     ->getStorage('block_content')
     ->create([
       'info' => 'Default content block',
@@ -68,7 +64,7 @@ function openy_digital_signage_blocks_install() {
   $block_content->save();
 
   // Create new screen content node.
-  $default_content = \Drupal::entityTypeManager()
+  $default_content = Drupal::entityTypeManager()
     ->getStorage('node')
     ->create([
       'title' => 'Default fallback screen content',
@@ -76,7 +72,7 @@ function openy_digital_signage_blocks_install() {
     ]);
 
   // Configure panelizer.
-  $panelizer = \Drupal::service('panelizer');
+  $panelizer = Drupal::service('panelizer');
   $panels_display = $panelizer->getPanelsDisplay($default_content, 'full');
   $panels_display->addBlock([
     'id' => 'block_content:' . $block_content->uuid(),
@@ -90,13 +86,13 @@ function openy_digital_signage_blocks_install() {
     'region' => 'middle',
   ]);
   $configuration = $panels_display->getConfiguration();
-  $configuration['uuid'] = \Drupal::service('uuid')->generate();
+  $configuration['uuid'] = Drupal::service('uuid')->generate();
   $panels_display->setConfiguration($configuration);
   $panels_display->setStorage('panelizer_field', 'node:' . $default_content->id() . ':full');
   $panelizer->setPanelsDisplay($default_content, 'full', NULL, $panels_display);
 
   // Save the configuration for defaul content.
-  $config = \Drupal::service('config.factory')
+  $config = Drupal::service('config.factory')
     ->getEditable('openy_digital_signage_screen.default_fallback_content');
   $config->set('target_id', $default_content->id());
   $config->save();
@@ -124,7 +120,7 @@ function openy_digital_signage_blocks_update_8001(&$sandbox) {
   }
 
   $config_dir = drupal_get_path('module', 'openy_digital_signage_blocks') . '/config/install';
-  $config_importer = \Drupal::service('openy_upgrade_tool.importer');
+  $config_importer = Drupal::service('openy_upgrade_tool.importer');
   $config_importer->setDirectory($config_dir);
   $config_importer->importConfigs([
     'core.entity_form_display.block_content.digital_signage_block_free_html.default',

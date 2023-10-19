@@ -268,9 +268,9 @@ class OpenYScreenSchedule extends ControllerBase {
    */
   public function redrawTimeline(OpenYScreenInterface $screen, $year = NULL, $month = NULL, $day = NULL) {
     if (!isset($year, $month, $day)) {
-      $year = date('Y', $_SERVER[REQUEST_TIME]);
-      $month = date('m', $_SERVER[REQUEST_TIME]);
-      $day = date('d', $_SERVER[REQUEST_TIME]);
+      $year = date('Y', \Drupal::time()->getRequestTime());
+      $month = date('m', \Drupal::time()->getRequestTime());
+      $day = date('d', \Drupal::time()->getRequestTime());
       $now = strtotime('today');
     }
     else {

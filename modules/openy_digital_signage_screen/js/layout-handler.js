@@ -2,7 +2,7 @@
  * @file
  * Provides OpenY Digital Signage layouts related behavior.
  */
-(function ($, window, Drupal, drupalSettings) {
+(function ($, window, Drupal, drupalSettings, once) {
 
   'use strict';
 
@@ -17,9 +17,11 @@
   Drupal.behaviors.layout_handler = {
     attach: function (context, settings) {
       if (context == window.document) {
-        $(window).once().resize(function () {
-          Drupal.behaviors.layout_handler.recalc($('.openy-ds-layout', context));
-        }).trigger('resize');
+        if (once('layout-handler-resize', 'html').length) {
+          $(window).resize(function () {
+            Drupal.behaviors.layout_handler.recalc($('.openy-ds-layout', context));
+          }).trigger('resize');
+        }
       }
       else if ($(context).is('.openy-ds-layout')) {
         Drupal.behaviors.layout_handler.recalc($(context));
@@ -37,4 +39,4 @@
         .addClass(o);
     }
   };
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, window, Drupal, drupalSettings, once);

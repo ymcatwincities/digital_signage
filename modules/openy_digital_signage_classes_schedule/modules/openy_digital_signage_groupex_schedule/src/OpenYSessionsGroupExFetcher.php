@@ -64,7 +64,7 @@ class OpenYSessionsGroupExFetcher implements OpenYSessionsGroupExFetcherInterfac
       'query' => [
         'schedule' => TRUE,
         'desc' => 'true',
-        'start' => REQUEST_TIME,
+        'start' => \Drupal::time()->getRequestTime(),
         'end' => strtotime('now +' . $config->get('period') . ' days'),
       ],
     ];
@@ -155,7 +155,8 @@ class OpenYSessionsGroupExFetcher implements OpenYSessionsGroupExFetcherInterfac
     $storage = $this->entityTypeManager->getStorage('openy_ds_classes_groupex_session');
     $query = $storage->getQuery()
       ->condition('location', $location->get('field_location_ref')->target_id)
-      ->condition('date_time.value', $formatted, '>');
+      ->condition('date_time.value', $formatted, '>')
+      ->accessCheck();
 
     $ids = $query->execute();
 
