@@ -212,6 +212,7 @@ class PlaylistController extends ControllerBase {
       ->getQuery()
       ->condition('content_ref__target_id', $openy_digital_signage_playlist->id())
       ->condition('content_ref__target_type', 'openy_digital_signage_playlist')
+      ->accessCheck(FALSE)
       ->execute();
     $entities = $storage->loadMultiple($query);
 
@@ -233,6 +234,7 @@ class PlaylistController extends ControllerBase {
         ->getQuery()
         ->condition('screen_schedule', $entity->schedule->entity->id())
         ->range(0, 1)
+        ->accessCheck(FALSE)
         ->execute();
       $screen = $storage->load(array_values($query)[0]);
 

@@ -211,6 +211,7 @@ class OpenYDigitalSignageBlockPlaylist extends BlockBase implements ContainerFac
       ->getStorage('openy_digital_signage_playlist')
       ->getQuery()
       ->sort('name', 'ASC')
+      ->accessCheck(FALSE)
       ->execute();
 
     $playlists = $this->entityTypeManager

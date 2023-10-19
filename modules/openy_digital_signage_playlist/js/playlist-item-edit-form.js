@@ -3,7 +3,7 @@
  * Provides OpenY Digital Signage playlist item edit form related behavior.
  */
 
-(function ($, window, Drupal, drupalSettings) {
+(function ($, window, Drupal, drupalSettings, once) {
 
   'use strict';
 
@@ -19,7 +19,7 @@
     attach: function (context, settings) {
       // Playlist autocomplete input is displayed only when item type is 'playlist'.
       // To prevent issues with autocomplete validation we should clean this field for 'media' type.
-      $('.openy-ds-playlist-item-form select[name=type]').once().on('change', function(e) {
+      $(once('playlist', '.openy-ds-playlist-item-form select[name=type]', context)).on('change', function(e) {
         e.preventDefault();
         if ($(this).val() === 'media') {
           $('.form-type-entity-autocomplete input').val('');
@@ -28,4 +28,4 @@
     }
   };
 
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, window, Drupal, drupalSettings, once);

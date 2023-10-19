@@ -72,7 +72,7 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
     if (!$include_disabled) {
       $query->condition('status', 1);
     }
-    $entity_ids = $query->execute();
+    $entity_ids = $query->accessCheck(FALSE)->execute();
 
     if (!$entity_ids) {
       return [];
@@ -164,7 +164,7 @@ class OpenYScheduleManager implements OpenYScheduleManagerInterface {
     $query->condition('show_date', 0);
     $query->condition('date__value', $first_day_of_next_month, '<');
     $query->condition('date__end_value', $first_days_of_month, '>=');
-    $entity_ids = $query->execute();
+    $entity_ids = $query->accessCheck(FALSE)->execute();
 
     if (!$entity_ids) {
       return [];

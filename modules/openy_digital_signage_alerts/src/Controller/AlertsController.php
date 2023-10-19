@@ -3,6 +3,7 @@
 namespace Drupal\openy_digital_signage_alerts\Controller;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Render\Renderer;
 use Drupal\openy_digital_signage_alerts\DigitalSignatureAlertsManager;
 use Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,13 +24,21 @@ class AlertsController implements ContainerInjectionInterface {
   protected $alertsManager;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\Renderer
+   */
+  protected $renderer;
+
+  /**
    * AlertsController constructor.
    *
    * @param \Drupal\openy_digital_signage_alerts\DigitalSignatureAlertsManager $alerts_manager
    *   The Digital Signage alerts manager.
    */
-  public function __construct(DigitalSignatureAlertsManager $alerts_manager) {
+  public function __construct(DigitalSignatureAlertsManager $alerts_manager,Renderer $renderer) {
     $this->alertsManager = $alerts_manager;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -37,7 +46,8 @@ class AlertsController implements ContainerInjectionInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('openy_digital_signage_alerts.manager')
+      $container->get('openy_digital_signage_alerts.manager'),
+      $container->get('renderer')
     );
   }
 
@@ -51,6 +61,7 @@ class AlertsController implements ContainerInjectionInterface {
    *   Response instance.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Exception
    */
   public function checkAlerts(OpenYScreenInterface $screen) {
     $response = new Response();
@@ -58,7 +69,7 @@ class AlertsController implements ContainerInjectionInterface {
     $alerts = $this->alertsManager->getAlertsForScreen($screen);
     if ($alerts) {
       $alerts = $this->alertsManager->build($alerts);
-      $data = render($alerts);
+      $data = $this->renderer->render($alerts);
       $response->setContent($data);
     }
 

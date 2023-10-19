@@ -1,8 +1,7 @@
 name: OpenY Digital Signage Room
 type: module
 description: OpenY Digital Signage Room.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 package: "OpenY: Digital Signage"
 dependencies:
   - openy_digital_signage:openy_digital_signage

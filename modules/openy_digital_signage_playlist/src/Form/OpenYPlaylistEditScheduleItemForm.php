@@ -24,6 +24,7 @@ class OpenYPlaylistEditScheduleItemForm extends OpenYScheduleItemForm {
       ->getQuery()
       ->condition('screen_schedule', $entity->schedule->entity->id())
       ->range(0, 1)
+      ->accessCheck(FALSE)
       ->execute();
     $screen = $storage->load(array_values($query)[0]);
     parent::save($form, $form_state);

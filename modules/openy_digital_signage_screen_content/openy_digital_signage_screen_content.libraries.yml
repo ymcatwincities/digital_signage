@@ -39,3 +39,7 @@ openyds_panels_ipe:
   js:
     js/views/OpenYDSBlockPicker.js: {}
     js/panels_ipe.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

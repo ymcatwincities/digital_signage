@@ -101,6 +101,7 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
       ->condition('field_room_origin.id', $id)
       ->condition('location', $location_id)
       ->sort('id')
+      ->accessCheck(FALSE)
       ->execute();
 
     $entities = $this->storage->loadMultiple($ids);
@@ -139,7 +140,7 @@ class OpenYRoomManager implements OpenYRoomManagerInterface {
       $name = $this->t('-- Not specified --');
     }
     $data = [
-      'created' => REQUEST_TIME,
+      'created' => \Drupal::time()->getRequestTime(),
       'title' => $name,
       'status' => $this->getDefaultStatusByType($type),
       'location' => [

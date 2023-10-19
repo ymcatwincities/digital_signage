@@ -156,7 +156,7 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
     $to_be_deleted = [];
 
     $date = new \DateTime();
-    $date->setTimestamp(REQUEST_TIME);
+    $date->setTimestamp(\Drupal::time()->getRequestTime());
     $formatted = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     $locations = $this->getLocations();
@@ -175,7 +175,7 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
       ->condition('location', array_values($location_nodes), 'IN')
       ->condition('date.value', $formatted, '<')
       ->condition('date.end_value', $formatted, '>');
-    $ids = $query->execute();
+    $ids = $query->accessCheck(FALSE)->execute();
 
     while ($part = array_splice($ids, 0, 10)) {
       $entities = $storage->loadMultiple($part);

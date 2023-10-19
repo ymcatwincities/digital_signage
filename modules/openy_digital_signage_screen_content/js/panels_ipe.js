@@ -3,7 +3,7 @@
  * Attaches behavior for the Panels IPE module.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -14,7 +14,8 @@
    */
   Drupal.behaviors.openy_ds_panels_ipe = {
     attach: function (context, settings) {
-      $('body').once('openy-ds-panels-ipe-init').each(function () {
+      $(once('openy-ds-panels-ipe-init', 'body', context))
+        .each(function () {
         if (typeof Drupal.panels_ipe.app_view.tabsView.tabViews.manage_content === 'undefined') {
           return;
         }
@@ -23,4 +24,4 @@
     }
   };
 
-}(jQuery, Drupal));
+}(jQuery, Drupal, once));

@@ -58,7 +58,7 @@ class DigitalSignatureAlertsManager {
     $group->notExists('field_alert_ds_screen');
 
     $query->condition($group);
-    $nids = $query->execute();
+    $nids = $query->accessCheck(FALSE)->execute();
 
     if ($nids) {
       $alerts = $storage->loadMultiple($nids);
