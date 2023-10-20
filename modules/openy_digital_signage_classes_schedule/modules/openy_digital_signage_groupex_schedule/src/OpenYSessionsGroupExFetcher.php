@@ -159,7 +159,7 @@ class OpenYSessionsGroupExFetcher implements OpenYSessionsGroupExFetcherInterfac
       ->condition('date_time.value', $formatted, '>')
       ->accessCheck();
 
-    $ids = $query->accessCheck(FALSE)->execute();
+    $ids = $query->execute();
 
     while ($part = array_splice($ids, 0, 10)) {
       $entities = $storage->loadMultiple($part);

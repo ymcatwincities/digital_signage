@@ -80,7 +80,7 @@ class OpenYClassesScheduleCron implements OpenYClassesScheduleCronInterface {
     // Get list of ids to delete.
     $ids = \Drupal::entityQuery('openy_ds_classes_session')
       ->condition('date_time__value', $date->format('Y-m-d'), '<=')
-      ->accessCheck(FALSE)
+      ->accessCheck()
       ->execute();
     if (empty($ids)) {
       return;
