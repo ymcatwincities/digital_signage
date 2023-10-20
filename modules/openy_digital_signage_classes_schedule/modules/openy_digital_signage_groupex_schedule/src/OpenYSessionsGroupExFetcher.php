@@ -3,6 +3,7 @@
 namespace Drupal\openy_digital_signage_groupex_schedule;
 
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\openy_group_schedules\GroupexRequestTrait;
 use Drupal\ymca_groupex\GroupexRequestTrait;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -158,7 +159,7 @@ class OpenYSessionsGroupExFetcher implements OpenYSessionsGroupExFetcherInterfac
       ->condition('date_time.value', $formatted, '>')
       ->accessCheck();
 
-    $ids = $query->execute();
+    $ids = $query->accessCheck(FALSE)->execute();
 
     while ($part = array_splice($ids, 0, 10)) {
       $entities = $storage->loadMultiple($part);
