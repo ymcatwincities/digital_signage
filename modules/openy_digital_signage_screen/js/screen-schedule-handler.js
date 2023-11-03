@@ -70,7 +70,7 @@
    */
   Drupal.behaviors.screenScheduleFrame = {
     attach: function (context, settings) {
-      $(once('screenScheduleFrame', '.frame-container', context)).each(function () {
+      $(once('screenScheduleFrame', '.frame-container')).each(function () {
         var $self = $(this);
         var src = $self.data('src');
         $(this).append($('<if' + 'rame src="' + src + '"/>'));

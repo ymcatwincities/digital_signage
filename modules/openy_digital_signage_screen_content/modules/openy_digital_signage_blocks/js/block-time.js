@@ -31,7 +31,7 @@
       }
 
 
-      $(once('block-time', time_block)).each(updateTime);
+      $(once('block-time', time_block, context)).each(updateTime);
     }
   };
 

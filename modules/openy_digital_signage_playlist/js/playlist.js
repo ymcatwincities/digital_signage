@@ -17,7 +17,7 @@
      */
     Drupal.behaviors.openyDigitalSignageBlockPlaylist = {
         attach: function (context, settings) {
-             $(once('block-playlist', '.block-playlist')).each(function () {
+             $(once('block-playlist', '.block-playlist', context)).each(function () {
                 var handler = new OpenYDigitalSignagePlaylist(this);
                 handler.deactivate();
                 handler.updateContext(this);

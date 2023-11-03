@@ -203,10 +203,11 @@ class OpenYDigitalSignageBlockPlaylist extends BlockBase implements ContainerFac
   /**
    * Retrieves playlists.
    *
-   * @return int|null
+   * @return array
    *   The room id context.
    */
   private function getPlaylists() {
+    $options = [];
     $query = $this->entityTypeManager
       ->getStorage('openy_digital_signage_playlist')
       ->getQuery()
