@@ -12,6 +12,7 @@ use Drupal\node\NodeInterface;
 use Drupal\openy_digital_signage_schedule\Entity\OpenYScheduleItemInterface;
 use Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface;
 use Drupal\panels\CachedValuesGetterTrait;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,7 +34,7 @@ class OpenYScreenSchedule extends ControllerBase {
    * @param \Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface $openy_digital_signage_screen
    *   The Digital Signage Screen entity.
    *
-   * @return array
+   * @return array|RedirectResponse
    *   Page build array.
    */
   public function schedulePage(Request $request, OpenYScreenInterface $openy_digital_signage_screen) {
@@ -53,6 +54,13 @@ class OpenYScreenSchedule extends ControllerBase {
     ];
 
     $schedule_entity = $openy_digital_signage_screen->screen_schedule->entity;
+    if (!$schedule_entity) {
+      $entity_edit_url = $openy_digital_signage_screen->toUrl('edit-form')->toString();
+      $field_anchor = '<a href="#edit-screen-schedule-0-target-id">schedule reference</a>';
+      $error_message = $this->t('Please fill a ' . $field_anchor . ' field to view the schedule');
+      $this->messenger()->addError($error_message);
+      return new RedirectResponse($entity_edit_url);
+    }
     $schedule_manager = \Drupal::service('openy_digital_signage_schedule.manager');
     $now = strtotime('today');
     $schedule = $schedule_manager->getUpcomingScreenContents($schedule_entity, 86400, $now, TRUE);
