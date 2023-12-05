@@ -55,11 +55,12 @@ class OpenYScreenSchedule extends ControllerBase {
 
     $schedule_entity = $openy_digital_signage_screen->screen_schedule->entity;
     if (!$schedule_entity) {
-      $entity_edit_url = $openy_digital_signage_screen->toUrl('edit-form')->toString();
+      $entity_edit_url = $openy_digital_signage_screen->toUrl('edit-form');
       $field_anchor = '<a href="#edit-screen-schedule-0-target-id">schedule reference</a>';
       $error_message = $this->t('Please fill a ' . $field_anchor . ' field to view the schedule');
-      $this->messenger()->addError($error_message);
-      return new RedirectResponse($entity_edit_url);
+      $this->messenger()->addMessage($error_message, 'error');
+      $redirect = new RedirectResponse($entity_edit_url->toString());
+      $redirect->send();
     }
     $schedule_manager = \Drupal::service('openy_digital_signage_schedule.manager');
     $now = strtotime('today');
