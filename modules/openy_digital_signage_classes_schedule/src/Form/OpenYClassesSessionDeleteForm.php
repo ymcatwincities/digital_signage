@@ -35,7 +35,7 @@ class OpenYClassesSessionDeleteForm extends ContentEntityDeleteForm {
     return $this->t('Are you sure you want to restore the original session for the @entity-type %label?', [
       '@entity-type' => $this->getEntity()
         ->getEntityType()
-        ->getLowercaseLabel(),
+        ->getSingularLabel(),
       '%label' => $this->getEntity()->label(),
     ]);
   }

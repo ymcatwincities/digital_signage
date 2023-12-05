@@ -6,11 +6,11 @@
     "license": "GPL-2.0+",
     "require": {
         "cweagans/composer-patches": "~1.0",
-        "drupal/panelizer": "^4.4",
-        "drupal/panels": "^4.6",
-        "drupal/ckeditor_font": "^1.0",
-        "drupal/dynamic_entity_reference": "^1.7",
-        "drupal/duration_field": "^2.0"
+        "drupal/panelizer": "^4.5",
+        "drupal/panels": "^4.7",
+        "drupal/ckeditor_font": "^1.4",
+        "drupal/dynamic_entity_reference": "^3.0",
+        "drupal/duration_field": "^2.1"
     },
     "minimum-stability": "dev",
     "repositories": [

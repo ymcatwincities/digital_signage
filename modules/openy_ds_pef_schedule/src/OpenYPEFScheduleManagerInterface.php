@@ -16,9 +16,9 @@ interface OpenYPEFScheduleManagerInterface {
    *   Associative array with from and to keys.
    * @param bool $nextday
    *   Indicates if results for the next day must be appended.
-   * @param int $location
+   * @param int|null $location
    *   The branch id.
-   * @param string $room
+   * @param array $room
    *   The room name.
    * @param array $category
    *   The category filter.
@@ -26,6 +26,6 @@ interface OpenYPEFScheduleManagerInterface {
    * @return array
    *   The array of scheduled classes.
    */
-  public function getClassesSchedule($period, $nextday, $location = null, $room = [], $category = []);
+  public function getClassesSchedule(array $period, bool $nextday, int $location = null, array $room = [], array $category = []);
 
 }

@@ -2,7 +2,7 @@
  * @file
  * Block behaviors.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -16,7 +16,7 @@
    */
   Drupal.behaviors.openyDigitalSignageBlockMultiroomTicker = {
     attach: function (context, settings) {
-      $('.ds-block-class-multiroom-ticker', context).once().each(function () {
+      $(once('BlockMultiroomTicker', '.ds-block-class-multiroom-ticker', context)).each(function () {
         var blockProto = new OpenYDigitalSignageBlockMultiroomTicker(this);
       });
     }
@@ -237,4 +237,4 @@
     return this;
   }
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

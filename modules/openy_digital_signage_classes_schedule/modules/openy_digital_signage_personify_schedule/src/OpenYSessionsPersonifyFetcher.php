@@ -81,6 +81,7 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
     $branches = [];
     foreach ($locations as $id) {
       /* @var \Drupal\ymca_mappings\Entity\Mapping $location */
+      //    TODO: Replace load() by existing method for loading.
       $location = $this->locationRepository->load($id);
       if (empty($location)) {
         continue;
@@ -156,13 +157,14 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
     $to_be_deleted = [];
 
     $date = new \DateTime();
-    $date->setTimestamp(REQUEST_TIME);
+    $date->setTimestamp(\Drupal::time()->getRequestTime());
     $formatted = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     $locations = $this->getLocations();
     if (empty($locations)) {
       return $to_be_deleted;
     }
+//    TODO: Replace loadMultiple() by existing method for loading.
     $location_entities = $this->locationRepository->loadMultiple($locations);
     $location_nodes = [];
     foreach ($location_entities as $map_entity) {
@@ -174,7 +176,8 @@ class OpenYSessionsPersonifyFetcher implements OpenYSessionsPersonifyFetcherInte
     $query = $storage->getQuery()
       ->condition('location', array_values($location_nodes), 'IN')
       ->condition('date.value', $formatted, '<')
-      ->condition('date.end_value', $formatted, '>');
+      ->condition('date.end_value', $formatted, '>')
+      ->accessCheck();
     $ids = $query->execute();
 
     while ($part = array_splice($ids, 0, 10)) {

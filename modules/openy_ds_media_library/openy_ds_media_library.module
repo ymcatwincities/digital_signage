@@ -76,7 +76,7 @@ function openy_ds_media_library_form_media_image_edit_form_alter(&$form, FormSta
   /** @var Drupal\openy_ds_media_library\DigitalSignageMediaLibrary $media_library_helper */
   $media_library_helper = \Drupal::service('openy_ds_media_library.helper');
   $term = $media_library_helper->loadMarkerMediaTag();
-  /** @var \Drupal\media_entity\Entity\Media $media_entity */
+  /** @var Drupal\media\Entity\Media $media_entity */
   $media_entity = $form_state->getFormObject()->getEntity();
 
   // Digital signage media is already marked with special tag on edit.

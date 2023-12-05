@@ -32,6 +32,7 @@ class SettingsForm extends ConfigFormBase {
     $config = $this->config('openy_digital_signage_groupex_schedule.settings');
     /* @var \Drupal\ymca_mappings\LocationMappingRepository $mapping */
     $mapping = \Drupal::service('ymca_mappings.location_repository');
+    // TODO: Replace 'loadAllLocationsWithGroupExId' by right method.
     $entities = $mapping->loadAllLocationsWithGroupExId();
     $locations = [];
     /* @var \Drupal\ymca_mappings\Entity\Mapping $entity */

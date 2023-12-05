@@ -60,7 +60,8 @@ class OpenYDSPanelsIPEPageController extends PanelsIPEPageController {
       if (!in_array($layout->getCategory(), $supported_layouts)) {
         continue;
       }
-      $icon = $layout->getIconPath() ?: drupal_get_path('module', 'panels') . '/layouts/no-layout-preview.png';
+      $module_path = \Drupal::service('extension.list.module')->getPath('panels');
+      $icon = $layout->getIconPath() ?: $module_path . '/layouts/no-layout-preview.png';
       $data[] = [
         'id' => $id,
         'label' => $layout->getLabel(),
