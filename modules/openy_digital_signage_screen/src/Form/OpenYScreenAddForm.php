@@ -304,7 +304,7 @@ class OpenYScreenAddForm extends ContentEntityForm {
     }
     $new_schedule = $form_state->getValue('new_schedule');
     // Create new Schedule entity.
-    $schedule = $this->entityManager
+    $schedule = $this->entityTypeManager
       ->getStorage('openy_digital_signage_schedule')
       ->create([
         'title' => $new_schedule['title'],
