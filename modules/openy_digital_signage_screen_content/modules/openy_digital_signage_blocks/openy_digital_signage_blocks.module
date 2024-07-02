@@ -316,3 +316,16 @@ function openy_digital_signage_blocks_get_background_url(BlockContent $block) {
 
   return NULL;
 }
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function openy_digital_signage_blocks_module_implements_alter(array &$implementations, string $hook): void {
+  if ($hook != 'form_alter') {
+    return;
+  }
+  // Dependency from field_group, our hook should be moved to the end of the list.
+  $group = $implementations['openy_digital_signage_blocks'];
+  unset($implementations['openy_digital_signage_blocks']);
+  $implementations['openy_digital_signage_blocks'] = $group;
+}
