@@ -8,7 +8,7 @@
         "cweagans/composer-patches": "~1.0",
         "drupal/panelizer": "^4.5",
         "drupal/panels": "^4.7",
-        "drupal/ckeditor_font": "^1.4",
+        "drupal/ckeditor_font": "^1.4 || ^2",
         "drupal/dynamic_entity_reference": "^3.0",
         "drupal/duration_field": "^2.1"
     },
