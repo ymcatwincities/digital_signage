@@ -150,7 +150,7 @@ function TimeManager() {
     this.options = {
       animation: 5000,
       screenUpdatePeriod: 10000,
-      scheduleUpdatePeriod: 59
+      scheduleUpdatePeriod: 299
     };
     this.lastUpdate = window.tm.getTime();
     // Store element.
