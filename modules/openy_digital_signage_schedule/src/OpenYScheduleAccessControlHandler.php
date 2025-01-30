@@ -31,6 +31,7 @@ class OpenYScheduleAccessControlHandler extends EntityAccessControlHandler {
         $referencing_screens_count = \Drupal::entityQuery('openy_digital_signage_screen')
           ->condition('screen_schedule', $entity->id())
           ->count()
+          ->accessCheck()
           ->execute();
 
         if ($referencing_screens_count) {

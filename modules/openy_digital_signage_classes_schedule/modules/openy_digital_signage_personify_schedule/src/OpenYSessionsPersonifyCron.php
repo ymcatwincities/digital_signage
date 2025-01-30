@@ -42,7 +42,7 @@ class OpenYSessionsPersonifyCron extends OpenYSessionsCronImporterAbstract {
 
     // Update run time.
     $config = $this->configFactory->getEditable('openy_digital_signage_personify_schedule.cron_settings');
-    $config->set('last_run', REQUEST_TIME);
+    $config->set('last_run', \Drupal::time()->getRequestTime());
     $config->save();
   }
 

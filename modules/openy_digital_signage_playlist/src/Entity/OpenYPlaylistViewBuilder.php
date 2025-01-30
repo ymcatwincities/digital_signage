@@ -64,7 +64,7 @@ class OpenYPlaylistViewBuilder implements EntityViewBuilderInterface {
     $route_name = \Drupal::routeMatch()->getRouteName();
     if ($route_name == 'entity.openy_digital_signage_playlist.canonical') {
       $build['#attached']['library'][] = 'openy_digital_signage_playlist/openy_ds_playlist_control';
-      $params = [ 'openy_digital_signage_playlist' => $entity->id() ];
+      $params = ['openy_digital_signage_playlist' => $entity->id()];
       $options = [
         'absolute' => TRUE,
         'query' => [
@@ -99,7 +99,7 @@ class OpenYPlaylistViewBuilder implements EntityViewBuilderInterface {
       if ($playlist_item->type->value == 'media') {
         if ($media = $playlist_item->media->entity) {
           if ($image = $media->field_media_image->entity) {
-            $url = file_create_url($image->uri->value);
+            $url = \Drupal::service('file_url_generator')->generateAbsoluteString($image->uri->value);
           }
         }
 

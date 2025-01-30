@@ -2,7 +2,7 @@
  * @file
  * Form behavior.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -18,7 +18,7 @@
    */
   Drupal.behaviors.openyDigitalSignagePromoBlockFormPreview = {
     attach: function (context, settings) {
-      $('.promo-block-preview', context).once().each(function () {
+      $(once('PromoBlockFormPreview', '.promo-block-preview', context)).each(function () {
         var $self = $(this).empty();
         var $img = $('<img src="" class="promo-block-preview-icon">').appendTo($self);
         var path = settings.promo_block_form_preview.path;
@@ -47,4 +47,4 @@
     }
   };
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

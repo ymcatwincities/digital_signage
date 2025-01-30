@@ -16,7 +16,7 @@ class OpenYPlaylistItemDeleteForm extends ContentEntityDeleteForm {
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return $this->getEntity()->urlInfo('canonical');
+    return $this->getEntity()->toUrl();
   }
 
   /**

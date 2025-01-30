@@ -2,7 +2,7 @@
  * @file
  * Block behaviors.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -16,7 +16,7 @@
    */
   Drupal.behaviors.openyDigitalSignageBlockClassTicker = {
     attach: function (context, settings) {
-      $('.ds-block-class-ticker', context).once().each(function () {
+      $(once('block-class-ticker', '.ds-block-class-ticker', context)).each(function () {
         var blockProto = new OpenYDigitalSignageBlockClassTicker(this);
       });
     }
@@ -244,4 +244,4 @@
     return this;
   }
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

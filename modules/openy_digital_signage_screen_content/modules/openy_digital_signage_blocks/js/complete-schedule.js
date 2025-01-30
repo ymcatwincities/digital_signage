@@ -2,7 +2,7 @@
  * @file
  * Block behaviors.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -21,7 +21,8 @@
    */
   Drupal.behaviors.openyDigitalSignageBlockClassCurrent = {
     attach: function (context, settings) {
-      $('.block-complete-schedule', context).once().each(function () {
+
+      $(once('BlockClassCurrent', '.block-complete-schedule', context)).each(function () {
         if (!(Drupal.openyDigitalSignageBlocks.completeSchedule instanceof OpenYDigitalSignageBlockCompleteSchedule)) {
           Drupal.openyDigitalSignageBlocks.completeSchedule = new OpenYDigitalSignageBlockCompleteSchedule(this);
         }
@@ -190,4 +191,4 @@
     return this;
   }
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

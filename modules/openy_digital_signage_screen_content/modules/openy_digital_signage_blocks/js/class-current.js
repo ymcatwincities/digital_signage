@@ -2,7 +2,7 @@
  * @file
  * Block behaviors.
  */
-(function ($, window, Drupal) {
+(function ($, window, Drupal, once) {
 
   'use strict';
 
@@ -21,7 +21,7 @@
    */
   Drupal.behaviors.openyDigitalSignageBlockClassCurrent = {
     attach: function (context, settings) {
-      $('.block-class-current', context).once().each(function () {
+      $(once('openyDigitalSignageBlockClassCurrent', '.block-class-current', context)).each(function () {
         if (!(Drupal.openyDigitalSignageBlocks.currentClass instanceof OpenYDigitalSignageBlockClassCurrent)) {
           Drupal.openyDigitalSignageBlocks.currentClass = new OpenYDigitalSignageBlockClassCurrent(this);
         }
@@ -361,4 +361,4 @@
     return this;
   }
 
-})(jQuery, window, Drupal);
+})(jQuery, window, Drupal, once);

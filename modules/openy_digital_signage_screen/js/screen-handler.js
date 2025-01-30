@@ -82,7 +82,7 @@ function TimeManager() {
   return this;
 }
 
-(function ($, window, Drupal, drupalSettings) {
+(function ($, window, Drupal, drupalSettings, once) {
   'use strict';
 
   function OpenYDigitalSignageObjectsManager() {
@@ -150,7 +150,7 @@ function TimeManager() {
     this.options = {
       animation: 5000,
       screenUpdatePeriod: 10000,
-      scheduleUpdatePeriod: 59
+      scheduleUpdatePeriod: 119
     };
     this.lastUpdate = window.tm.getTime();
     // Store element.
@@ -537,11 +537,11 @@ function TimeManager() {
   Drupal.behaviors.screen_handler = {
     attach: function (context, settings) {
       $('body.screen').removeClass('screen');
-      $('.screen', context).once().each(function () {
+      $(once('screen-handler', '.screen', context)).each(function () {
         var screen = new OpenYScreen(this);
         screen.init();
       });
     }
   };
 
-})(jQuery, window, Drupal, drupalSettings);
+})(jQuery, window, Drupal, drupalSettings, once);

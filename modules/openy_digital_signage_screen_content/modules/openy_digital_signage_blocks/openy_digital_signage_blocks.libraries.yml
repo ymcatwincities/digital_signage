@@ -17,6 +17,9 @@ block_time:
   js:
     js/block-time.js: {}
   dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
     - openy_digital_signage_blocks/momentjs
     - openy_digital_signage_blocks/momentjs-timezone
 
@@ -51,16 +54,28 @@ class_current:
   version: VERSION
   js:
     js/class-current.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 class_ticker:
   version: VERSION
   js:
     js/class-ticker.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 multiroom_ticker:
   version: VERSION
   js:
     js/multiroom-ticker.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 promotional_layout_preview:
   version: VERSION
@@ -69,11 +84,18 @@ promotional_layout_preview:
   css:
     component:
       css/promo-block-form-preview.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 complete_schedule:
   version: VERSION
   js:
     js/complete-schedule.js: {}
   dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
     - openy_digital_signage_blocks/momentjs
     - openy_digital_signage_blocks/momentjs-timezone

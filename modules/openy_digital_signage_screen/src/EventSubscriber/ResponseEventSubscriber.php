@@ -3,7 +3,7 @@
 namespace Drupal\openy_digital_signage_screen\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -26,10 +26,10 @@ class ResponseEventSubscriber implements EventSubscriberInterface {
   /**
    * Event callback onRespond.
    *
-   * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event
    *   Event.
    */
-  public function onRespond(FilterResponseEvent $event) {
+  public function onRespond(ResponseEvent $event) {
     $response = $event->getResponse();
     $routes = ['entity.openy_digital_signage_screen.canonical'];
     if (in_array(\Drupal::service('current_route_match')->getRouteName(), $routes)) {

@@ -5,6 +5,7 @@ openy_ds_screen_handler:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/once
 
 openy_ds_screen_theme:
   version: 1.x
@@ -14,6 +15,10 @@ openy_ds_screen_theme:
     theme:
       css/screen.css: {}
       css/openy-digital-signage-screen.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 
 openy_ds_screen_schedule:
   version: 1.x
@@ -22,3 +27,7 @@ openy_ds_screen_schedule:
   css:
     theme:
       css/screen-schedule.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

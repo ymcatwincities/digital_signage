@@ -1,8 +1,7 @@
 name: OpenY Digital Signage Schedule
 type: module
 description: OpenY Digital Signage Schedule module.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 package: "OpenY: Digital Signage"
 dependencies:
   - time_range:time_range

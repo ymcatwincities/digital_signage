@@ -112,13 +112,14 @@ class PersonifyImportController extends ControllerBase {
     if (!isset($context['sandbox']['max'])) {
       $context['results']['to_be_deleted'] = [];
       $date = new \DateTime();
-      $date->setTimestamp(REQUEST_TIME);
+      $date->setTimestamp(\Drupal::time()->getRequestTime());
       $context['sandbox']['datetime'] = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
       $query = \Drupal::entityQuery('openy_ds_class_personify_session')
         ->condition('date.value', $context['sandbox']['datetime'], '<')
         ->condition('date.end_value', $context['sandbox']['datetime'], '>')
-        ->count();
+        ->count()
+        ->accessCheck();
       $context['sandbox']['max'] = $query->execute();
       $context['sandbox']['current'] = 0;
       $context['sandbox']['progress'] = 0;
@@ -129,7 +130,8 @@ class PersonifyImportController extends ControllerBase {
       ->condition('date.value', $context['sandbox']['datetime'], '<')
       ->condition('date.end_value', $context['sandbox']['datetime'], '>')
       ->sort('id')
-      ->range(0, 10);
+      ->range(0, 10)
+      ->accessCheck();
     $ids = $query->execute();
     $storage = \Drupal::entityTypeManager()
       ->getStorage('openy_ds_class_personify_session');

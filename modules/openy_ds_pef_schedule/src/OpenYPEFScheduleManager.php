@@ -63,7 +63,7 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getClassesSchedule($period, $nextday, $location = null, $room_id = [], $category = []) {
+  public function getClassesSchedule(array $period, bool $nextday, int $location = null, array $room = [], array $category = []) {
     $datetime = new \DateTime();
     $datetime->setTimezone(new \DateTimeZone('UTC'));
     $datetime->setTimestamp($period['from']);
@@ -73,14 +73,14 @@ class OpenYPEFScheduleManager implements OpenYPEFScheduleManagerInterface {
 
     $rooms = [];
 
-    if ($room_id) {
-      foreach ($room_id as $rid) {
-        $room = $this->entityTypeManager
+    if ($room) {
+      foreach ($room as $rid) {
+        $room_entity = $this->entityTypeManager
           ->getStorage('openy_ds_room')
           ->load($rid);
 
-        if ($room) {
-          foreach ($room->field_room_origin as $value) {
+        if ($room_entity) {
+          foreach ($room_entity->field_room_origin as $value) {
             if ($value->origin != 'pef') {
               continue;
             }

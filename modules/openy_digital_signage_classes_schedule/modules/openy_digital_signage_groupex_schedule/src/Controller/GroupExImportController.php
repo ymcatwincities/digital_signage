@@ -118,7 +118,8 @@ class GroupExImportController extends ControllerBase {
 
       $query = \Drupal::entityQuery('openy_ds_classes_groupex_session')
         ->condition('date_time.value', $context['sandbox']['datetime'], '>')
-        ->count();
+        ->count()
+        ->accessCheck();
       $context['sandbox']['max'] = $query->execute();
       $context['sandbox']['current'] = 0;
       $context['sandbox']['progress'] = 0;
@@ -128,7 +129,8 @@ class GroupExImportController extends ControllerBase {
       ->condition('id', $context['sandbox']['current'], '>')
       ->condition('date_time.value', $context['sandbox']['datetime'], '>')
       ->sort('id')
-      ->range(0, 10);
+      ->range(0, 10)
+      ->accessCheck();
     $ids = $query->execute();
     $storage = \Drupal::entityTypeManager()->getStorage('openy_ds_classes_groupex_session');
     $entities = $storage->loadMultiple($ids);

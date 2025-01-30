@@ -46,7 +46,7 @@ interface ScheduleItemDataTypePluginInterface {
   /**
    * Used for returning values by key.
    *
-   * @var string
+   * @var $key string
    *   Key of the value.
    *
    * @return string
@@ -57,10 +57,10 @@ interface ScheduleItemDataTypePluginInterface {
   /**
    * Used for returning values by key.
    *
-   * @var string
+   * @var $key string
    *   Key of the value.
    *
-   * @var string
+   * @var $value string
    *   Value of the key.
    */
   public function set($key, $value);

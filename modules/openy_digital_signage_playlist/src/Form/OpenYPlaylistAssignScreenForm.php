@@ -225,15 +225,17 @@ class OpenYPlaylistAssignScreenForm extends OpenYScheduleItemForm {
   /**
    * Get the Screen entities.
    *
-   * @return $options
+   * @return array $options
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function getScreenList() {
+  protected function getScreenList(): array {
     $options = [];
     $query = $this->entityTypeManager
       ->getStorage('openy_digital_signage_screen')
       ->getQuery()
       ->sort('title', 'ASC')
+      ->accessCheck()
       ->execute();
 
     $screens = $this->entityTypeManager

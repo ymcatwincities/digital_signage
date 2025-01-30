@@ -10,7 +10,10 @@ playlist_item_form:
   version: 1.x
   js:
     js/playlist-item-edit-form.js: {}
-
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 openy_ds_playlist:
   version: 1.x
   css:
@@ -21,6 +24,7 @@ openy_ds_playlist:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/once
     - openy_digital_signage_blocks/momentjs
     - openy_digital_signage_blocks/momentjs-timezone
 

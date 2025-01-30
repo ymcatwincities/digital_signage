@@ -12,6 +12,7 @@ use Drupal\node\NodeInterface;
 use Drupal\openy_digital_signage_schedule\Entity\OpenYScheduleItemInterface;
 use Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface;
 use Drupal\panels\CachedValuesGetterTrait;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,7 +34,7 @@ class OpenYScreenSchedule extends ControllerBase {
    * @param \Drupal\openy_digital_signage_screen\Entity\OpenYScreenInterface $openy_digital_signage_screen
    *   The Digital Signage Screen entity.
    *
-   * @return array
+   * @return array|RedirectResponse
    *   Page build array.
    */
   public function schedulePage(Request $request, OpenYScreenInterface $openy_digital_signage_screen) {
@@ -53,6 +54,14 @@ class OpenYScreenSchedule extends ControllerBase {
     ];
 
     $schedule_entity = $openy_digital_signage_screen->screen_schedule->entity;
+    if (!$schedule_entity) {
+      $entity_edit_url = $openy_digital_signage_screen->toUrl('edit-form');
+      $field_anchor = '<a href="#edit-screen-schedule-0-target-id">schedule reference</a>';
+      $error_message = $this->t('Please fill a ' . $field_anchor . ' field to view the schedule');
+      $this->messenger()->addMessage($error_message, 'error');
+      $redirect = new RedirectResponse($entity_edit_url->toString());
+      $redirect->send();
+    }
     $schedule_manager = \Drupal::service('openy_digital_signage_schedule.manager');
     $now = strtotime('today');
     $schedule = $schedule_manager->getUpcomingScreenContents($schedule_entity, 86400, $now, TRUE);
@@ -268,9 +277,9 @@ class OpenYScreenSchedule extends ControllerBase {
    */
   public function redrawTimeline(OpenYScreenInterface $screen, $year = NULL, $month = NULL, $day = NULL) {
     if (!isset($year, $month, $day)) {
-      $year = date('Y', $_SERVER[REQUEST_TIME]);
-      $month = date('m', $_SERVER[REQUEST_TIME]);
-      $day = date('d', $_SERVER[REQUEST_TIME]);
+      $year = date('Y', \Drupal::time()->getRequestTime());
+      $month = date('m', \Drupal::time()->getRequestTime());
+      $day = date('d', \Drupal::time()->getRequestTime());
       $now = strtotime('today');
     }
     else {

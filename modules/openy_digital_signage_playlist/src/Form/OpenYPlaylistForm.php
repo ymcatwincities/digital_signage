@@ -82,6 +82,7 @@ class OpenYPlaylistForm extends ContentEntityForm {
         ->condition('content_ref__target_id', $this->entity->id())
         ->condition('status', 1)
         ->count()
+        ->accessCheck()
         ->execute();
 
       if ($query != 0) {
